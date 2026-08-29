@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>kmcaq | Уютное местечко Кэм</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
  --bg:#0f0a17;
  --card:rgba(24,18,38,.72);
@@ -20,8 +22,16 @@
  --live:#ff4d6d;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+html{
+ scroll-behavior:smooth;
+}
+
 body{
  font-family:Nunito,sans-serif;
  background:var(--bg);
@@ -29,7 +39,9 @@ body{
  overflow-x:hidden;
 }
 
-/* ---------- ФОН ---------- */
+/* ==========================
+   ЖИВОЙ ФОН
+========================== */
 
 .background{
  position:fixed;
@@ -48,7 +60,7 @@ body{
 .overlay{
  position:fixed;
  inset:0;
- background:linear-gradient(rgba(15,10,23,.18),rgba(15,10,23,.9));
+ background:linear-gradient(rgba(15,10,23,.18),rgba(15,10,23,.90));
  z-index:-2;
 }
 
@@ -70,7 +82,9 @@ body{
  to{transform:translate(-25px,18px);}
 }
 
-/* ---------- НАВИГАЦИЯ ---------- */
+/* ==========================
+   НАВИГАЦИЯ
+========================== */
 
 nav{
  position:fixed;
@@ -96,13 +110,33 @@ nav{
  color:var(--accent);
  text-decoration:none;
  text-shadow:0 0 18px rgba(214,108,255,.4);
+ transition:.2s;
 }
 
-nav ul{display:flex;list-style:none;gap:28px;}
-nav a{text-decoration:none;color:white;transition:.2s;}
-nav a:hover{color:var(--accent);}
+.logo:hover{
+ color:#f0d3ff;
+ text-shadow:0 0 24px rgba(214,108,255,.6);
+}
 
-/* ---------- HERO ---------- */
+nav ul{
+ display:flex;
+ list-style:none;
+ gap:28px;
+}
+
+nav a{
+ text-decoration:none;
+ color:white;
+ transition:.2s;
+}
+
+nav a:hover{
+ color:var(--accent);
+}
+
+/* ==========================
+   HERO
+========================== */
 
 .hero{
  min-height:100vh;
@@ -114,8 +148,8 @@ nav a:hover{color:var(--accent);}
 .hero-grid{
  display:grid;
  grid-template-columns:1.05fr .95fr;
- gap:40px;
  align-items:center;
+ gap:40px;
  width:100%;
  max-width:1200px;
  margin:auto;
@@ -139,7 +173,9 @@ nav a:hover{color:var(--accent);}
  color:var(--muted);
 }
 
-/* ---------- СТАТУС ---------- */
+/* ==========================
+   СТАТУС
+========================== */
 
 .status{
  margin-top:34px;
@@ -196,7 +232,9 @@ nav a:hover{color:var(--accent);}
  font-weight:800;
 }
 
-/* ---------- КНОПКИ ---------- */
+/* ==========================
+   КНОПКИ
+========================== */
 
 .twitch-live-btn,
 .button,
@@ -249,7 +287,9 @@ nav a:hover{color:var(--accent);}
  transform:translateY(-2px);
 }
 
-/* ---------- АВАТАР ---------- */
+/* ==========================
+   АВАТАР
+========================== */
 
 .avatar-wrap{
  display:flex;
@@ -280,25 +320,30 @@ nav a:hover{color:var(--accent);}
  50%{transform:translateY(-10px) rotate(.3deg);}
 }
 
-/* ---------- АНИМАЦИИ ПОЯВЛЕНИЯ ---------- */
+/* ==========================
+   АНИМАЦИИ ПОЯВЛЕНИЯ
+========================== */
 
 .reveal{
  opacity:0;
- transform:translateY(45px);
- filter:blur(8px);
+ transform:translateY(60px) scale(.98);
+ filter:blur(10px);
  transition:
- opacity .8s ease,
- transform .8s ease,
- filter .8s ease;
+  opacity .9s cubic-bezier(.22,1,.36,1),
+  transform .9s cubic-bezier(.22,1,.36,1),
+  filter .9s ease;
+ will-change:transform,opacity;
 }
 
 .reveal.show{
  opacity:1;
- transform:translateY(0);
+ transform:translateY(0) scale(1);
  filter:blur(0);
 }
 
-/* ---------- СЕКЦИИ ---------- */
+/* ==========================
+   СЕКЦИИ
+========================== */
 
 section{
  max-width:1120px;
@@ -321,7 +366,9 @@ section h2{
  color:var(--muted);
 }
 
-/* ---------- КАРТОЧКИ ---------- */
+/* ==========================
+   КАРТОЧКИ
+========================== */
 
 .links{
  display:grid;
@@ -339,9 +386,12 @@ section h2{
  flex-direction:column;
  gap:18px;
  min-height:220px;
- transition:.25s;
  position:relative;
  overflow:hidden;
+ transition:
+  transform .35s cubic-bezier(.22,1,.36,1),
+  box-shadow .35s ease,
+  border-color .35s ease;
 }
 
 .link::after{
@@ -394,11 +444,15 @@ section h2{
  word-break:break-word;
 }
 
-/* ---------- МОБИЛЬНАЯ ---------- */
+/* ==========================
+   МОБИЛЬНАЯ
+========================== */
 
 @media(max-width:900px){
 
- nav ul{display:none;}
+ nav ul{
+  display:none;
+ }
 
  .hero-grid{
   grid-template-columns:1fr;
@@ -426,6 +480,7 @@ section h2{
  }
 
 }
+
 </style>
 </head>
 
@@ -437,11 +492,13 @@ section h2{
 
 <nav id="navbar">
 <a href="#" class="logo">kmcaq</a>
+
 <ul>
 <li><a href="#about">О канале</a></li>
 <li><a href="#links">Ссылки</a></li>
 <li><a href="#schedule">Расписание</a></li>
 </ul>
+
 </nav>
 
 <header class="hero">
@@ -500,40 +557,60 @@ target="_blank">
 
 </section>
 
-<section id="links" class="reveal">
+<section id="links">
 
-<h2>Мои ссылки</h2>
+<h2 class="reveal">Мои ссылки</h2>
 
 <div class="links">
 
 <div class="link reveal">
 <h3>🎮 Twitch</h3>
 <p>Основные трансляции.</p>
-<a class="link-btn" href="https://www.twitch.tv/kmcaq" target="_blank">Перейти</a>
+<a class="link-btn"
+href="https://www.twitch.tv/kmcaq"
+target="_blank">
+Перейти
+</a>
 </div>
 
 <div class="link reveal">
 <h3>▶️ YouTube VODs</h3>
 <p>Записи всех стримов.</p>
-<a class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">Перейти</a>
+<a class="link-btn"
+href="https://www.youtube.com/@kmcaq"
+target="_blank">
+Перейти
+</a>
 </div>
 
 <div class="link reveal">
 <h3>🏆 Tier List игр</h3>
 <p>Рейтинг игр, которые я прошла или планирую пройти.</p>
-<a class="link-btn" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">Перейти</a>
+<a class="link-btn"
+href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed"
+target="_blank">
+Перейти
+</a>
 </div>
 
 <div class="link reveal">
 <h3>📊 Статистика пройденных игр</h3>
 <p>Полный список игр и игровой прогресс.</p>
-<a class="link-btn" href="https://www.rankone.global/kmcaq" target="_blank">Перейти</a>
+<a class="link-btn"
+href="https://www.rankone.global/kmcaq"
+target="_blank">
+Перейти
+</a>
 </div>
 
 <div class="link reveal">
 <h3>📢 Telegram</h3>
 <p>Анонсы стримов и новости канала.</p>
-<a class="link-btn" href="https://telegram.me/kmcaq" target="_blank">Перейти</a>
+<a class="link-btn"
+href="https://telegram.me/kmcaq"
+target="_blank">
+Перейти
+</a>
 </div>
 
 <div class="link reveal">
@@ -557,6 +634,8 @@ target="_blank">
 </section>
 
 <script>
+
+/* ---------- Twitch ---------- */
 
 const API=atob("aHR0cHM6Ly9rbWNhcS1saXZlLmttLXRhbWFtaS53b3JrZXJzLmRldg==");
 
@@ -610,7 +689,7 @@ console.error(e);
 updateStatus();
 setInterval(updateStatus,60000);
 
-/* ---------- ПАРАЛЛАКС ---------- */
+/* ---------- Параллакс ---------- */
 
 const bg=document.getElementById("bg");
 const glow=document.getElementById("glow");
@@ -620,12 +699,12 @@ window.addEventListener("mousemove",(e)=>{
 const x=(e.clientX/window.innerWidth-.5)*10;
 const y=(e.clientY/window.innerHeight-.5)*8;
 
-bg.style.transform=`scale(1.02) translate(${x}px,${y}px)`;
-glow.style.transform=`translate(${x*2}px,${y*2}px)`;
+bg.style.transform=\`scale(1.02) translate(\${x}px,\${y}px)\`;
+glow.style.transform=\`translate(\${x*2}px,\${y*2}px)\`;
 
 });
 
-/* ---------- НАВИГАЦИЯ ---------- */
+/* ---------- Навигация ---------- */
 
 window.addEventListener("scroll",()=>{
 
@@ -645,7 +724,7 @@ nav.style.borderColor="rgba(255,255,255,.12)";
 
 });
 
-/* ---------- ПОЯВЛЕНИЕ ПРИ ПРОКРУТКЕ ---------- */
+/* ---------- Каскадное появление ---------- */
 
 const observer=new IntersectionObserver((entries)=>{
 
@@ -654,19 +733,39 @@ entries.forEach(entry=>{
 if(entry.isIntersecting){
 
 entry.target.classList.add("show");
+observer.unobserve(entry.target);
 
 }
 
 });
 
 },{
- threshold:.15
+ threshold:.12,
+ rootMargin:"0px 0px -60px 0px"
 });
 
-document.querySelectorAll(".reveal").forEach((el,i)=>{
+const reveals=document.querySelectorAll(".reveal");
 
-el.style.transitionDelay=(i%6)*"80ms";
+reveals.forEach((el,i)=>{
+
+el.style.transitionDelay=\`\${(i%6)*120}ms\`;
 observer.observe(el);
+
+});
+
+/* Hero появляется сразу */
+
+requestAnimationFrame(()=>{
+
+document.querySelectorAll(".hero .reveal").forEach((el,i)=>{
+
+setTimeout(()=>{
+
+el.classList.add("show");
+
+},i*180);
+
+});
 
 });
 
