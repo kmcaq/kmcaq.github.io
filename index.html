@@ -3,122 +3,578 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Кэм | Уютные игровые стримы</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--bg:#0f0a17;
+--card:rgba(26,18,40,.72);
+--glass:rgba(255,255,255,.08);
+--border:rgba(255,255,255,.12);
+--text:#f8f5ff;
+--muted:#c9b9e8;
+--accent:#d66cff;
+--red:#c93a3a;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    background:#111;
-    color:#fff;
-    line-height:1.6;
+font-family:Nunito,sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
 }
-header{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-    background:linear-gradient(180deg,#181818,#111);
+
+/* фон */
+
+.bg{
+position:fixed;
+inset:0;
+background:url("hero-bg.png") center/cover no-repeat;
+animation:bgMove 30s ease-in-out infinite alternate;
+z-index:-3;
 }
-.hero h1{
-    font-size:64px;
-    color:#ff4d4d;
+
+.bg::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(15,10,23,.55);
 }
-.hero p{
-    max-width:600px;
-    margin:20px auto;
-    color:#cfcfcf;
-    font-size:20px;
+
+.bg::after{
+content:"";
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at 20% 20%,rgba(214,108,255,.18),transparent 35%),
+radial-gradient(circle at 80% 70%,rgba(214,108,255,.12),transparent 30%),
+linear-gradient(180deg,rgba(15,10,23,.15),#0f0a17 92%);
 }
+
+@keyframes bgMove{
+from{transform:scale(1);}
+to{transform:scale(1.03);}
+}
+
+/* свет */
+
+.sunlight{
+position:fixed;
+top:-10%;
+right:18%;
+width:420px;
+height:520px;
+background:radial-gradient(circle,rgba(255,230,255,.18),transparent 70%);
+filter:blur(30px);
+animation:sun 12s ease-in-out infinite alternate;
+pointer-events:none;
+z-index:-2;
+}
+
+@keyframes sun{
+from{transform:translateX(-15px);}
+to{transform:translateX(15px);}
+}
+
+/* навигация */
+
+nav{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+width:min(1080px,92%);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 24px;
+background:rgba(20,16,35,.45);
+backdrop-filter:blur(16px);
+border:1px solid var(--border);
+border-radius:999px;
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:800;
+color:var(--accent);
+text-shadow:0 0 12px rgba(214,108,255,.7);
+}
+
+nav ul{
+display:flex;
+gap:26px;
+list-style:none;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:600;
+transition:.25s;
+}
+
+nav a:hover{
+color:var(--accent);
+}
+
+/* герой */
+
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+padding:120px 7%;
+}
+
+.content{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+align-items:center;
+gap:40px;
+width:100%;
+max-width:1200px;
+margin:auto;
+}
+
+.text h1{
+font-size:76px;
+font-weight:800;
+margin-bottom:10px;
+}
+
+.text h1 span{
+color:var(--accent);
+text-shadow:0 0 18px rgba(214,108,255,.75);
+}
+
+.text p{
+font-size:21px;
+line-height:1.7;
+color:var(--muted);
+max-width:560px;
+}
+
+/* кнопки */
+
 .buttons{
-    display:flex;
-    gap:15px;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin-top:30px;
+display:flex;
+gap:16px;
+margin-top:34px;
+flex-wrap:wrap;
 }
-.buttons a{
-    text-decoration:none;
-    color:white;
-    background:#b22222;
-    padding:14px 24px;
-    border-radius:12px;
-    transition:.2s;
+
+.btn{
+padding:14px 24px;
+border-radius:16px;
+text-decoration:none;
+font-weight:700;
+transition:.25s;
 }
-.buttons a:hover{
-    background:#d63b3b;
-    transform:translateY(-2px);
+
+.primary{
+background:linear-gradient(135deg,var(--accent),#b84cff);
+color:white;
+box-shadow:0 0 25px rgba(214,108,255,.35);
 }
+
+.secondary{
+background:rgba(255,255,255,.05);
+border:1px solid var(--border);
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+}
+
+/* аватар */
+
+.avatar-wrap{
+display:flex;
+justify-content:center;
+position:relative;
+}
+
+.avatar-wrap::before{
+content:"";
+position:absolute;
+width:340px;
+height:340px;
+background:radial-gradient(circle,rgba(214,108,255,.25),transparent 70%);
+filter:blur(35px);
+animation:glow 4s ease-in-out infinite alternate;
+}
+
+.avatar{
+width:min(420px,90%);
+animation:float 5s ease-in-out infinite;
+filter:drop-shadow(0 24px 35px rgba(0,0,0,.35));
+}
+
+@keyframes float{
+0%{transform:translateY(0px) rotate(-.4deg);}
+50%{transform:translateY(-8px) rotate(.4deg);}
+100%{transform:translateY(0);}
+}
+
+@keyframes glow{
+from{opacity:.5;}
+to{opacity:.95;}
+}
+
+/* LIVE */
+
+.live{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:8px 16px;
+border-radius:999px;
+background:rgba(214,108,255,.12);
+border:1px solid rgba(214,108,255,.35);
+color:#ffdfff;
+margin-bottom:18px;
+animation:pulse 2.2s infinite;
+}
+
+.dot{
+width:10px;
+height:10px;
+background:#ff5c8a;
+border-radius:50%;
+box-shadow:0 0 12px #ff5c8a;
+}
+
+@keyframes pulse{
+0%,100%{box-shadow:0 0 8px rgba(214,108,255,.15);}
+50%{box-shadow:0 0 24px rgba(214,108,255,.35);}
+}
+
+/* секции */
+
 section{
-    max-width:900px;
-    margin:auto;
-    padding:70px 20px;
+max-width:1120px;
+margin:auto;
+padding:90px 24px;
 }
+
 h2{
-    color:#ff6666;
-    margin-bottom:20px;
+font-size:36px;
+margin-bottom:26px;
 }
+
 .card{
-    background:#1b1b1b;
-    padding:25px;
-    border-radius:16px;
-    border:1px solid #2b2b2b;
+background:var(--card);
+backdrop-filter:blur(18px);
+border:1px solid var(--border);
+border-radius:28px;
+padding:30px;
 }
-ul{padding-left:20px}
+
+.card p{
+line-height:1.8;
+color:var(--muted);
+}
+
+/* ссылки */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:22px;
+}
+
+.link{
+background:var(--card);
+backdrop-filter:blur(18px);
+border:1px solid var(--border);
+border-radius:24px;
+padding:24px;
+transition:.3s;
+}
+
+.link:hover{
+transform:translateY(-8px);
+box-shadow:0 0 30px rgba(214,108,255,.22);
+}
+
+.icon{
+font-size:34px;
+margin-bottom:14px;
+}
+
+.link h3{
+margin-bottom:8px;
+}
+
+.link small{
+color:#c5b4e4;
+display:block;
+margin-bottom:14px;
+}
+
+.link a{
+color:white;
+text-decoration:none;
+font-weight:700;
+}
+
+/* расписание */
+
+.schedule{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+gap:16px;
+}
+
+.day{
+background:var(--card);
+backdrop-filter:blur(18px);
+border:1px solid var(--border);
+padding:20px;
+border-radius:20px;
+text-align:center;
+}
+
+.day strong{
+display:block;
+font-size:18px;
+color:var(--accent);
+margin-bottom:6px;
+}
+
+/* оборудование */
+
+.specs{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:16px;
+}
+
+.spec{
+background:var(--card);
+backdrop-filter:blur(18px);
+border:1px solid var(--border);
+padding:20px;
+border-radius:20px;
+}
+
 footer{
-    text-align:center;
-    padding:30px;
-    color:#888;
+padding:50px;
+text-align:center;
+color:#a692c8;
 }
+
+/* мобильная версия */
+
+@media(max-width:900px){
+
+nav ul{
+display:none;
+}
+
+.content{
+grid-template-columns:1fr;
+text-align:center;
+}
+
+.text p{
+margin:auto;
+}
+
+.buttons{
+justify-content:center;
+}
+
+.text h1{
+font-size:54px;
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
-<header>
-<div class="hero">
-<h1>Кэм</h1>
-<p>Впервые прохожу игры и делюсь искренними эмоциями. Уютные стримы без мата (почти), где рады каждому.</p>
+<div class="bg"></div>
+<div class="sunlight"></div>
+
+<nav>
+
+<div class="logo">Кэм</div>
+
+<ul>
+<li><a href="#about">О канале</a></li>
+<li><a href="#links">Ссылки</a></li>
+<li><a href="#schedule">Расписание</a></li>
+<li><a href="#setup">Оборудование</a></li>
+</ul>
+
+</nav>
+
+<header class="hero">
+
+<div class="content">
+
+<div class="text">
+
+<div class="live">
+<div class="dot"></div>
+LIVE
+</div>
+
+<h1>Привет, я <span>Кэм</span></h1>
+
+<p>
+Впервые прохожу сюжетные игры и делюсь настоящими эмоциями.
+Уютные вечера без спойлеров, где каждый новый мир исследуем вместе.
+</p>
 
 <div class="buttons">
-<a href="https://www.twitch.tv/kmcaq" target="_blank">Twitch</a>
-<a href="#" target="_blank">YouTube</a>
-<a href="#" target="_blank">Поддержка</a>
+
+<a class="btn primary" href="#links">
+Все ссылки
+</a>
+
+<a class="btn secondary" href="#schedule">
+Расписание
+</a>
+
 </div>
+
 </div>
+
+<div class="avatar-wrap">
+<img src="avatar.png" class="avatar">
+</div>
+
+</div>
+
 </header>
 
-<section>
+<section id="about">
+
 <h2>О канале</h2>
+
 <div class="card">
-<p>Люблю сюжетные игры, первые прохождения и спокойную атмосферу. Главное правило — без спойлеров и без подсказок, если я сама их не попросила.</p>
+
+<p>
+Люблю проходить игры впервые, поэтому реакции здесь настоящие.
+Главное правило — никаких спойлеров и подсказок, если я сама их не попросила.
+Хочется, чтобы каждый стрим ощущался как вечер в уютной комнате с друзьями.
+</p>
+
 </div>
+
 </section>
 
-<section>
+<section id="links">
+
+<h2>Мои ссылки</h2>
+
+<div class="grid">
+
+<div class="link">
+<div class="icon">🎮</div>
+<h3>Twitch</h3>
+<small>Основные трансляции</small>
+<a href="#">Добавить ссылку →</a>
+</div>
+
+<div class="link">
+<div class="icon">▶️</div>
+<h3>YouTube</h3>
+<small>Записи стримов</small>
+<a href="#">Добавить ссылку →</a>
+</div>
+
+<div class="link">
+<div class="icon">💬</div>
+<h3>Discord</h3>
+<small>Сообщество</small>
+<a href="#">Добавить ссылку →</a>
+</div>
+
+<div class="link">
+<div class="icon">❤️</div>
+<h3>DonationAlerts</h3>
+<small>Поддержка канала</small>
+<a href="#">Добавить ссылку →</a>
+</div>
+
+<div class="link">
+<div class="icon">📢</div>
+<h3>Telegram</h3>
+<small>Анонсы стримов</small>
+<a href="#">Добавить ссылку →</a>
+</div>
+
+<div class="link">
+<div class="icon">✨</div>
+<h3>Любая ссылка</h3>
+<small>Добавишь позже</small>
+<a href="#">Добавить ссылку →</a>
+</div>
+
+</div>
+
+</section>
+
+<section id="schedule">
+
 <h2>Расписание</h2>
-<div class="card">
-<p>Следи за анонсами в Twitch — расписание обновляется там.</p>
+
+<div class="schedule">
+
+<div class="day"><strong>Пн</strong>—</div>
+<div class="day"><strong>Вт</strong>—</div>
+<div class="day"><strong>Ср</strong>—</div>
+<div class="day"><strong>Чт</strong>—</div>
+<div class="day"><strong>Пт</strong>—</div>
+<div class="day"><strong>Сб</strong>—</div>
+<div class="day"><strong>Вс</strong>—</div>
+
 </div>
+
 </section>
 
-<section>
+<section id="setup">
+
 <h2>Оборудование</h2>
-<div class="card">
-<ul>
-<li>AMD Ryzen 7 5700X</li>
-<li>NVIDIA GeForce RTX 5060 Ti</li>
-<li>32 ГБ Kingston HyperX FURY Red</li>
-<li>Logitech BRIO 500</li>
-<li>Fifine AM8T</li>
-<li>Fifine D6 Stream Controller</li>
-</ul>
+
+<div class="specs">
+
+<div class="spec">AMD Ryzen 7 5700X</div>
+<div class="spec">RTX 5060 Ti</div>
+<div class="spec">32 ГБ Kingston HyperX FURY Red</div>
+<div class="spec">Logitech BRIO 500</div>
+<div class="spec">Fifine AM8T</div>
+<div class="spec">Fifine D6 Stream Controller</div>
+
 </div>
+
 </section>
 
 <footer>
+
 © Кэм • Уютные игровые стримы
+
 </footer>
 
 </body>
