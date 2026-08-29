@@ -12,10 +12,6 @@
 
 <style>
 
-/* ======================
-   ЦВЕТА САЙТА
-====================== */
-
 :root{
 --bg:#0f0a17;
 --card:rgba(24,18,38,.72);
@@ -25,10 +21,6 @@
 --accent:#d66cff;
 --live:#ff4d6d;
 }
-
-/* ======================
-   ОБЩИЕ НАСТРОЙКИ
-====================== */
 
 *{
 margin:0;
@@ -47,10 +39,6 @@ color:var(--text);
 overflow-x:hidden;
 }
 
-/* ======================
-   ФОН КОМНАТЫ
-====================== */
-
 .background{
 position:fixed;
 inset:0;
@@ -66,12 +54,7 @@ background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.85));
 z-index:-1;
 }
 
-/* ======================
-   ВЕРХНЕЕ МЕНЮ
-====================== */
-
 nav{
-
 position:fixed;
 top:20px;
 left:50%;
@@ -81,54 +64,38 @@ padding:14px 24px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 background:rgba(20,18,35,.55);
 backdrop-filter:blur(18px);
 border:1px solid var(--border);
 border-radius:999px;
-
 z-index:1000;
-
 }
 
 .logo{
-
 font-size:30px;
 font-weight:800;
 color:var(--accent);
-
 }
 
 nav ul{
-
 display:flex;
 list-style:none;
 gap:28px;
-
 }
 
 nav a{
-
 text-decoration:none;
 color:white;
-
 }
 
-/* ======================
-   ПЕРВЫЙ ЭКРАН
-====================== */
-
 .hero{
-
 min-height:100vh;
 display:flex;
 align-items:center;
 padding:120px 7%;
-
 }
 
 .hero-grid{
-
 display:grid;
 grid-template-columns:1.1fr .9fr;
 align-items:center;
@@ -136,213 +103,140 @@ gap:40px;
 width:100%;
 max-width:1200px;
 margin:auto;
-
 }
 
 .hero h1{
-
 font-size:76px;
-
 }
 
 .hero span{
-
 color:var(--accent);
-
 }
 
 .hero p{
-
 margin-top:20px;
 font-size:21px;
 line-height:1.7;
 color:var(--muted);
-
 }
 
-/* ======================
-   СТАТУС TWITCH
-====================== */
+/* -------- LIVE/OFFLINE -------- */
 
 .status{
-
 margin-top:35px;
 display:flex;
 align-items:center;
 gap:14px;
-
 padding:12px 20px;
-
 background:rgba(180,120,255,.12);
 border:1px solid rgba(180,120,255,.3);
 border-radius:999px;
-
 width:max-content;
-
+transition:.35s;
 }
 
 .status-dot{
-
 width:12px;
 height:12px;
 border-radius:50%;
 background:#9c8db8;
-
 }
 
 .status-text{
-
 display:flex;
 flex-direction:column;
-
+line-height:1.2;
 }
 
 .status-title{
-
 font-weight:800;
-
 }
 
 .status-sub{
-
 font-size:14px;
 color:#ddd;
-
 }
 
 .viewers{
-
 font-weight:700;
-
 }
 
-/* ======================
-   КНОПКИ
-====================== */
-
 .buttons{
-
 margin-top:30px;
 display:flex;
 gap:16px;
 flex-wrap:wrap;
-
 }
 
 .button{
-
 padding:14px 24px;
 border-radius:16px;
 text-decoration:none;
 font-weight:700;
-
 }
 
 .primary{
-
 background:var(--accent);
 color:white;
-
 }
 
 .secondary{
-
 background:rgba(255,255,255,.06);
 color:white;
 border:1px solid var(--border);
-
 }
 
-/* ======================
-   АВАТАР
-====================== */
-
 .avatar{
-
 width:min(420px,90%);
 animation:float 5s ease-in-out infinite;
 filter:drop-shadow(0 25px 35px rgba(0,0,0,.35));
-
 }
 
 @keyframes float{
-
-0%,100%{
-transform:translateY(0);
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-8px);}
 }
-
-50%{
-transform:translateY(-8px);
-}
-
-}
-
-/* ======================
-   СЕКЦИИ
-====================== */
 
 section{
-
 max-width:1100px;
 margin:auto;
 padding:90px 24px;
-
 }
 
 section h2{
-
 font-size:34px;
 margin-bottom:24px;
-
 }
 
 .card{
-
 background:var(--card);
 backdrop-filter:blur(20px);
 border:1px solid var(--border);
 border-radius:26px;
 padding:28px;
-
 }
 
-/* ======================
-   ССЫЛКИ
-====================== */
-
 .links{
-
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-
 }
 
 .link{
-
 background:var(--card);
 border:1px solid var(--border);
 border-radius:22px;
 padding:24px;
-
 }
 
 .link h3{
-
 margin-bottom:8px;
-
 }
 
 .link a{
-
 color:white;
 text-decoration:none;
-
 }
-
-/* ======================
-   МОБИЛЬНАЯ ВЕРСИЯ
-====================== */
 
 @media(max-width:900px){
 
@@ -525,8 +419,58 @@ OFFLINE
 
 <script>
 
-/* Пока OFFLINE.
-На следующем шаге сюда подключим Twitch автоматически. */
+const API="https://kmcaq-live.km-tamami.workers.dev";
+
+async function updateStatus(){
+
+try{
+
+const response=await fetch(API);
+
+const data=await response.json();
+
+const title=document.getElementById("statusTitle");
+const sub=document.getElementById("statusSubtitle");
+const dot=document.getElementById("statusDot");
+const viewers=document.getElementById("viewerCount");
+const card=document.getElementById("twitchStatus");
+
+if(data.live){
+
+title.textContent="LIVE";
+sub.textContent=data.game;
+viewers.textContent="👀 "+data.viewers;
+
+dot.style.background="#ff4d6d";
+dot.style.boxShadow="0 0 16px #ff4d6d";
+
+card.style.background="rgba(255,77,109,.12)";
+card.style.borderColor="#ff4d6d";
+
+}else{
+
+title.textContent="OFFLINE";
+sub.textContent="Сейчас отдыхаю";
+viewers.textContent="";
+
+dot.style.background="#9c8db8";
+dot.style.boxShadow="none";
+
+card.style.background="rgba(180,120,255,.12)";
+card.style.borderColor="rgba(180,120,255,.3)";
+
+}
+
+}catch(e){
+
+console.error(e);
+
+}
+
+}
+
+updateStatus();
+setInterval(updateStatus,60000);
 
 </script>
 
