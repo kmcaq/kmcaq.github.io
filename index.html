@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Кэм | Уютные игровые стримы</title>
+<title>kmcaq | Уютное местечко Кэм</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,7 +85,14 @@ z-index:1000;
 font-size:30px;
 font-weight:800;
 color:var(--accent);
+text-decoration:none;
 text-shadow:0 0 18px rgba(214,108,255,.4);
+transition:.2s;
+}
+
+.logo:hover{
+color:#f0d3ff;
+text-shadow:0 0 24px rgba(214,108,255,.6);
 }
 
 nav ul{
@@ -181,10 +188,30 @@ color:#ddd;
 font-weight:700;
 }
 
-/* ---------- Кнопки ---------- */
+.twitch-live-btn{
+margin-top:18px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:14px 24px;
+border-radius:16px;
+background:linear-gradient(135deg,#9146FF,#6b2cff);
+color:white;
+text-decoration:none;
+font-weight:700;
+box-shadow:0 10px 25px rgba(145,70,255,.35);
+transition:.2s;
+}
+
+.twitch-live-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 30px rgba(145,70,255,.45);
+}
+
+/* ---------- Нижние кнопки ---------- */
 
 .buttons{
-margin-top:30px;
+margin-top:24px;
 display:flex;
 gap:16px;
 flex-wrap:wrap;
@@ -279,11 +306,6 @@ box-shadow:0 14px 30px rgba(214,108,255,.16);
 border-color:rgba(214,108,255,.35);
 }
 
-.link.wide{
-grid-column:span 2;
-min-height:180px;
-}
-
 .link h3{
 font-size:24px;
 line-height:1.25;
@@ -315,8 +337,11 @@ box-shadow:0 0 18px rgba(214,108,255,.35);
 }
 
 .email{
-font-weight:700;
+font-size:22px;
+font-weight:800;
 color:var(--text);
+line-height:1.3;
+word-break:break-word;
 margin-top:auto;
 }
 
@@ -353,10 +378,6 @@ justify-content:center;
 grid-template-columns:1fr;
 }
 
-.link.wide{
-grid-column:auto;
-}
-
 }
 
 </style>
@@ -369,7 +390,7 @@ grid-column:auto;
 
 <nav>
 
-<div class="logo">Кэм</div>
+<a href="#" class="logo">kmcaq</a>
 
 <ul>
 
@@ -407,9 +428,16 @@ grid-column:auto;
 
 </div>
 
+<a class="twitch-live-btn"
+href="https://www.twitch.tv/kmcaq"
+target="_blank">
+Смотреть Twitch
+</a>
+
 <div class="buttons">
 
 <a class="button primary" href="#links">Все ссылки</a>
+
 <a class="button secondary" href="#schedule">Расписание</a>
 
 </div>
@@ -417,7 +445,7 @@ grid-column:auto;
 </div>
 
 <div>
-<img src="avatar.png" class="avatar">
+<img src="avatar.png" class="avatar" alt="Кэм">
 </div>
 
 </div>
@@ -443,51 +471,61 @@ grid-column:auto;
 
 <div class="links">
 
-  <div class="link">
-    <h3>🎮 Twitch</h3>
-    <p>Основные трансляции.</p>
-    <a class="link-btn" href="https://www.twitch.tv/kmcaq" target="_blank">
-      Перейти
-    </a>
-  </div>
+<div class="link">
+<h3>🎮 Twitch</h3>
+<p>Основные трансляции.</p>
+<a class="link-btn"
+href="https://www.twitch.tv/kmcaq"
+target="_blank">
+Перейти
+</a>
+</div>
 
-  <div class="link">
-    <h3>▶️ YouTube VODs</h3>
-    <p>Записи всех стримов.</p>
-    <a class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">
-      Перейти
-    </a>
-  </div>
+<div class="link">
+<h3>▶️ YouTube VODs</h3>
+<p>Записи всех стримов.</p>
+<a class="link-btn"
+href="https://www.youtube.com/@kmcaq"
+target="_blank">
+Перейти
+</a>
+</div>
 
-  <div class="link">
-    <h3>🏆 Tier List игр</h3>
-    <p>Рейтинг игр, которые я прошла или планирую пройти.</p>
-    <a class="link-btn" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">
-      Перейти
-    </a>
-  </div>
+<div class="link">
+<h3>🏆 Tier List игр</h3>
+<p>Рейтинг игр, которые я прошла или планирую пройти.</p>
+<a class="link-btn"
+href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed"
+target="_blank">
+Перейти
+</a>
+</div>
 
-  <div class="link">
-    <h3>📊 Статистика пройденных игр</h3>
-    <p>Полный список игр и игровой прогресс.</p>
-    <a class="link-btn" href="https://www.rankone.global/kmcaq" target="_blank">
-      Перейти
-    </a>
-  </div>
+<div class="link">
+<h3>📊 Статистика пройденных игр</h3>
+<p>Полный список игр и игровой прогресс.</p>
+<a class="link-btn"
+href="https://www.rankone.global/kmcaq"
+target="_blank">
+Перейти
+</a>
+</div>
 
-  <div class="link">
-    <h3>📢 Telegram</h3>
-    <p>Анонсы стримов и новости канала.</p>
-    <a class="link-btn" href="https://telegram.me/kmcaq" target="_blank">
-      Перейти
-    </a>
-  </div>
+<div class="link">
+<h3>📢 Telegram</h3>
+<p>Анонсы стримов и новости канала.</p>
+<a class="link-btn"
+href="https://telegram.me/kmcaq"
+target="_blank">
+Перейти
+</a>
+</div>
 
-  <div class="link">
-    <h3>✉️ Сотрудничество</h3>
-    <p>Почта для связи.</p>
-    <div class="email">kmcaq_kp@vk.com</div>
-  </div>
+<div class="link">
+<h3>✉️ Сотрудничество</h3>
+<p>Почта для связи.</p>
+<div class="email">kmcaq_kp@vk.com</div>
+</div>
 
 </div>
 
