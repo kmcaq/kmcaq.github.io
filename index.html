@@ -12,21 +12,31 @@
 
 <style>
 
+/* ======================
+   ЦВЕТА САЙТА
+====================== */
+
 :root{
 --bg:#0f0a17;
---card:rgba(26,18,40,.72);
---glass:rgba(255,255,255,.08);
+--card:rgba(24,18,38,.72);
 --border:rgba(255,255,255,.12);
---text:#f8f5ff;
---muted:#c9b9e8;
+--text:#faf7ff;
+--muted:#d1c2ea;
 --accent:#d66cff;
---red:#c93a3a;
+--live:#ff4d6d;
 }
+
+/* ======================
+   ОБЩИЕ НАСТРОЙКИ
+====================== */
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+}
+
+html{
 scroll-behavior:smooth;
 }
 
@@ -37,111 +47,88 @@ color:var(--text);
 overflow-x:hidden;
 }
 
-/* фон */
+/* ======================
+   ФОН КОМНАТЫ
+====================== */
 
-.bg{
+.background{
 position:fixed;
 inset:0;
 background:url("hero-bg.png") center/cover no-repeat;
-animation:bgMove 30s ease-in-out infinite alternate;
-z-index:-3;
-}
-
-.bg::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(15,10,23,.55);
-}
-
-.bg::after{
-content:"";
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle at 20% 20%,rgba(214,108,255,.18),transparent 35%),
-radial-gradient(circle at 80% 70%,rgba(214,108,255,.12),transparent 30%),
-linear-gradient(180deg,rgba(15,10,23,.15),#0f0a17 92%);
-}
-
-@keyframes bgMove{
-from{transform:scale(1);}
-to{transform:scale(1.03);}
-}
-
-/* свет */
-
-.sunlight{
-position:fixed;
-top:-10%;
-right:18%;
-width:420px;
-height:520px;
-background:radial-gradient(circle,rgba(255,230,255,.18),transparent 70%);
-filter:blur(30px);
-animation:sun 12s ease-in-out infinite alternate;
-pointer-events:none;
+filter:brightness(.45);
 z-index:-2;
 }
 
-@keyframes sun{
-from{transform:translateX(-15px);}
-to{transform:translateX(15px);}
+.overlay{
+position:fixed;
+inset:0;
+background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.85));
+z-index:-1;
 }
 
-/* навигация */
+/* ======================
+   ВЕРХНЕЕ МЕНЮ
+====================== */
 
 nav{
+
 position:fixed;
 top:20px;
 left:50%;
 transform:translateX(-50%);
-width:min(1080px,92%);
+width:min(1100px,92%);
+padding:14px 24px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:14px 24px;
-background:rgba(20,16,35,.45);
-backdrop-filter:blur(16px);
+
+background:rgba(20,18,35,.55);
+backdrop-filter:blur(18px);
 border:1px solid var(--border);
 border-radius:999px;
+
 z-index:1000;
+
 }
 
 .logo{
-font-size:28px;
+
+font-size:30px;
 font-weight:800;
 color:var(--accent);
-text-shadow:0 0 12px rgba(214,108,255,.7);
+
 }
 
 nav ul{
+
 display:flex;
-gap:26px;
 list-style:none;
+gap:28px;
+
 }
 
 nav a{
-color:white;
+
 text-decoration:none;
-font-weight:600;
-transition:.25s;
+color:white;
+
 }
 
-nav a:hover{
-color:var(--accent);
-}
-
-/* герой */
+/* ======================
+   ПЕРВЫЙ ЭКРАН
+====================== */
 
 .hero{
+
 min-height:100vh;
 display:flex;
 align-items:center;
 padding:120px 7%;
+
 }
 
-.content{
+.hero-grid{
+
 display:grid;
 grid-template-columns:1.1fr .9fr;
 align-items:center;
@@ -149,260 +136,235 @@ gap:40px;
 width:100%;
 max-width:1200px;
 margin:auto;
+
 }
 
-.text h1{
+.hero h1{
+
 font-size:76px;
-font-weight:800;
-margin-bottom:10px;
+
 }
 
-.text h1 span{
+.hero span{
+
 color:var(--accent);
-text-shadow:0 0 18px rgba(214,108,255,.75);
+
 }
 
-.text p{
+.hero p{
+
+margin-top:20px;
 font-size:21px;
 line-height:1.7;
 color:var(--muted);
-max-width:560px;
+
 }
 
-/* кнопки */
+/* ======================
+   СТАТУС TWITCH
+====================== */
+
+.status{
+
+margin-top:35px;
+display:flex;
+align-items:center;
+gap:14px;
+
+padding:12px 20px;
+
+background:rgba(180,120,255,.12);
+border:1px solid rgba(180,120,255,.3);
+border-radius:999px;
+
+width:max-content;
+
+}
+
+.status-dot{
+
+width:12px;
+height:12px;
+border-radius:50%;
+background:#9c8db8;
+
+}
+
+.status-text{
+
+display:flex;
+flex-direction:column;
+
+}
+
+.status-title{
+
+font-weight:800;
+
+}
+
+.status-sub{
+
+font-size:14px;
+color:#ddd;
+
+}
+
+.viewers{
+
+font-weight:700;
+
+}
+
+/* ======================
+   КНОПКИ
+====================== */
 
 .buttons{
+
+margin-top:30px;
 display:flex;
 gap:16px;
-margin-top:34px;
 flex-wrap:wrap;
+
 }
 
-.btn{
+.button{
+
 padding:14px 24px;
 border-radius:16px;
 text-decoration:none;
 font-weight:700;
-transition:.25s;
+
 }
 
 .primary{
-background:linear-gradient(135deg,var(--accent),#b84cff);
+
+background:var(--accent);
 color:white;
-box-shadow:0 0 25px rgba(214,108,255,.35);
+
 }
 
 .secondary{
-background:rgba(255,255,255,.05);
-border:1px solid var(--border);
+
+background:rgba(255,255,255,.06);
 color:white;
+border:1px solid var(--border);
+
 }
 
-.btn:hover{
-transform:translateY(-3px);
-}
-
-/* аватар */
-
-.avatar-wrap{
-display:flex;
-justify-content:center;
-position:relative;
-}
-
-.avatar-wrap::before{
-content:"";
-position:absolute;
-width:340px;
-height:340px;
-background:radial-gradient(circle,rgba(214,108,255,.25),transparent 70%);
-filter:blur(35px);
-animation:glow 4s ease-in-out infinite alternate;
-}
+/* ======================
+   АВАТАР
+====================== */
 
 .avatar{
+
 width:min(420px,90%);
 animation:float 5s ease-in-out infinite;
-filter:drop-shadow(0 24px 35px rgba(0,0,0,.35));
+filter:drop-shadow(0 25px 35px rgba(0,0,0,.35));
+
 }
 
 @keyframes float{
-0%{transform:translateY(0px) rotate(-.4deg);}
-50%{transform:translateY(-8px) rotate(.4deg);}
-100%{transform:translateY(0);}
+
+0%,100%{
+transform:translateY(0);
 }
 
-@keyframes glow{
-from{opacity:.5;}
-to{opacity:.95;}
+50%{
+transform:translateY(-8px);
 }
 
-/* LIVE */
-
-.live{
-display:inline-flex;
-align-items:center;
-gap:10px;
-padding:8px 16px;
-border-radius:999px;
-background:rgba(214,108,255,.12);
-border:1px solid rgba(214,108,255,.35);
-color:#ffdfff;
-margin-bottom:18px;
-animation:pulse 2.2s infinite;
 }
 
-.dot{
-width:10px;
-height:10px;
-background:#ff5c8a;
-border-radius:50%;
-box-shadow:0 0 12px #ff5c8a;
-}
-
-@keyframes pulse{
-0%,100%{box-shadow:0 0 8px rgba(214,108,255,.15);}
-50%{box-shadow:0 0 24px rgba(214,108,255,.35);}
-}
-
-/* секции */
+/* ======================
+   СЕКЦИИ
+====================== */
 
 section{
-max-width:1120px;
+
+max-width:1100px;
 margin:auto;
 padding:90px 24px;
+
 }
 
-h2{
-font-size:36px;
-margin-bottom:26px;
+section h2{
+
+font-size:34px;
+margin-bottom:24px;
+
 }
 
 .card{
+
 background:var(--card);
-backdrop-filter:blur(18px);
+backdrop-filter:blur(20px);
 border:1px solid var(--border);
-border-radius:28px;
-padding:30px;
+border-radius:26px;
+padding:28px;
+
 }
 
-.card p{
-line-height:1.8;
-color:var(--muted);
-}
+/* ======================
+   ССЫЛКИ
+====================== */
 
-/* ссылки */
+.links{
 
-.grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:22px;
+gap:20px;
+
 }
 
 .link{
+
 background:var(--card);
-backdrop-filter:blur(18px);
 border:1px solid var(--border);
-border-radius:24px;
+border-radius:22px;
 padding:24px;
-transition:.3s;
-}
 
-.link:hover{
-transform:translateY(-8px);
-box-shadow:0 0 30px rgba(214,108,255,.22);
-}
-
-.icon{
-font-size:34px;
-margin-bottom:14px;
 }
 
 .link h3{
-margin-bottom:8px;
-}
 
-.link small{
-color:#c5b4e4;
-display:block;
-margin-bottom:14px;
+margin-bottom:8px;
+
 }
 
 .link a{
+
 color:white;
 text-decoration:none;
-font-weight:700;
+
 }
 
-/* расписание */
-
-.schedule{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
-gap:16px;
-}
-
-.day{
-background:var(--card);
-backdrop-filter:blur(18px);
-border:1px solid var(--border);
-padding:20px;
-border-radius:20px;
-text-align:center;
-}
-
-.day strong{
-display:block;
-font-size:18px;
-color:var(--accent);
-margin-bottom:6px;
-}
-
-/* оборудование */
-
-.specs{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:16px;
-}
-
-.spec{
-background:var(--card);
-backdrop-filter:blur(18px);
-border:1px solid var(--border);
-padding:20px;
-border-radius:20px;
-}
-
-footer{
-padding:50px;
-text-align:center;
-color:#a692c8;
-}
-
-/* мобильная версия */
+/* ======================
+   МОБИЛЬНАЯ ВЕРСИЯ
+====================== */
 
 @media(max-width:900px){
 
-nav ul{
-display:none;
-}
-
-.content{
+.hero-grid{
 grid-template-columns:1fr;
 text-align:center;
 }
 
-.text p{
-margin:auto;
+.hero h1{
+font-size:54px;
+}
+
+.status{
+margin-inline:auto;
 }
 
 .buttons{
 justify-content:center;
 }
 
-.text h1{
-font-size:54px;
+nav ul{
+display:none;
 }
 
 }
@@ -412,56 +374,84 @@ font-size:54px;
 
 <body>
 
-<div class="bg"></div>
-<div class="sunlight"></div>
+<div class="background"></div>
+<div class="overlay"></div>
 
 <nav>
 
 <div class="logo">Кэм</div>
 
 <ul>
+
 <li><a href="#about">О канале</a></li>
 <li><a href="#links">Ссылки</a></li>
 <li><a href="#schedule">Расписание</a></li>
-<li><a href="#setup">Оборудование</a></li>
+
 </ul>
 
 </nav>
 
 <header class="hero">
 
-<div class="content">
+<div class="hero-grid">
 
-<div class="text">
-
-<div class="live">
-<div class="dot"></div>
-LIVE
-</div>
+<div>
 
 <h1>Привет, я <span>Кэм</span></h1>
 
 <p>
+
 Впервые прохожу сюжетные игры и делюсь настоящими эмоциями.
-Уютные вечера без спойлеров, где каждый новый мир исследуем вместе.
+Без спойлеров, без токсичности и с уютной атмосферой.
+
 </p>
+
+<div id="twitchStatus" class="status">
+
+<div id="statusDot" class="status-dot"></div>
+
+<div class="status-text">
+
+<div id="statusTitle" class="status-title">
+
+OFFLINE
+
+</div>
+
+<div id="statusSubtitle" class="status-sub">
+
+Сейчас отдыхаю
+
+</div>
+
+</div>
+
+<div id="viewerCount" class="viewers"></div>
+
+</div>
 
 <div class="buttons">
 
-<a class="btn primary" href="#links">
+<a class="button primary" href="#links">
+
 Все ссылки
+
 </a>
 
-<a class="btn secondary" href="#schedule">
+<a class="button secondary" href="#schedule">
+
 Расписание
+
 </a>
 
 </div>
 
 </div>
 
-<div class="avatar-wrap">
+<div>
+
 <img src="avatar.png" class="avatar">
+
 </div>
 
 </div>
@@ -474,11 +464,8 @@ LIVE
 
 <div class="card">
 
-<p>
-Люблю проходить игры впервые, поэтому реакции здесь настоящие.
-Главное правило — никаких спойлеров и подсказок, если я сама их не попросила.
-Хочется, чтобы каждый стрим ощущался как вечер в уютной комнате с друзьями.
-</p>
+Впервые прохожу игры и хочу переживать этот опыт вместе со зрителями.
+Главное правило чата — никаких спойлеров и подсказок, если я сама их не попросила.
 
 </div>
 
@@ -488,48 +475,36 @@ LIVE
 
 <h2>Мои ссылки</h2>
 
-<div class="grid">
+<div class="links">
 
 <div class="link">
-<div class="icon">🎮</div>
-<h3>Twitch</h3>
-<small>Основные трансляции</small>
-<a href="#">Добавить ссылку →</a>
+<h3>🎮 Twitch</h3>
+<a href="#">Добавить ссылку</a>
 </div>
 
 <div class="link">
-<div class="icon">▶️</div>
-<h3>YouTube</h3>
-<small>Записи стримов</small>
-<a href="#">Добавить ссылку →</a>
+<h3>▶️ YouTube</h3>
+<a href="#">Добавить ссылку</a>
 </div>
 
 <div class="link">
-<div class="icon">💬</div>
-<h3>Discord</h3>
-<small>Сообщество</small>
-<a href="#">Добавить ссылку →</a>
+<h3>💬 Discord</h3>
+<a href="#">Добавить ссылку</a>
 </div>
 
 <div class="link">
-<div class="icon">❤️</div>
-<h3>DonationAlerts</h3>
-<small>Поддержка канала</small>
-<a href="#">Добавить ссылку →</a>
+<h3>❤️ DonationAlerts</h3>
+<a href="#">Добавить ссылку</a>
 </div>
 
 <div class="link">
-<div class="icon">📢</div>
-<h3>Telegram</h3>
-<small>Анонсы стримов</small>
-<a href="#">Добавить ссылку →</a>
+<h3>📢 Telegram</h3>
+<a href="#">Добавить ссылку</a>
 </div>
 
 <div class="link">
-<div class="icon">✨</div>
-<h3>Любая ссылка</h3>
-<small>Добавишь позже</small>
-<a href="#">Добавить ссылку →</a>
+<h3>✨ Любая ссылка</h3>
+<a href="#">Добавить ссылку</a>
 </div>
 
 </div>
@@ -540,42 +515,20 @@ LIVE
 
 <h2>Расписание</h2>
 
-<div class="schedule">
+<div class="card">
 
-<div class="day"><strong>Пн</strong>—</div>
-<div class="day"><strong>Вт</strong>—</div>
-<div class="day"><strong>Ср</strong>—</div>
-<div class="day"><strong>Чт</strong>—</div>
-<div class="day"><strong>Пт</strong>—</div>
-<div class="day"><strong>Сб</strong>—</div>
-<div class="day"><strong>Вс</strong>—</div>
+Здесь позже можно написать дни и время стримов.
 
 </div>
 
 </section>
 
-<section id="setup">
+<script>
 
-<h2>Оборудование</h2>
+/* Пока OFFLINE.
+На следующем шаге сюда подключим Twitch автоматически. */
 
-<div class="specs">
-
-<div class="spec">AMD Ryzen 7 5700X</div>
-<div class="spec">RTX 5060 Ti</div>
-<div class="spec">32 ГБ Kingston HyperX FURY Red</div>
-<div class="spec">Logitech BRIO 500</div>
-<div class="spec">Fifine AM8T</div>
-<div class="spec">Fifine D6 Stream Controller</div>
-
-</div>
-
-</section>
-
-<footer>
-
-© Кэм • Уютные игровые стримы
-
-</footer>
+</script>
 
 </body>
 </html>
