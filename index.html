@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>kmcaq | Уютные игровые стримы</title>
+<title>Кэм | Уютные игровые стримы</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,20 +39,30 @@ color:var(--text);
 overflow-x:hidden;
 }
 
+/* ---------- Фон ---------- */
+
 .background{
 position:fixed;
 inset:0;
 background:url("hero-bg.png") center/cover no-repeat;
 filter:brightness(.45);
 z-index:-2;
+animation:bgMove 25s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove{
+from{transform:scale(1);}
+to{transform:scale(1.03);}
 }
 
 .overlay{
 position:fixed;
 inset:0;
-background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.85));
+background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.88));
 z-index:-1;
 }
+
+/* ---------- Навигация ---------- */
 
 nav{
 position:fixed;
@@ -75,6 +85,7 @@ z-index:1000;
 font-size:30px;
 font-weight:800;
 color:var(--accent);
+text-shadow:0 0 18px rgba(214,108,255,.4);
 }
 
 nav ul{
@@ -86,7 +97,14 @@ gap:28px;
 nav a{
 text-decoration:none;
 color:white;
+transition:.2s;
 }
+
+nav a:hover{
+color:var(--accent);
+}
+
+/* ---------- Первый экран ---------- */
 
 .hero{
 min-height:100vh;
@@ -107,23 +125,25 @@ margin:auto;
 
 .hero h1{
 font-size:76px;
+line-height:1;
 }
 
-.hero span{
+.hero h1 span{
 color:var(--accent);
 }
 
 .hero p{
-margin-top:20px;
+margin-top:22px;
 font-size:21px;
 line-height:1.7;
 color:var(--muted);
+max-width:560px;
 }
 
-/* -------- LIVE/OFFLINE -------- */
+/* ---------- Статус ---------- */
 
 .status{
-margin-top:35px;
+margin-top:34px;
 display:flex;
 align-items:center;
 gap:14px;
@@ -161,6 +181,8 @@ color:#ddd;
 font-weight:700;
 }
 
+/* ---------- Кнопки ---------- */
+
 .buttons{
 margin-top:30px;
 display:flex;
@@ -173,18 +195,26 @@ padding:14px 24px;
 border-radius:16px;
 text-decoration:none;
 font-weight:700;
+transition:.2s;
 }
 
 .primary{
-background:var(--accent);
+background:linear-gradient(135deg,#d66cff,#b84cff);
 color:white;
+box-shadow:0 8px 20px rgba(214,108,255,.25);
 }
 
 .secondary{
 background:rgba(255,255,255,.06);
-color:white;
 border:1px solid var(--border);
+color:white;
 }
+
+.button:hover{
+transform:translateY(-2px);
+}
+
+/* ---------- Аватар ---------- */
 
 .avatar{
 width:min(420px,90%);
@@ -197,48 +227,106 @@ filter:drop-shadow(0 25px 35px rgba(0,0,0,.35));
 50%{transform:translateY(-8px);}
 }
 
+/* ---------- Секции ---------- */
+
 section{
-max-width:1100px;
+max-width:1120px;
 margin:auto;
 padding:90px 24px;
 }
 
 section h2{
-font-size:34px;
-margin-bottom:24px;
+font-size:36px;
+margin-bottom:28px;
 }
+
+/* ---------- Карточка ---------- */
 
 .card{
 background:var(--card);
 backdrop-filter:blur(20px);
 border:1px solid var(--border);
 border-radius:26px;
-padding:28px;
+padding:30px;
+line-height:1.8;
+color:var(--muted);
 }
+
+/* ---------- Ссылки ---------- */
 
 .links{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+grid-template-columns:repeat(3,minmax(220px,1fr));
+gap:22px;
 }
 
 .link{
 background:var(--card);
+backdrop-filter:blur(20px);
 border:1px solid var(--border);
-border-radius:22px;
+border-radius:24px;
 padding:24px;
+display:flex;
+flex-direction:column;
+gap:18px;
+min-height:220px;
+transition:.25s;
+}
+
+.link:hover{
+transform:translateY(-6px);
+box-shadow:0 14px 30px rgba(214,108,255,.16);
+border-color:rgba(214,108,255,.35);
+}
+
+.link.wide{
+grid-column:span 2;
+min-height:180px;
 }
 
 .link h3{
-margin-bottom:8px;
+font-size:24px;
+line-height:1.25;
 }
 
-.link a{
+.link p{
+color:var(--muted);
+line-height:1.5;
+flex:1;
+}
+
+.link-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:12px 22px;
+border-radius:14px;
+background:linear-gradient(135deg,#d66cff,#b84cff);
 color:white;
 text-decoration:none;
+font-weight:700;
+width:fit-content;
+transition:.2s;
 }
 
+.link-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 0 18px rgba(214,108,255,.35);
+}
+
+.email{
+font-weight:700;
+color:var(--text);
+margin-top:auto;
+}
+
+/* ---------- Мобильная ---------- */
+
 @media(max-width:900px){
+
+nav ul{
+display:none;
+}
 
 .hero-grid{
 grid-template-columns:1fr;
@@ -249,6 +337,10 @@ text-align:center;
 font-size:54px;
 }
 
+.hero p{
+margin-inline:auto;
+}
+
 .status{
 margin-inline:auto;
 }
@@ -257,8 +349,12 @@ margin-inline:auto;
 justify-content:center;
 }
 
-nav ul{
-display:none;
+.links{
+grid-template-columns:1fr;
+}
+
+.link.wide{
+grid-column:auto;
 }
 
 }
@@ -273,7 +369,7 @@ display:none;
 
 <nav>
 
-<div class="logo">kmcaq</div>
+<div class="logo">Кэм</div>
 
 <ul>
 
@@ -294,10 +390,8 @@ display:none;
 <h1>Привет, я <span>Кэм</span></h1>
 
 <p>
-
 Впервые прохожу сюжетные игры и делюсь настоящими эмоциями.
 Без спойлеров, без токсичности и с уютной атмосферой.
-
 </p>
 
 <div id="twitchStatus" class="status">
@@ -305,19 +399,8 @@ display:none;
 <div id="statusDot" class="status-dot"></div>
 
 <div class="status-text">
-
-<div id="statusTitle" class="status-title">
-
-OFFLINE
-
-</div>
-
-<div id="statusSubtitle" class="status-sub">
-
-Сейчас отдыхаю
-
-</div>
-
+<div id="statusTitle" class="status-title">OFFLINE</div>
+<div id="statusSubtitle" class="status-sub">Сейчас отдыхаю</div>
 </div>
 
 <div id="viewerCount" class="viewers"></div>
@@ -326,26 +409,15 @@ OFFLINE
 
 <div class="buttons">
 
-<a class="button primary" href="#links">
-
-Все ссылки
-
-</a>
-
-<a class="button secondary" href="#schedule">
-
-Расписание
-
-</a>
+<a class="button primary" href="#links">Все ссылки</a>
+<a class="button secondary" href="#schedule">Расписание</a>
 
 </div>
 
 </div>
 
 <div>
-
 <img src="avatar.png" class="avatar">
-
 </div>
 
 </div>
@@ -365,7 +437,6 @@ OFFLINE
 
 </section>
 
-  
 <section id="links">
 
 <h2>Мои ссылки</h2>
@@ -374,48 +445,45 @@ OFFLINE
 
 <div class="link">
 <h3>🎮 Twitch</h3>
-<p>Основные трансляции</p>
-<a class="button primary" href="https://www.twitch.tv/kmcaq" target="_blank">
+<p>Основные трансляции.</p>
+<a class="link-btn" href="https://www.twitch.tv/kmcaq" target="_blank">
 Перейти
 </a>
 </div>
 
 <div class="link">
 <h3>▶️ YouTube VODs</h3>
-<p>Записи стримов</p>
-<a class="button primary" href="https://www.youtube.com/@kmcaq" target="_blank">
+<p>Записи всех стримов.</p>
+<a class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">
 Перейти
 </a>
 </div>
 
 <div class="link">
 <h3>🏆 Tier List игр</h3>
-<p>Рейтинг игр, которые я прошла или планирую пройти</p>
-<a class="button primary" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">
+<p>Рейтинг игр, которые я прошла или планирую пройти.</p>
+<a class="link-btn" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">
 Перейти
 </a>
 </div>
 
-<div class="link">
+<div class="link wide">
 <h3>📊 Статистика пройденных игр</h3>
-<p>Мой игровой прогресс</p>
-<a class="button primary" href="https://www.rankone.global/kmcaq" target="_blank">
+<p>Полный список игр и игровой прогресс.</p>
+<a class="link-btn" href="https://www.rankone.global/kmcaq" target="_blank">
 Перейти
 </a>
 </div>
 
 <div class="link">
 <h3>✉️ Сотрудничество</h3>
-<p>Почта для связи</p>
-<div style="font-weight:700;color:#faf7ff;margin-top:12px;">
-kmcaq_kp@vk.com
-</div>
+<p>Почта для связи.</p>
+<div class="email">kmcaq_kp@vk.com</div>
 </div>
 
 </div>
 
 </section>
-
 
 <section id="schedule">
 
@@ -438,7 +506,6 @@ async function updateStatus(){
 try{
 
 const response=await fetch(API);
-
 const data=await response.json();
 
 const title=document.getElementById("statusTitle");
