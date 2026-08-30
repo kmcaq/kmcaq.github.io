@@ -21,8 +21,15 @@
  --live:#ff4d6d;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+html{
+ scroll-behavior:smooth;
+}
 
 body{
  font-family:"Nunito",sans-serif;
@@ -30,6 +37,8 @@ body{
  color:var(--text);
  overflow-x:hidden;
 }
+
+/* ---------- фон ---------- */
 
 .background{
  position:fixed;
@@ -46,7 +55,7 @@ body{
  z-index:-1;
 }
 
-/* ---------------- ШАПКА ---------------- */
+/* ---------- шапка ---------- */
 
 nav{
  position:fixed;
@@ -155,8 +164,8 @@ nav{
  transition:.25s;
 }
 
-.menu a.active,
-.menu a:hover{
+.menu a:hover,
+.menu a.active{
  color:var(--accent);
 }
 
@@ -172,13 +181,14 @@ nav{
  box-shadow:0 0 12px rgba(214,108,255,.45);
 }
 
-/* ---------------- HERO ---------------- */
+/* ---------- hero ---------- */
 
 .hero{
  min-height:100vh;
  display:flex;
  align-items:center;
  padding:120px 7%;
+ scroll-margin-top:90px;
 }
 
 .hero-grid{
@@ -208,12 +218,28 @@ nav{
  max-width:560px;
 }
 
+.about-card{
+ margin-top:30px;
+ background:var(--card);
+ border:1px solid var(--border);
+ backdrop-filter:blur(22px);
+ border-radius:24px;
+ padding:24px;
+ max-width:560px;
+}
+
+.about-card h2{
+ margin-bottom:12px;
+ font-size:28px;
+ color:white;
+}
+
 .avatar{
  width:min(430px,92%);
  filter:drop-shadow(0 30px 45px rgba(0,0,0,.35));
 }
 
-/* ---------------- СТАТУС ---------------- */
+/* ---------- статус ---------- */
 
 .status{
  margin-top:34px;
@@ -247,10 +273,9 @@ nav{
  font-weight:800;
 }
 
-/* ---------------- КНОПКИ ---------------- */
+/* ---------- кнопки ---------- */
 
 .twitch-live-btn,
-.button,
 .link-btn{
  display:inline-flex;
  align-items:center;
@@ -273,39 +298,13 @@ nav{
  box-shadow:0 10px 28px rgba(145,70,255,.35);
 }
 
-.buttons{
- margin-top:22px;
- display:flex;
- gap:16px;
- flex-wrap:wrap;
-}
-
-.button{
- padding:14px 24px;
- border-radius:16px;
-}
-
-.primary{
- background:linear-gradient(135deg,#d66cff,#b84cff);
- color:white;
-}
-
-.secondary{
- background:rgba(255,255,255,.06);
- border:1px solid var(--border);
- color:white;
-}
-
-.button:hover{
- transform:translateY(-2px);
-}
-
-/* ---------------- СЕКЦИИ ---------------- */
+/* ---------- секции ---------- */
 
 section{
  max-width:1120px;
  margin:auto;
  padding:96px 24px;
+ scroll-margin-top:90px;
 }
 
 section h2{
@@ -322,7 +321,7 @@ section h2{
  color:var(--muted);
 }
 
-/* ---------------- СЕЙЧАС НА КАНАЛЕ ---------------- */
+/* ---------- сейчас на канале ---------- */
 
 .current-row{
  display:flex;
@@ -348,7 +347,7 @@ section h2{
  color:var(--muted);
 }
 
-/* ---------------- ССЫЛКИ ---------------- */
+/* ---------- ссылки ---------- */
 
 .links{
  display:grid;
@@ -410,7 +409,7 @@ section h2{
  color:white;
 }
 
-/* ---------------- РАСПИСАНИЕ ---------------- */
+/* ---------- расписание ---------- */
 
 .schedule-grid{
  display:grid;
@@ -452,11 +451,13 @@ section h2{
  color:white;
 }
 
-/* ---------------- МОБИЛЬНАЯ ---------------- */
+/* ---------- мобильная ---------- */
 
 @media(max-width:980px){
 
- .nav-status,.social,.menu{
+ .nav-status,
+ .social,
+ .menu{
   display:none;
  }
 
@@ -473,12 +474,12 @@ section h2{
   margin:auto;
  }
 
- .status{
+ .about-card{
   margin-inline:auto;
  }
 
- .buttons{
-  justify-content:center;
+ .status{
+  margin-inline:auto;
  }
 
  .current-row{
@@ -504,7 +505,7 @@ section h2{
 
 <nav>
 
-<a href="#" class="logo-wrap">
+<a href="#home" class="logo-wrap">
 <img src="avatar.png" alt="Кэм">
 <div class="logo">kmcaq</div>
 </a>
@@ -533,7 +534,8 @@ section h2{
 </div>
 
 <div class="menu">
-<a href="#about">О канале</a>
+<a href="#home">Главная</a>
+<a href="#current">Сейчас на канале</a>
 <a href="#links">Ссылки</a>
 <a href="#schedule">Расписание</a>
 </div>
@@ -542,7 +544,7 @@ section h2{
 
 </nav>
 
-<header class="hero">
+<header id="home" class="hero">
 
 <div class="hero-grid">
 
@@ -572,9 +574,15 @@ section h2{
 Смотреть Twitch
 </a>
 
-<div class="buttons">
-<a class="button primary" href="#links">Все ссылки</a>
-<a class="button secondary" href="#schedule">Расписание</a>
+<div class="about-card">
+
+<h2>О канале</h2>
+
+<p>
+Я люблю проходить сюжетные игры впервые и проживать этот опыт вместе со зрителями.
+Главное правило чата — никаких спойлеров и подсказок, если я сама их не попросила.
+</p>
+
 </div>
 
 </div>
@@ -608,19 +616,6 @@ section h2{
 </a>
 
 </div>
-
-</div>
-
-</section>
-
-<section id="about">
-
-<h2>О канале</h2>
-
-<div class="card">
-
-Впервые прохожу игры и хочу переживать этот опыт вместе со зрителями.
-Главное правило чата — никаких спойлеров и подсказок, если я сама их не попросила.
 
 </div>
 
@@ -682,9 +677,7 @@ section h2{
 
 <div class="schedule-item">
 
-<div class="schedule-label">
-📅 Когда проходят стримы
-</div>
+<div class="schedule-label">📅 Когда проходят стримы</div>
 
 <div class="schedule-value">
 Понедельник — Пятница
@@ -694,13 +687,9 @@ section h2{
 
 <div class="schedule-item">
 
-<div class="schedule-label">
-🕗 Время
-</div>
+<div class="schedule-label">🕗 Время</div>
 
-<div class="time-pill">
-08:00 — 16:00 МСК
-</div>
+<div class="time-pill">08:00 — 16:00 МСК</div>
 
 </div>
 
@@ -799,7 +788,8 @@ button.href="https://www.youtube.com/@kmcaq";
 /* ---------- Подсветка меню ---------- */
 
 const menuLinks={
- about:document.querySelector('.menu a[href="#about"]'),
+ home:document.querySelector('.menu a[href="#home"]'),
+ current:document.querySelector('.menu a[href="#current"]'),
  links:document.querySelector('.menu a[href="#links"]'),
  schedule:document.querySelector('.menu a[href="#schedule"]')
 };
@@ -808,14 +798,19 @@ function updateActiveMenu(){
 
  const scroll=window.scrollY+140;
 
+ const currentTop=document.getElementById("current").offsetTop;
  const linksTop=document.getElementById("links").offsetTop;
  const scheduleTop=document.getElementById("schedule").offsetTop;
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- if(scroll<linksTop){
+ if(scroll<currentTop){
 
-  menuLinks.about.classList.add("active");
+  menuLinks.home.classList.add("active");
+
+ }else if(scroll<linksTop){
+
+  menuLinks.current.classList.add("active");
 
  }else if(scroll<scheduleTop){
 
