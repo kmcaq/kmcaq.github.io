@@ -179,7 +179,7 @@ nav{
  display:flex;
  align-items:center;
  padding:120px 7%;
- scroll-margin-top:90px;
+ scroll-margin-top:60px;
 }
 
 .hero-grid{
@@ -295,7 +295,7 @@ section{
  max-width:1120px;
  margin:auto;
  padding:96px 24px;
- scroll-margin-top:90px;
+ scroll-margin-top:60px;
 }
 
 section h2{
@@ -563,52 +563,35 @@ section h2{
 Смотреть Twitch
 </a>
 
-<div class="about-card">
+<div class="card" id="currentCard">
 
-<h2>О канале</h2>
+ <div class="current-row">
 
-<p>
-Я люблю проходить сюжетные игры впервые и проживать этот опыт вместе со зрителями.
-Главное правило чата — никаких спойлеров и подсказок, если я сама их не попросила.
-</p>
+  <div class="current-info">
+
+   <h3 id="currentTitle">▶ Последняя серия</h3>
+
+   <p id="currentText">Загружаю информацию...</p>
+
+  </div>
+
+  <a id="currentButton" class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">
+   Смотреть
+  </a>
+
+ </div>
 
 </div>
 
 </div>
 
 <div>
-<img src="avatar.png" class="avatar" alt="Кэм">
+ <img src="avatar.png" class="avatar" alt="Кэм">
 </div>
 
 </div>
 
 </header>
-
-<section id="current">
-
-<h2>Сейчас на канале</h2>
-
-<div class="card" id="currentCard">
-
-<div class="current-row">
-
-<div class="current-info">
-
-<h3 id="currentTitle">▶ Последняя серия</h3>
-
-<p id="currentText">Загружаю информацию...</p>
-
-</div>
-
-<a id="currentButton" class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">
-Смотреть
-</a>
-
-</div>
-
-</div>
-
-</section>
 
 <section id="links">
 
@@ -789,7 +772,6 @@ async function updateCurrent(){
 
 const menuLinks={
  home:document.querySelector('.menu a[href="#home"]'),
- current:document.querySelector('.menu a[href="#current"]'),
  links:document.querySelector('.menu a[href="#links"]'),
  schedule:document.querySelector('.menu a[href="#schedule"]')
 };
@@ -798,19 +780,14 @@ function updateActiveMenu(){
 
  const scroll=window.scrollY+140;
 
- const currentTop=document.getElementById("current").offsetTop;
  const linksTop=document.getElementById("links").offsetTop;
  const scheduleTop=document.getElementById("schedule").offsetTop;
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- if(scroll<currentTop){
+ if(scroll<linksTop){
 
   menuLinks.home.classList.add("active");
-
- }else if(scroll<linksTop){
-
-  menuLinks.current.classList.add("active");
 
  }else if(scroll<scheduleTop){
 
