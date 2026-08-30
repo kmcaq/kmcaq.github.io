@@ -109,7 +109,7 @@ nav{
  background:#9c8db8;
 }
 
-/* SVG иконки */
+/* ---------- SVG иконки ---------- */
 
 .social{
  display:flex;
@@ -144,7 +144,7 @@ nav{
  box-shadow:0 0 18px rgba(214,108,255,.25);
 }
 
-/* Меню */
+/* ---------- Меню ---------- */
 
 .menu{
  display:flex;
@@ -176,7 +176,7 @@ nav{
  box-shadow:0 0 12px rgba(214,108,255,.45);
 }
 
-/* ---------- Первый экран ---------- */
+/* ---------- Hero ---------- */
 
 .hero{
  min-height:100vh;
@@ -324,7 +324,7 @@ section h2{
  color:var(--muted);
 }
 
-/* Сейчас на канале */
+/* ---------- Сейчас на канале ---------- */
 
 .current-info{
  display:flex;
@@ -641,59 +641,35 @@ section h2{
 
 const API=atob("aHR0cHM6Ly9rbWNhcS1saXZlLmttLXRhbWFtaS53b3JrZXJzLmRldg==");
 
+/* ---------- Twitch ---------- */
+
 async function updateStatus(){
 
 try{
 
-const r=await fetch(API);
+const r=await fetch(API,{cache:"no-store"});
+
+if(!r.ok) throw new Error();
+
 const d=await r.json();
 
 const card=document.getElementById("twitchStatus");
 const nav=document.getElementById("navStatus");
 
-const title=document.getElementById("statusTitle");
-const sub=document.getElementById("statusSubtitle");
-const viewers=document.getElementById("viewerCount");
+document.getElementById("statusTitle").textContent=d.live?"LIVE":"OFFLINE";
+document.getElementById("statusSubtitle").textContent=d.live?d.game:"Сейчас отдыхаю";
+document.getElementById("viewerCount").textContent=d.live?"👀 "+d.viewers:"";
 
-const dot=document.getElementById("statusDot");
-const navDot=document.getElementById("navDot");
-const navText=document.getElementById("navText");
+document.getElementById("statusDot").style.background=d.live?"#ff4d6d":"#9c8db8";
+document.getElementById("navDot").style.background=d.live?"#ff4d6d":"#9c8db8";
 
-if(d.live){
+card.style.background=d.live?"rgba(255,77,109,.12)":"rgba(180,120,255,.12)";
+card.style.borderColor=d.live?"#ff4d6d":"rgba(180,120,255,.3)";
 
-title.textContent="LIVE";
-sub.textContent=d.game;
-viewers.textContent="👀 "+d.viewers;
+nav.style.background=d.live?"rgba(255,77,109,.12)":"rgba(180,120,255,.12)";
+nav.style.borderColor=d.live?"#ff4d6d":"rgba(180,120,255,.25)";
 
-dot.style.background="#ff4d6d";
-navDot.style.background="#ff4d6d";
-
-card.style.background="rgba(255,77,109,.12)";
-card.style.borderColor="#ff4d6d";
-
-nav.style.background="rgba(255,77,109,.12)";
-nav.style.borderColor="#ff4d6d";
-
-navText.textContent="LIVE";
-
-}else{
-
-title.textContent="OFFLINE";
-sub.textContent="Сейчас отдыхаю";
-viewers.textContent="";
-
-dot.style.background="#9c8db8";
-navDot.style.background="#9c8db8";
-
-card.style.background="rgba(180,120,255,.12)";
-card.style.borderColor="rgba(180,120,255,.3)";
-
-nav.style.background="rgba(180,120,255,.12)";
-nav.style.borderColor="rgba(180,120,255,.25)";
-
-navText.textContent="OFFLINE";
-
-}
+document.getElementById("navText").textContent=d.live?"LIVE":"OFFLINE";
 
 }catch(e){
 
@@ -702,47 +678,61 @@ console.error(e);
 }
 
 }
+
+/* ---------- Сейчас на канале ---------- */
 
 async function updateCurrent(){
 
-try{
-
-const r=await fetch(API);
-const d=await r.json();
-
+const title=document.getElementById("currentTitle");
+const text=document.getElementById("currentText");
+const button=document.getElementById("currentButton");
 const card=document.getElementById("currentCard");
 
-if(d.live){
+try{
 
-document.getElementById("currentTitle").textContent="🔴 Сейчас в эфире";
-document.getElementById("currentText").innerHTML=`<strong>${d.game}</strong><br>👀 ${d.viewers} зрителей`;
+const response=await fetch(API,{cache:"no-store"});
 
-document.getElementById("currentButton").textContent="Открыть стрим";
-document.getElementById("currentButton").href="https://www.twitch.tv/kmcaq";
+if(!response.ok) throw new Error();
+
+const data=await response.json();
+
+if(data.live){
+
+title.textContent="🔴 Сейчас в эфире";
+text.innerHTML=`<strong>${data.game}</strong><br>👀 ${data.viewers} зрителей`;
+
+button.textContent="Открыть стрим";
+button.href="https://www.twitch.tv/kmcaq";
 
 card.style.borderColor="#ff4d6d";
 
 }else{
 
-document.getElementById("currentTitle").textContent="▶ Последняя серия";
-document.getElementById("currentText").textContent=d.latestTitle;
+title.textContent="▶ Последняя серия";
+text.textContent=data.latestTitle || "Последняя запись";
 
-document.getElementById("currentButton").textContent="Смотреть VOD";
-document.getElementById("currentButton").href=d.latestVideo;
+button.textContent="Смотреть VOD";
+button.href=data.latestVideo || "https://www.youtube.com/@kmcaq";
 
 card.style.borderColor="rgba(255,255,255,.12)";
+}
+
+}catch(error){
+
+console.error(error);
+
+title.textContent="▶ Последняя серия";
+text.textContent="Открыть последнюю запись на YouTube";
+
+button.textContent="Смотреть VOD";
+button.href="https://www.youtube.com/@kmcaq";
+
+card.style.borderColor="rgba(255,255,255,.12)";
+}
 
 }
 
-}catch(e){
-
-console.error(e);
-
-}
-
-}
-
-/* ---------- Исправленная подсветка меню ---------- */
+/* ---------- Подсветка меню ---------- */
 
 const menuLinks={
  about:document.querySelector('.menu a[href="#about"]'),
