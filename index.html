@@ -759,7 +759,53 @@ console.error(e);
 updateStatus();
 setInterval(updateStatus,60000);
 
+ async function updateCurrent(){
+
+  try{
+
+    const response=await fetch(API);
+    const data=await response.json();
+
+    const title=document.getElementById("currentTitle");
+    const text=document.getElementById("currentText");
+    const button=document.getElementById("currentButton");
+    const card=document.getElementById("currentCard");
+
+    if(data.live){
+
+      title.textContent="🔴 Сейчас в эфире";
+      text.innerHTML=`<strong>${data.game}</strong><br>👀 ${data.viewers} зрителей`;
+
+      button.textContent="Открыть стрим";
+      button.href="https://www.twitch.tv/kmcaq";
+
+      card.style.borderColor="#ff4d6d";
+
+    }else{
+
+      title.textContent="▶ Последняя серия";
+      text.textContent=data.latestTitle;
+
+      button.textContent="Смотреть VOD";
+      button.href=data.latestVideo;
+
+      card.style.borderColor="rgba(255,255,255,.12)";
+
+    }
+
+  }catch(e){
+
+    console.error(e);
+
+  }
+
+}
+
+updateCurrent();
+setInterval(updateCurrent,60000);
+
 </script>
 
 </body>
 </html>
+
