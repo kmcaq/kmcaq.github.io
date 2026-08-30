@@ -104,6 +104,24 @@ nav{
  font-weight:700;
 }
 
+.nav-status{
+ text-decoration:none;
+ color:inherit;
+ cursor:default;
+ transition:.25s;
+}
+
+.nav-status.live{
+ cursor:pointer;
+ background:rgba(255,77,109,.12);
+ border-color:rgba(255,77,109,.35);
+}
+
+.nav-status.live:hover{
+ transform:translateY(-2px);
+ box-shadow:0 8px 20px rgba(255,77,109,.25);
+}
+ 
 .nav-dot{
  width:10px;
  height:10px;
@@ -501,10 +519,13 @@ section h2{
 
 <div class="nav-right">
 
-<div id="navStatus" class="nav-status">
-<span id="navDot" class="nav-dot"></span>
-<span id="navText">OFFLINE</span>
-</div>
+<a id="navStatus"
+   class="nav-status"
+   href="#"
+   aria-disabled="true">
+  <span id="navDot" class="nav-dot"></span>
+  <span id="navText">OFFLINE</span>
+</a>
 
 <div class="social">
 
@@ -546,22 +567,9 @@ section h2{
 Без спойлеров, без токсичности и с уютной атмосферой.
 </p>
 
-<div id="twitchStatus" class="status">
-
-<div id="statusDot" class="status-dot"></div>
-
-<div>
-<div id="statusTitle" class="status-title">OFFLINE</div>
-<div id="statusSubtitle" class="status-sub">Сейчас отдыхаю</div>
-</div>
-
 <div id="viewerCount" class="viewers"></div>
 
 </div>
-
-<a class="twitch-live-btn" href="https://www.twitch.tv/kmcaq" target="_blank">
-Смотреть Twitch
-</a>
 
 <div class="card" id="currentCard">
 
@@ -693,14 +701,22 @@ async function updateStatus(){
 
   const d=await r.json();
 
-  document.getElementById("statusTitle").textContent=d.live?"LIVE":"OFFLINE";
-  document.getElementById("statusSubtitle").textContent=d.live?d.game:"Сейчас отдыхаю";
-  document.getElementById("viewerCount").textContent=d.live?"👀 "+d.viewers:"";
+const navStatus=document.getElementById("navStatus");
 
-  document.getElementById("statusDot").style.background=d.live?"#ff4d6d":"#9c8db8";
-  document.getElementById("navDot").style.background=d.live?"#ff4d6d":"#9c8db8";
+document.getElementById("navDot").style.background=d.live?"#ff4d6d":"#9c8db8";
+document.getElementById("navText").textContent=d.live?"LIVE":"OFFLINE";
 
-  document.getElementById("navText").textContent=d.live?"LIVE":"OFFLINE";
+if(d.live){
+ navStatus.href="https://www.twitch.tv/kmcaq";
+ navStatus.target="_blank";
+ navStatus.classList.add("live");
+ navStatus.removeAttribute("aria-disabled");
+}else{
+ navStatus.href="#";
+ navStatus.removeAttribute("target");
+ navStatus.classList.remove("live");
+ navStatus.setAttribute("aria-disabled","true");
+}
 
  }catch(e){
 
