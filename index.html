@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,7 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
  --bg:#0f0a17;
  --card:rgba(24,18,38,.72);
@@ -22,15 +22,8 @@
  --live:#ff4d6d;
 }
 
-*{
- margin:0;
- padding:0;
- box-sizing:border-box;
-}
-
-html{
- scroll-behavior:smooth;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 
 body{
  font-family:Nunito,sans-serif;
@@ -38,8 +31,6 @@ body{
  color:var(--text);
  overflow-x:hidden;
 }
-
-/* ---------- ФОН ---------- */
 
 .background{
  position:fixed;
@@ -56,7 +47,7 @@ body{
  z-index:-1;
 }
 
-/* ---------- ШАПКА ---------- */
+/* ШАПКА */
 
 nav{
  position:fixed;
@@ -65,13 +56,13 @@ nav{
  transform:translateX(-50%);
  width:min(1150px,94%);
  padding:12px 18px;
- display:flex;
- justify-content:space-between;
- align-items:center;
  background:rgba(20,18,35,.72);
  backdrop-filter:blur(18px);
  border:1px solid rgba(214,108,255,.15);
  border-radius:999px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
  z-index:1000;
 }
 
@@ -121,6 +112,8 @@ nav{
  background:#9c8db8;
 }
 
+/* SVG-иконки */
+
 .social{
  display:flex;
  gap:10px;
@@ -154,23 +147,39 @@ nav{
  box-shadow:0 0 18px rgba(214,108,255,.25);
 }
 
+/* МЕНЮ */
+
 .menu{
  display:flex;
  gap:18px;
 }
 
 .menu a{
+ position:relative;
  text-decoration:none;
  color:white;
  font-weight:600;
- transition:.2s;
+ transition:.25s;
 }
 
-.menu a:hover{
+.menu a:hover,
+.menu a.active{
  color:var(--accent);
 }
 
-/* ---------- HERO ---------- */
+.menu a.active::after{
+ content:"";
+ position:absolute;
+ left:0;
+ bottom:-8px;
+ width:100%;
+ height:3px;
+ border-radius:999px;
+ background:linear-gradient(90deg,#d66cff,#9146ff);
+ box-shadow:0 0 12px rgba(214,108,255,.45);
+}
+
+/* HERO */
 
 .hero{
  min-height:100vh;
@@ -206,7 +215,7 @@ nav{
  max-width:560px;
 }
 
-/* ---------- СТАТУС ---------- */
+/* СТАТУС */
 
 .status{
  margin-top:34px;
@@ -236,13 +245,11 @@ nav{
  color:#ddd;
 }
 
-.viewers{
- font-weight:800;
-}
+/* КНОПКИ */
 
-/* ---------- КНОПКИ ---------- */
-
-.twitch-live-btn,.button,.link-btn{
+.twitch-live-btn,
+.button,
+.link-btn{
  display:inline-flex;
  align-items:center;
  justify-content:center;
@@ -282,14 +289,10 @@ nav{
  color:white;
 }
 
-/* ---------- АВАТАР ---------- */
-
 .avatar{
  width:min(430px,92%);
  filter:drop-shadow(0 30px 40px rgba(0,0,0,.35));
 }
-
-/* ---------- СЕКЦИИ ---------- */
 
 section{
  max-width:1120px;
@@ -308,18 +311,11 @@ section h2{
  border:1px solid var(--border);
  border-radius:26px;
  padding:30px;
- color:var(--muted);
  line-height:1.8;
+ color:var(--muted);
 }
 
-/* ---------- СЕЙЧАС НА КАНАЛЕ ---------- */
-
-.current-grid{
- display:grid;
- grid-template-columns:1.1fr .9fr;
- gap:28px;
- align-items:center;
-}
+/* Сейчас на канале */
 
 .current-info{
  display:flex;
@@ -332,21 +328,7 @@ section h2{
  color:var(--text);
 }
 
-.current-thumb{
- display:block;
- border-radius:18px;
- overflow:hidden;
- border:1px solid var(--border);
-}
-
-.current-thumb img{
- width:100%;
- aspect-ratio:16/9;
- object-fit:cover;
- display:block;
-}
-
-/* ---------- ССЫЛКИ ---------- */
+/* Ссылки */
 
 .links{
  display:grid;
@@ -378,17 +360,8 @@ section h2{
 
 .link:hover{
  transform:translateY(-6px);
- border-color:rgba(214,108,255,.35);
  box-shadow:0 16px 30px rgba(214,108,255,.18);
-}
-
-.link h3{
- font-size:23px;
-}
-
-.link p{
- flex:1;
- color:var(--muted);
+ border-color:rgba(214,108,255,.35);
 }
 
 .link-btn{
@@ -406,25 +379,19 @@ section h2{
  word-break:break-word;
 }
 
-/* ---------- МОБИЛЬНАЯ ---------- */
+/* МОБИЛЬНАЯ */
 
 @media(max-width:980px){
 
- .nav-status,.social,.menu{
+ .nav-status,
+ .social,
+ .menu{
   display:none;
  }
 
  .hero-grid{
   grid-template-columns:1fr;
   text-align:center;
- }
-
- .hero h1{
-  font-size:54px;
- }
-
- .hero p{
-  margin:auto;
  }
 
  .status{
@@ -435,16 +402,10 @@ section h2{
   justify-content:center;
  }
 
- .current-grid{
-  grid-template-columns:1fr;
- }
-
  .links{
   grid-template-columns:1fr;
  }
-
 }
-
 </style>
 </head>
 
@@ -456,39 +417,33 @@ section h2{
 <nav>
 
 <a href="#" class="logo-wrap">
-
 <img src="avatar.png" alt="Кэм">
-
 <div class="logo">kmcaq</div>
-
 </a>
 
 <div class="nav-right">
 
 <div id="navStatus" class="nav-status">
-
 <span id="navDot" class="nav-dot"></span>
-
 <span id="navText">OFFLINE</span>
-
 </div>
 
 <div class="social">
 
-<a href="https://www.twitch.tv/kmcaq" target="_blank" aria-label="Twitch">
+<a href="https://www.twitch.tv/kmcaq" target="_blank" aria-label="Twitch" title="Twitch">
 <svg viewBox="0 0 24 24">
 <path d="M4 2L2 6v14h5v4l4-4h3l8-8V2H4zm16 9-4 4h-4l-3 3v-3H5V4h15v7z"/>
 <path d="M15 7h2v5h-2zm-5 0h2v5h-2z"/>
 </svg>
 </a>
 
-<a href="https://www.youtube.com/@kmcaq" target="_blank" aria-label="YouTube">
+<a href="https://www.youtube.com/@kmcaq" target="_blank" aria-label="YouTube" title="YouTube">
 <svg viewBox="0 0 24 24">
 <path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C19 3.2 12 3.2 12 3.2s-7 0-9.1.6C1.7 4.1.8 5 .5 6.2 0 8.3 0 12 0 12s0 3.7.5 5.8c.3 1.2 1.2 2.1 2.4 2.4C5 20.8 12 20.8 12 20.8s7 0 9.1-.6c1.2-.3 2.1-1.2 2.4-2.4.5-2.1.5-5.8.5-5.8s0-3.7-.5-5.8zM9.8 15.5V8.5l6 3.5-6 3.5z"/>
 </svg>
 </a>
 
-<a href="https://telegram.me/kmcaq" target="_blank" aria-label="Telegram">
+<a href="https://telegram.me/kmcaq" target="_blank" aria-label="Telegram" title="Telegram">
 <svg viewBox="0 0 24 24">
 <path d="M21.9 2.6L1.7 10.4c-1.4.6-1.4 1.4-.2 1.8l5.2 1.6 2 6.3c.3.9.2 1.3 1.1 1.3.7 0 1-.3 1.4-.7l2.5-2.4 5.2 3.8c1 .5 1.7.3 2-1l3.7-17.5c.5-1.6-.5-2.3-1.5-1.9z"/>
 </svg>
@@ -497,11 +452,9 @@ section h2{
 </div>
 
 <div class="menu">
-
 <a href="#about">О канале</a>
 <a href="#links">Ссылки</a>
 <a href="#schedule">Расписание</a>
-
 </div>
 
 </div>
@@ -530,29 +483,23 @@ section h2{
 <div id="statusSubtitle" class="status-sub">Сейчас отдыхаю</div>
 </div>
 
-<div id="viewerCount" class="viewers"></div>
+<div id="viewerCount"></div>
 
 </div>
 
-<a class="twitch-live-btn"
-href="https://www.twitch.tv/kmcaq"
-target="_blank">
+<a class="twitch-live-btn" href="https://www.twitch.tv/kmcaq" target="_blank">
 Смотреть Twitch
 </a>
 
 <div class="buttons">
-
 <a class="button primary" href="#links">Все ссылки</a>
 <a class="button secondary" href="#schedule">Расписание</a>
-
 </div>
 
 </div>
 
 <div>
-
 <img src="avatar.png" class="avatar" alt="Кэм">
-
 </div>
 
 </div>
@@ -565,30 +512,14 @@ target="_blank">
 
 <div class="card" id="currentCard">
 
-<div class="current-grid">
-
 <div class="current-info">
 
 <h3 id="currentTitle">▶ Последняя серия</h3>
 
 <p id="currentText">Загружаю информацию...</p>
 
-<a id="currentButton"
-class="link-btn"
-href="#"
-target="_blank">
+<a id="currentButton" class="link-btn" href="#" target="_blank">
 Смотреть
-</a>
-
-</div>
-
-<a id="currentThumbLink"
-class="current-thumb"
-href="#"
-target="_blank">
-
-<img id="currentThumb" src="" alt="Последняя серия">
-
 </a>
 
 </div>
@@ -628,7 +559,7 @@ target="_blank">
 
 <div class="link">
 <h3>🏆 Tier List игр</h3>
-<p>Рейтинг игр, которые я прошла или планирую пройти.</p>
+<p>Рейтинг игр.</p>
 <a class="link-btn" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">Перейти</a>
 </div>
 
@@ -640,7 +571,7 @@ target="_blank">
 
 <div class="link">
 <h3>📢 Telegram</h3>
-<p>Анонсы стримов и новости.</p>
+<p>Анонсы и новости.</p>
 <a class="link-btn" href="https://telegram.me/kmcaq" target="_blank">Перейти</a>
 </div>
 
@@ -668,17 +599,7 @@ target="_blank">
 Понедельник — Пятница
 </p>
 
-<div style="
-display:inline-flex;
-align-items:center;
-gap:10px;
-padding:12px 18px;
-border-radius:14px;
-background:rgba(214,108,255,.12);
-border:1px solid rgba(214,108,255,.3);
-font-weight:700;
-font-size:18px;
-color:var(--text);">
+<div style="display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;background:rgba(214,108,255,.12);border:1px solid rgba(214,108,255,.3);font-weight:700;font-size:18px;color:var(--text);">
 🕗 08:00 — 16:00 МСК
 </div>
 
@@ -698,8 +619,8 @@ async function updateStatus(){
 
 try{
 
-const response=await fetch(API);
-const data=await response.json();
+const r=await fetch(API);
+const d=await r.json();
 
 const card=document.getElementById("twitchStatus");
 const nav=document.getElementById("navStatus");
@@ -712,11 +633,11 @@ const dot=document.getElementById("statusDot");
 const navDot=document.getElementById("navDot");
 const navText=document.getElementById("navText");
 
-if(data.live){
+if(d.live){
 
 title.textContent="LIVE";
-sub.textContent=data.game;
-viewers.textContent="👀 "+data.viewers;
+sub.textContent=d.game;
+viewers.textContent="👀 "+d.viewers;
 
 dot.style.background="#ff4d6d";
 navDot.style.background="#ff4d6d";
@@ -760,40 +681,28 @@ async function updateCurrent(){
 
 try{
 
-const response=await fetch(API);
-const data=await response.json();
+const r=await fetch(API);
+const d=await r.json();
 
-const title=document.getElementById("currentTitle");
-const text=document.getElementById("currentText");
-const button=document.getElementById("currentButton");
 const card=document.getElementById("currentCard");
 
-const thumb=document.getElementById("currentThumb");
-const thumbLink=document.getElementById("currentThumbLink");
+if(d.live){
 
-if(data.live){
+document.getElementById("currentTitle").textContent="🔴 Сейчас в эфире";
+document.getElementById("currentText").innerHTML=`<strong>${d.game}</strong><br>👀 ${d.viewers} зрителей`;
 
-title.textContent="🔴 Сейчас в эфире";
-text.innerHTML=`<strong>${data.game}</strong><br>👀 ${data.viewers} зрителей`;
-
-button.textContent="Открыть стрим";
-button.href="https://www.twitch.tv/kmcaq";
-
-thumb.src=data.latestThumbnail;
-thumbLink.href="https://www.twitch.tv/kmcaq";
+document.getElementById("currentButton").textContent="Открыть стрим";
+document.getElementById("currentButton").href="https://www.twitch.tv/kmcaq";
 
 card.style.borderColor="#ff4d6d";
 
 }else{
 
-title.textContent="▶ Последняя серия";
-text.textContent=data.latestTitle;
+document.getElementById("currentTitle").textContent="▶ Последняя серия";
+document.getElementById("currentText").textContent=d.latestTitle;
 
-button.textContent="Смотреть VOD";
-button.href=data.latestVideo;
-
-thumb.src=data.latestThumbnail;
-thumbLink.href=data.latestVideo;
+document.getElementById("currentButton").textContent="Смотреть VOD";
+document.getElementById("currentButton").href=d.latestVideo;
 
 card.style.borderColor="rgba(255,255,255,.12)";
 
@@ -806,6 +715,35 @@ console.error(e);
 }
 
 }
+
+/* Подсветка активного пункта меню */
+
+const navLinks=document.querySelectorAll(".menu a");
+
+const observer=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+navLinks.forEach(link=>link.classList.remove("active"));
+
+const active=document.querySelector(`.menu a[href="#${entry.target.id}"]`);
+
+if(active) active.classList.add("active");
+
+}
+
+});
+
+},{
+ threshold:.35,
+ rootMargin:"-15% 0px -45% 0px"
+});
+
+document.querySelectorAll("section[id]").forEach(section=>{
+ observer.observe(section);
+});
 
 updateStatus();
 updateCurrent();
