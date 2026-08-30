@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>kmcaq | Уютное местечко Кэм</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,13 +18,14 @@
  --text:#faf7ff;
  --muted:#d1c2ea;
  --accent:#d66cff;
+ --live:#ff4d6d;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 
 body{
- font-family:Nunito,sans-serif;
+ font-family:"Nunito",sans-serif;
  background:var(--bg);
  color:var(--text);
  overflow-x:hidden;
@@ -40,25 +42,25 @@ body{
 .overlay{
  position:fixed;
  inset:0;
- background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.88));
+ background:linear-gradient(rgba(15,10,23,.18),rgba(15,10,23,.9));
  z-index:-1;
 }
 
-/* ---------- Шапка ---------- */
+/* ---------------- ШАПКА ---------------- */
 
 nav{
  position:fixed;
- top:16px;
+ top:14px;
  left:50%;
  transform:translateX(-50%);
- width:min(1150px,94%);
+ width:min(1160px,95%);
  padding:12px 18px;
  display:flex;
  justify-content:space-between;
  align-items:center;
- background:rgba(20,18,35,.72);
- backdrop-filter:blur(18px);
- border:1px solid rgba(214,108,255,.15);
+ background:rgba(18,15,30,.74);
+ backdrop-filter:blur(22px);
+ border:1px solid rgba(214,108,255,.16);
  border-radius:999px;
  z-index:1000;
 }
@@ -71,11 +73,11 @@ nav{
 }
 
 .logo-wrap img{
- width:42px;
- height:42px;
+ width:44px;
+ height:44px;
  border-radius:50%;
  border:2px solid rgba(214,108,255,.45);
- box-shadow:0 0 16px rgba(214,108,255,.25);
+ box-shadow:0 0 18px rgba(214,108,255,.25);
 }
 
 .logo{
@@ -109,8 +111,6 @@ nav{
  background:#9c8db8;
 }
 
-/* ---------- SVG иконки ---------- */
-
 .social{
  display:flex;
  gap:10px;
@@ -123,10 +123,9 @@ nav{
  display:flex;
  align-items:center;
  justify-content:center;
- background:rgba(255,255,255,.06);
+ background:rgba(255,255,255,.05);
  border:1px solid var(--border);
  color:white;
- text-decoration:none;
  transition:.25s;
 }
 
@@ -137,30 +136,27 @@ nav{
 }
 
 .social a:hover{
- background:rgba(214,108,255,.15);
- border-color:rgba(214,108,255,.4);
  color:var(--accent);
+ border-color:rgba(214,108,255,.45);
+ background:rgba(214,108,255,.12);
  transform:translateY(-2px);
- box-shadow:0 0 18px rgba(214,108,255,.25);
 }
-
-/* ---------- Меню ---------- */
 
 .menu{
  display:flex;
- gap:18px;
+ gap:22px;
 }
 
 .menu a{
  position:relative;
  text-decoration:none;
  color:white;
- font-weight:600;
+ font-weight:700;
  transition:.25s;
 }
 
-.menu a:hover,
-.menu a.active{
+.menu a.active,
+.menu a:hover{
  color:var(--accent);
 }
 
@@ -176,7 +172,7 @@ nav{
  box-shadow:0 0 12px rgba(214,108,255,.45);
 }
 
-/* ---------- Hero ---------- */
+/* ---------------- HERO ---------------- */
 
 .hero{
  min-height:100vh;
@@ -191,8 +187,8 @@ nav{
  gap:40px;
  align-items:center;
  max-width:1200px;
- width:100%;
  margin:auto;
+ width:100%;
 }
 
 .hero h1{
@@ -205,14 +201,19 @@ nav{
 }
 
 .hero p{
- margin-top:20px;
+ margin-top:22px;
  font-size:21px;
  line-height:1.7;
  color:var(--muted);
  max-width:560px;
 }
 
-/* ---------- Статус ---------- */
+.avatar{
+ width:min(430px,92%);
+ filter:drop-shadow(0 30px 45px rgba(0,0,0,.35));
+}
+
+/* ---------------- СТАТУС ---------------- */
 
 .status{
  margin-top:34px;
@@ -242,7 +243,11 @@ nav{
  color:#ddd;
 }
 
-/* ---------- Кнопки ---------- */
+.viewers{
+ font-weight:800;
+}
+
+/* ---------------- КНОПКИ ---------------- */
 
 .twitch-live-btn,
 .button,
@@ -252,12 +257,12 @@ nav{
  justify-content:center;
  text-decoration:none;
  font-weight:700;
- transition:.2s;
+ transition:.25s;
 }
 
 .twitch-live-btn{
  margin-top:18px;
- padding:14px 24px;
+ padding:14px 26px;
  border-radius:16px;
  background:linear-gradient(135deg,#9146FF,#6b2cff);
  color:white;
@@ -265,6 +270,7 @@ nav{
 
 .twitch-live-btn:hover{
  transform:translateY(-2px);
+ box-shadow:0 10px 28px rgba(145,70,255,.35);
 }
 
 .buttons{
@@ -294,55 +300,60 @@ nav{
  transform:translateY(-2px);
 }
 
-/* ---------- Аватар ---------- */
-
-.avatar{
- width:min(430px,92%);
- filter:drop-shadow(0 30px 40px rgba(0,0,0,.35));
-}
-
-/* ---------- Секции ---------- */
+/* ---------------- СЕКЦИИ ---------------- */
 
 section{
  max-width:1120px;
  margin:auto;
- padding:90px 24px;
+ padding:96px 24px;
 }
 
 section h2{
- font-size:36px;
- margin-bottom:28px;
+ font-size:40px;
+ margin-bottom:30px;
 }
 
 .card{
  background:var(--card);
- backdrop-filter:blur(20px);
+ backdrop-filter:blur(22px);
  border:1px solid var(--border);
- border-radius:26px;
- padding:30px;
- line-height:1.8;
+ border-radius:28px;
+ padding:32px;
  color:var(--muted);
 }
 
-/* ---------- Сейчас на канале ---------- */
+/* ---------------- СЕЙЧАС НА КАНАЛЕ ---------------- */
+
+.current-row{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:24px;
+ flex-wrap:wrap;
+}
 
 .current-info{
  display:flex;
  flex-direction:column;
- gap:18px;
+ gap:12px;
 }
 
 .current-info h3{
- font-size:28px;
- color:var(--text);
+ color:white;
+ font-size:30px;
 }
 
-/* ---------- Карточки ---------- */
+.current-info p{
+ font-size:18px;
+ color:var(--muted);
+}
+
+/* ---------------- ССЫЛКИ ---------------- */
 
 .links{
  display:grid;
  grid-template-columns:repeat(3,minmax(220px,1fr));
- gap:22px;
+ gap:24px;
 }
 
 .link{
@@ -351,10 +362,10 @@ section h2{
  border:1px solid var(--border);
  border-radius:24px;
  padding:24px;
+ min-height:220px;
  display:flex;
  flex-direction:column;
  gap:18px;
- min-height:220px;
  position:relative;
  transition:.25s;
 }
@@ -362,19 +373,20 @@ section h2{
 .link::after{
  content:"↗";
  position:absolute;
- top:18px;
  right:18px;
+ top:18px;
  opacity:.25;
 }
 
 .link:hover{
  transform:translateY(-6px);
- border-color:rgba(214,108,255,.35);
- box-shadow:0 16px 30px rgba(214,108,255,.18);
+ border-color:rgba(214,108,255,.4);
+ box-shadow:0 18px 34px rgba(214,108,255,.16);
 }
 
 .link h3{
  font-size:23px;
+ color:white;
 }
 
 .link p{
@@ -395,15 +407,56 @@ section h2{
  font-size:22px;
  font-weight:800;
  word-break:break-word;
+ color:white;
 }
 
-/* ---------- Мобильная ---------- */
+/* ---------------- РАСПИСАНИЕ ---------------- */
+
+.schedule-grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(220px,1fr));
+ gap:28px;
+ margin-bottom:28px;
+}
+
+.schedule-item{
+ display:flex;
+ flex-direction:column;
+ gap:10px;
+}
+
+.schedule-label{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ color:white;
+ font-weight:800;
+ font-size:20px;
+}
+
+.schedule-value{
+ color:var(--muted);
+ font-size:18px;
+}
+
+.time-pill{
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
+ width:fit-content;
+ padding:12px 18px;
+ border-radius:14px;
+ background:rgba(214,108,255,.12);
+ border:1px solid rgba(214,108,255,.3);
+ font-weight:700;
+ color:white;
+}
+
+/* ---------------- МОБИЛЬНАЯ ---------------- */
 
 @media(max-width:980px){
 
- .nav-status,
- .social,
- .menu{
+ .nav-status,.social,.menu{
   display:none;
  }
 
@@ -428,7 +481,16 @@ section h2{
   justify-content:center;
  }
 
+ .current-row{
+  flex-direction:column;
+  align-items:flex-start;
+ }
+
  .links{
+  grid-template-columns:1fr;
+ }
+
+ .schedule-grid{
   grid-template-columns:1fr;
  }
 }
@@ -457,22 +519,15 @@ section h2{
 <div class="social">
 
 <a href="https://www.twitch.tv/kmcaq" target="_blank" aria-label="Twitch">
-<svg viewBox="0 0 24 24">
-<path d="M4 2L2 6v14h5v4l4-4h3l8-8V2H4zm16 9-4 4h-4l-3 3v-3H5V4h15v7z"/>
-<path d="M15 7h2v5h-2zm-5 0h2v5h-2z"/>
-</svg>
+<svg viewBox="0 0 24 24"><path d="M4 2L2 6v14h5v4l4-4h3l8-8V2H4zm16 9-4 4h-4l-3 3v-3H5V4h15v7z"/><path d="M15 7h2v5h-2zm-5 0h2v5h-2z"/></svg>
 </a>
 
 <a href="https://www.youtube.com/@kmcaq" target="_blank" aria-label="YouTube">
-<svg viewBox="0 0 24 24">
-<path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C19 3.2 12 3.2 12 3.2s-7 0-9.1.6C1.7 4.1.8 5 .5 6.2 0 8.3 0 12 0 12s0 3.7.5 5.8c.3 1.2 1.2 2.1 2.4 2.4C5 20.8 12 20.8 12 20.8s7 0 9.1-.6c1.2-.3 2.1-1.2 2.4-2.4.5-2.1.5-5.8.5-5.8s0-3.7-.5-5.8zM9.8 15.5V8.5l6 3.5-6 3.5z"/>
-</svg>
+<svg viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C19 3.2 12 3.2 12 3.2s-7 0-9.1.6C1.7 4.1.8 5 .5 6.2 0 8.3 0 12 0 12s0 3.7.5 5.8c.3 1.2 1.2 2.1 2.4 2.4C5 20.8 12 20.8 12 20.8s7 0 9.1-.6c1.2-.3 2.1-1.2 2.4-2.4.5-2.1.5-5.8.5-5.8s0-3.7-.5-5.8zM9.8 15.5V8.5l6 3.5-6 3.5z"/></svg>
 </a>
 
 <a href="https://telegram.me/kmcaq" target="_blank" aria-label="Telegram">
-<svg viewBox="0 0 24 24">
-<path d="M21.9 2.6L1.7 10.4c-1.4.6-1.4 1.4-.2 1.8l5.2 1.6 2 6.3c.3.9.2 1.3 1.1 1.3.7 0 1-.3 1.4-.7l2.5-2.4 5.2 3.8c1 .5 1.7.3 2-1l3.7-17.5c.5-1.6-.5-2.3-1.5-1.9z"/>
-</svg>
+<svg viewBox="0 0 24 24"><path d="M21.9 2.6L1.7 10.4c-1.4.6-1.4 1.4-.2 1.8l5.2 1.6 2 6.3c.3.9.2 1.3 1.1 1.3.7 0 1-.3 1.4-.7l2.5-2.4 5.2 3.8c1 .5 1.7.3 2-1l3.7-17.5c.5-1.6-.5-2.3-1.5-1.9z"/></svg>
 </a>
 
 </div>
@@ -504,12 +559,12 @@ section h2{
 
 <div id="statusDot" class="status-dot"></div>
 
-<div class="status-text">
+<div>
 <div id="statusTitle" class="status-title">OFFLINE</div>
 <div id="statusSubtitle" class="status-sub">Сейчас отдыхаю</div>
 </div>
 
-<div id="viewerCount"></div>
+<div id="viewerCount" class="viewers"></div>
 
 </div>
 
@@ -538,11 +593,15 @@ section h2{
 
 <div class="card" id="currentCard">
 
+<div class="current-row">
+
 <div class="current-info">
 
 <h3 id="currentTitle">▶ Последняя серия</h3>
 
 <p id="currentText">Загружаю информацию...</p>
+
+</div>
 
 <a id="currentButton" class="link-btn" href="#" target="_blank">
 Смотреть
@@ -559,8 +618,10 @@ section h2{
 <h2>О канале</h2>
 
 <div class="card">
+
 Впервые прохожу игры и хочу переживать этот опыт вместе со зрителями.
 Главное правило чата — никаких спойлеров и подсказок, если я сама их не попросила.
+
 </div>
 
 </section>
@@ -585,7 +646,7 @@ section h2{
 
 <div class="link">
 <h3>🏆 Tier List игр</h3>
-<p>Рейтинг игр.</p>
+<p>Рейтинг игр, которые я прошла или планирую пройти.</p>
 <a class="link-btn" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">Перейти</a>
 </div>
 
@@ -617,21 +678,37 @@ section h2{
 
 <div class="card">
 
-<h3 style="margin-bottom:16px;color:var(--text);font-size:26px;">
+<div class="schedule-grid">
+
+<div class="schedule-item">
+
+<div class="schedule-label">
 📅 Когда проходят стримы
-</h3>
-
-<p style="margin-bottom:18px;font-size:20px;font-weight:700;color:var(--text);">
-Понедельник — Пятница
-</p>
-
-<div style="display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;background:rgba(214,108,255,.12);border:1px solid rgba(214,108,255,.3);font-weight:700;font-size:18px;color:var(--text);">
-🕗 08:00 — 16:00 МСК
 </div>
 
-<p style="margin-top:20px;">
-Если график меняется, я заранее сообщаю об этом в Telegram и на Twitch.
-</p>
+<div class="schedule-value">
+Понедельник — Пятница
+</div>
+
+</div>
+
+<div class="schedule-item">
+
+<div class="schedule-label">
+🕗 Время
+</div>
+
+<div class="time-pill">
+08:00 — 16:00 МСК
+</div>
+
+</div>
+
+</div>
+
+<div style="height:1px;background:rgba(255,255,255,.08);margin:26px 0;"></div>
+
+<p>Если график меняется — заранее сообщаю в Telegram.</p>
 
 </div>
 
@@ -648,13 +725,9 @@ async function updateStatus(){
 try{
 
 const r=await fetch(API,{cache:"no-store"});
-
 if(!r.ok) throw new Error();
 
 const d=await r.json();
-
-const card=document.getElementById("twitchStatus");
-const nav=document.getElementById("navStatus");
 
 document.getElementById("statusTitle").textContent=d.live?"LIVE":"OFFLINE";
 document.getElementById("statusSubtitle").textContent=d.live?d.game:"Сейчас отдыхаю";
@@ -662,12 +735,6 @@ document.getElementById("viewerCount").textContent=d.live?"👀 "+d.viewers:"";
 
 document.getElementById("statusDot").style.background=d.live?"#ff4d6d":"#9c8db8";
 document.getElementById("navDot").style.background=d.live?"#ff4d6d":"#9c8db8";
-
-card.style.background=d.live?"rgba(255,77,109,.12)":"rgba(180,120,255,.12)";
-card.style.borderColor=d.live?"#ff4d6d":"rgba(180,120,255,.3)";
-
-nav.style.background=d.live?"rgba(255,77,109,.12)":"rgba(180,120,255,.12)";
-nav.style.borderColor=d.live?"#ff4d6d":"rgba(180,120,255,.25)";
 
 document.getElementById("navText").textContent=d.live?"LIVE":"OFFLINE";
 
@@ -691,7 +758,6 @@ const card=document.getElementById("currentCard");
 try{
 
 const response=await fetch(API,{cache:"no-store"});
-
 if(!response.ok) throw new Error();
 
 const data=await response.json();
@@ -726,8 +792,6 @@ text.textContent="Открыть последнюю запись на YouTube";
 
 button.textContent="Смотреть VOD";
 button.href="https://www.youtube.com/@kmcaq";
-
-card.style.borderColor="rgba(255,255,255,.12)";
 }
 
 }
