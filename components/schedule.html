@@ -1,3 +1,57 @@
+<style>
+.schedule-grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(220px,1fr));
+ gap:28px;
+ margin-bottom:28px;
+}
+
+.schedule-item{
+ display:flex;
+ flex-direction:column;
+ gap:10px;
+}
+
+.schedule-label{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ color:white;
+ font-weight:800;
+ font-size:20px;
+}
+
+.schedule-value{
+ color:var(--muted);
+ font-size:18px;
+}
+
+.time-pill{
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
+ width:fit-content;
+ padding:12px 18px;
+ border-radius:14px;
+ background:rgba(214,108,255,.12);
+ border:1px solid rgba(214,108,255,.3);
+ color:white;
+ font-weight:700;
+}
+
+.schedule-divider{
+ height:1px;
+ background:rgba(255,255,255,.08);
+ margin:26px 0;
+}
+
+@media(max-width:980px){
+ .schedule-grid{
+  grid-template-columns:1fr;
+ }
+}
+</style>
+
 <section id="schedule">
 
 <h2>Расписание</h2>
@@ -8,9 +62,7 @@
 
 <div class="schedule-item">
 
-<div class="schedule-label">
-📅 Когда проходят стримы
-</div>
+<div class="schedule-label">📅 Когда проходят стримы</div>
 
 <div class="schedule-value">
 Понедельник — Пятница
@@ -20,9 +72,7 @@
 
 <div class="schedule-item">
 
-<div class="schedule-label">
-🕗 Время
-</div>
+<div class="schedule-label">🕗 Время</div>
 
 <div class="time-pill">
 08:00 — 16:00 МСК
@@ -34,9 +84,7 @@
 
 <div class="schedule-divider"></div>
 
-<p>
-Если график меняется — заранее сообщаю в Telegram.
-</p>
+<p>Если график меняется — заранее сообщаю в Telegram.</p>
 
 </div>
 
