@@ -202,8 +202,8 @@ nav{
 
 .hero-grid{
  display:grid;
- grid-template-columns:1fr .9fr;
- gap:56px;
+ grid-template-columns:1.05fr .95fr;
+ gap:40px;
  align-items:center;
  max-width:1200px;
  margin:auto;
@@ -243,7 +243,10 @@ nav{
  color:white;
 }
 
-
+.avatar{
+ width:min(430px,92%);
+ filter:drop-shadow(0 30px 45px rgba(0,0,0,.35));
+}
 
 /* ---------------- КНОПКИ ---------------- */
 
@@ -284,7 +287,6 @@ section h2{
  margin-bottom:30px;
 }
 
-
 .card{
  background:var(--card);
  backdrop-filter:blur(22px);
@@ -292,85 +294,68 @@ section h2{
  border-radius:28px;
  padding:32px;
  color:var(--muted);
-}
-
-
-.hero-panel{
- background:var(--card);
- backdrop-filter:blur(22px);
- border:1px solid rgba(214,108,255,.18);
- border-radius:32px;
- padding:42px;
- display:flex;
- flex-direction:column;
- justify-content:space-between;
- box-shadow:0 18px 40px rgba(0,0,0,.28);
-}
 
 #currentCard{
- max-width:520px;
- margin-top:28px;
- min-height:170px;
- background:rgba(15,10,23,.45);
- border:1px solid rgba(214,108,255,.45);
- border-radius:24px;
- padding:22px;
- overflow:hidden;
- transition:border-color .35s ease, box-shadow .35s ease;
+ transition:
+  border-color .35s ease,
+  box-shadow .35s ease,
+  transform .35s ease;
 }
 
 #currentCard.live-now{
  animation:liveGlow 3.5s ease-in-out infinite;
+ box-shadow:
+  0 0 0 rgba(255,77,109,0),
+  0 0 32px rgba(255,77,109,.16),
+  0 0 60px rgba(145,70,255,.12);
 }
 
 @keyframes liveGlow{
- 0%,100%{box-shadow:0 0 16px rgba(255,77,109,.12),0 0 34px rgba(145,70,255,.08);}
- 50%{box-shadow:0 0 24px rgba(255,77,109,.22),0 0 46px rgba(145,70,255,.16);}
+ 0%,100%{
+  transform:translateY(0);
+  box-shadow:
+   0 0 0 rgba(255,77,109,0),
+   0 0 24px rgba(255,77,109,.14),
+   0 0 48px rgba(145,70,255,.10);
+ }
+
+ 50%{
+  transform:translateY(-2px);
+  box-shadow:
+   0 0 18px rgba(255,77,109,.22),
+   0 0 40px rgba(255,77,109,.22),
+   0 0 70px rgba(145,70,255,.18);
+ }
 }
-
-.current-row{
- display:flex;
- flex-direction:column;
- justify-content:space-between;
- align-items:flex-start;
- height:100%;
- gap:16px;
+ 
 }
-
-.current-info h3{font-size:22px;color:white;}
-.current-info p{font-size:18px;color:var(--muted);}
-#currentButton{align-self:flex-end;padding:12px 22px;}
-
-.avatar-frame{
- position:relative;
- width:min(400px,92%);
- border-radius:28px;
- overflow:hidden;
- background:rgba(24,18,38,.55);
- backdrop-filter:blur(22px);
- border:1px solid rgba(255,255,255,.18);
- box-shadow:0 20px 45px rgba(0,0,0,.35),0 0 24px rgba(214,108,255,.12);
-}
-
-.avatar-frame::before{
- content:"";
- position:absolute;
- inset:0;
- border-radius:inherit;
- padding:1px;
- background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(214,108,255,.25),rgba(255,255,255,.08));
- -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
- -webkit-mask-composite:xor;
- mask-composite:exclude;
- pointer-events:none;
-}
-
-
 
 /* ---------------- СЕЙЧАС НА КАНАЛЕ ---------------- */
 
+.current-row{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-start;
+ gap:24px;
+ flex-wrap:wrap;
+ padding-top:34px;
+}
 
+.current-info{
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+}
 
+.current-info h3{
+ color:white;
+ font-size:30px;
+}
+
+.current-info p{
+ font-size:18px;
+ color:var(--muted);
+}
 
 /* ---------------- ССЫЛКИ ---------------- */
 
@@ -573,7 +558,7 @@ section h2{
 
 <div class="hero-grid">
 
-<div class="hero-panel">
+<div>
 
 <h1>Привет, я <span>Кэм</span></h1>
 
@@ -581,6 +566,8 @@ section h2{
 Впервые прохожу сюжетные игры и делюсь настоящими эмоциями.
 Без спойлеров, без токсичности и с уютной атмосферой.
 </p>
+
+</div>
 
 <div class="card" id="currentCard">
 
@@ -602,9 +589,7 @@ section h2{
 
 </div>
 
-</div>
-
-<div class="avatar-frame">
+<div>
  <img src="avatar.png" class="avatar" alt="Кэм">
 </div>
 
@@ -768,7 +753,7 @@ async function updateCurrent(){
    button.href="https://www.twitch.tv/kmcaq";
 
    card.style.borderColor="#ff4d6d";
-    card.classList.add("live-now");
+   card.classList.add("live-now");
 
   }else{
 
@@ -779,7 +764,7 @@ async function updateCurrent(){
    button.href=data.latestVideo || "https://www.youtube.com/@kmcaq";
 
    card.style.borderColor="rgba(255,255,255,.12)";
-    card.classList.remove("live-now");
+   card.classList.remove("live-now");
   }
 
  }catch(error){
@@ -793,7 +778,7 @@ async function updateCurrent(){
   button.href="https://www.youtube.com/@kmcaq";
 
   card.style.borderColor="rgba(255,255,255,.12)";
-    card.classList.remove("live-now");
+  card.classList.remove("live-now");
  }
 
 }
