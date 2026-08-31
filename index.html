@@ -372,6 +372,10 @@ section{
  scroll-margin-top:60px;
 }
 
+section:last-of-type{
+ padding-bottom:220px;
+}
+
 section h2{
  font-size:40px;
  margin-bottom:30px;
@@ -885,7 +889,7 @@ const menuLinks={
 
 function updateActiveMenu(){
 
- const marker=120;
+ const marker=170;
 
  const home=document.getElementById("home").getBoundingClientRect();
  const links=document.getElementById("links").getBoundingClientRect();
