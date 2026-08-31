@@ -325,7 +325,9 @@ window.addEventListener("keydown",e=>{
 
 /* ---------- Игры ---------- */
 
-fetch("games.json",{cache:"no-cache"})
+window.initGameshelf=function(){
+
+fetch("data/games.json",{cache:"no-cache"})
 .then(r=>r.json())
 .then(games=>{
 
@@ -404,3 +406,6 @@ fetch("games.json",{cache:"no-cache"})
  container.innerHTML="<p>Не удалось загрузить игровую полку.</p>";
 
 });
+
+}
+
