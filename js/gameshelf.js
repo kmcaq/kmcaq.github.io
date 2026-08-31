@@ -1,57 +1,61 @@
-/* ================================
+/* ==========================================
    Игровая полка kmcaq
-================================ */
+   Финальная версия v2 (TierMaker Layout)
+========================================== */
 
 const TIERS = [
-  { id: "S", title: "Легендарно", glow: "0 0 28px rgba(214,108,255,.45)" },
-  { id: "A", title: "Отлично", glow: "0 0 18px rgba(214,108,255,.30)" },
-  { id: "B", title: "Хорошо", glow: "0 0 12px rgba(214,108,255,.18)" },
-  { id: "C", title: "Нормально", glow: "0 0 8px rgba(214,108,255,.10)" },
+  { id: "S", title: "Легендарно", glow: "0 0 22px rgba(214,108,255,.45)" },
+  { id: "A", title: "Отлично", glow: "0 0 14px rgba(214,108,255,.30)" },
+  { id: "B", title: "Хорошо", glow: "0 0 10px rgba(214,108,255,.18)" },
+  { id: "C", title: "Нормально", glow: "0 0 8px rgba(214,108,255,.12)" },
   { id: "D", title: "Слабо", glow: "none" },
   { id: "F", title: "Не понравилось", glow: "none" }
 ];
 
 const style = document.createElement("style");
 style.textContent = `
+
+/* ---------- Полка ---------- */
+
 #gameshelfContainer{
  display:flex;
  flex-direction:column;
- gap:12px;
+ gap:8px;
 }
 
 .tier-row{
+ display:grid;
+ grid-template-columns:72px 1fr;
+ align-items:center;
+ gap:12px;
  background:var(--card);
  backdrop-filter:blur(22px);
  border:1px solid var(--border);
- border-radius:28px;
- padding:16px 18px;
-}
-
-.tier-head{
- display:flex;
- align-items:center;
- gap:18px;
- margin-bottom:12px;
+ border-radius:24px;
+ padding:10px 12px;
 }
 
 .tier-box{
- width:56px;
- height:56px;
- border-radius:18px;
+ width:48px;
+ height:48px;
+ border-radius:14px;
  display:flex;
  align-items:center;
  justify-content:center;
- font-size:30px;
+ font-size:24px;
  font-weight:800;
+ color:white;
  background:rgba(214,108,255,.14);
  border:1px solid rgba(214,108,255,.28);
- color:white;
+ margin:auto;
+ transition:.25s;
 }
 
 .tier-grid{
  display:grid;
- grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
- gap:18px;
+ grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+ gap:8px;
+ align-items:center;
 }
 
 .game-card{
@@ -60,31 +64,24 @@ style.textContent = `
 }
 
 .game-card:hover{
- transform:translateY(-6px);
+ transform:translateY(-3px) scale(1.02);
 }
 
 .game-card.active{
- transform:translateY(-4px) scale(1.03);
+ transform:scale(1.03);
 }
 
 .game-cover{
  width:100%;
  aspect-ratio:460/215;
  object-fit:cover;
- border-radius:14px;
- border:1px solid rgba(255,255,255,.12);
- transition:.22s;
+ border-radius:12px;
+ border:1px solid rgba(255,255,255,.10);
+ transition:.25s;
+ display:block;
 }
 
-.game-name{
- margin-top:8px;
- text-align:center;
- font-size:15px;
- font-weight:700;
- color:white;
-}
-
-/* -------- Модалка -------- */
+/* ---------- Модалка ---------- */
 
 .gm-overlay{
  position:fixed;
@@ -107,7 +104,7 @@ style.textContent = `
 }
 
 .gm-modal{
- background:rgba(24,18,38,.95);
+ background:rgba(24,18,38,.96);
  border:1px solid rgba(255,255,255,.12);
  border-radius:28px;
  width:min(760px,100%);
@@ -151,6 +148,7 @@ style.textContent = `
  border:1px solid rgba(214,108,255,.3);
  font-weight:800;
  margin-bottom:10px;
+ width:fit-content;
 }
 
 .gm-title{
@@ -195,7 +193,23 @@ style.textContent = `
  transform:translateY(-2px);
 }
 
+/* ---------- Телефон ---------- */
+
 @media(max-width:720px){
+
+ .tier-row{
+  grid-template-columns:56px 1fr;
+ }
+
+ .tier-box{
+  width:40px;
+  height:40px;
+  font-size:20px;
+ }
+
+ .tier-grid{
+  grid-template-columns:repeat(2,1fr);
+ }
 
  .gm-content{
   grid-template-columns:1fr;
@@ -210,20 +224,22 @@ style.textContent = `
   grid-template-columns:1fr;
  }
 
- .tier-grid{
-  grid-template-columns:repeat(2,1fr);
- }
-
 }
+
 `;
+
 document.head.appendChild(style);
 
-const container = document.getElementById("gameshelfContainer");
+/* ---------- Контейнер ---------- */
 
-const overlay = document.createElement("div");
-overlay.className = "gm-overlay";
+const container=document.getElementById("gameshelfContainer");
 
-overlay.innerHTML = `
+/* ---------- Модалка ---------- */
+
+const overlay=document.createElement("div");
+overlay.className="gm-overlay";
+
+overlay.innerHTML=`
 <div class="gm-modal">
 
 <button class="gm-close">&times;</button>
@@ -275,7 +291,7 @@ overlay.innerHTML = `
 
 document.body.appendChild(overlay);
 
-let activeCard = null;
+let activeCard=null;
 
 function closeModal(){
 
@@ -285,21 +301,21 @@ function closeModal(){
 
   activeCard.classList.remove("active");
 
-  activeCard.querySelector(".game-cover").style.boxShadow = activeCard.dataset.shadow;
+  activeCard.querySelector(".game-cover").style.boxShadow=activeCard.dataset.shadow;
 
  }
 
- activeCard = null;
+ activeCard=null;
 
 }
 
-overlay.addEventListener("click", e=>{
+overlay.addEventListener("click",e=>{
 
  if(e.target===overlay) closeModal();
 
 });
 
-overlay.querySelector(".gm-close").onclick = closeModal;
+overlay.querySelector(".gm-close").onclick=closeModal;
 
 window.addEventListener("keydown",e=>{
 
@@ -307,32 +323,20 @@ window.addEventListener("keydown",e=>{
 
 });
 
-fetch("games.json", {
-  cache: "no-cache"
-})
+/* ---------- Игры ---------- */
 
+fetch("games.json",{cache:"no-cache"})
 .then(r=>r.json())
-
 .then(games=>{
 
  TIERS.forEach(tier=>{
 
   const row=document.createElement("div");
-
   row.className="tier-row";
 
   row.innerHTML=`
-  <div class="tier-head">
-
     <div class="tier-box">${tier.id}</div>
-
-    <div>
-      <h3>${tier.title}</h3>
-    </div>
-
-  </div>
-
-  <div class="tier-grid"></div>
+    <div class="tier-grid"></div>
   `;
 
   row.querySelector(".tier-box").style.boxShadow=tier.glow;
@@ -340,22 +344,17 @@ fetch("games.json", {
   const grid=row.querySelector(".tier-grid");
 
   games
-
    .filter(g=>g.tier===tier.id)
-
    .forEach(game=>{
 
     const card=document.createElement("div");
-
     card.className="game-card";
-
     card.dataset.shadow=tier.glow;
 
     card.innerHTML=`
       <img class="game-cover"
            src="${game.cover}"
            alt="${game.name}">
-      <div class="game-name">${game.name}</div>
     `;
 
     card.querySelector(".game-cover").style.boxShadow=tier.glow;
@@ -371,11 +370,10 @@ fetch("games.json", {
       }
 
       activeCard=card;
-
       card.classList.add("active");
 
       card.querySelector(".game-cover").style.boxShadow=
-        "0 0 30px rgba(214,108,255,.55)";
+      "0 0 26px rgba(214,108,255,.55)";
 
       overlay.querySelector(".gm-cover").src=game.cover;
       overlay.querySelector(".gm-cover").alt=game.name;
@@ -401,7 +399,6 @@ fetch("games.json", {
  });
 
 })
-
 .catch(()=>{
 
  container.innerHTML="<p>Не удалось загрузить игровую полку.</p>";
