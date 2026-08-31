@@ -254,6 +254,8 @@ nav{
  box-shadow:
   0 20px 45px rgba(0,0,0,.35),
   0 0 24px rgba(214,108,255,.12);
+ animation:avatarFloat 8s ease-in-out infinite;
+ will-change:transform;
 }
 
 .avatar-frame::before{
@@ -263,14 +265,14 @@ nav{
  border-radius:inherit;
  padding:1px;
  background:linear-gradient(
-  135deg,
-  rgba(255,255,255,.35),
-  rgba(214,108,255,.25),
-  rgba(255,255,255,.08)
+ 135deg,
+ rgba(255,255,255,.35),
+ rgba(214,108,255,.25),
+ rgba(255,255,255,.08)
  );
  -webkit-mask:
-  linear-gradient(#fff 0 0) content-box,
-  linear-gradient(#fff 0 0);
+ linear-gradient(#fff 0 0) content-box,
+ linear-gradient(#fff 0 0);
  -webkit-mask-composite:xor;
  mask-composite:exclude;
  pointer-events:none;
@@ -280,6 +282,58 @@ nav{
  width:100%;
  display:block;
  border-radius:28px;
+}
+
+@keyframes avatarFloat{
+ 0%,100%{
+  transform:translateY(0px) rotate(-0.4deg);
+ }
+ 50%{
+  transform:translateY(-3px) rotate(0.4deg);
+ }
+}
+
+/* ---------------- ПЫЛИНКИ ---------------- */
+
+.particles{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:-1;
+ overflow:hidden;
+}
+
+.particles::before,
+.particles::after{
+ content:"";
+ position:absolute;
+ inset:-20%;
+ background-repeat:repeat;
+ opacity:.28;
+ animation:particlesMove 40s linear infinite;
+}
+
+.particles::before{
+ background-image:
+ radial-gradient(circle,rgba(255,255,255,.55) 1px,transparent 1.5px);
+ background-size:90px 90px;
+}
+
+.particles::after{
+ background-image:
+ radial-gradient(circle,rgba(214,108,255,.35) .8px,transparent 1.3px);
+ background-size:140px 140px;
+ animation-duration:60s;
+ animation-direction:reverse;
+}
+
+@keyframes particlesMove{
+ from{
+  transform:translateY(0);
+ }
+ to{
+  transform:translateY(-120px);
+ }
 }
 
 /* ---------------- КНОПКИ ---------------- */
@@ -543,6 +597,7 @@ section h2{
 
 <div class="background"></div>
 <div class="overlay"></div>
+<div class="particles"></div>
 
 <nav>
 
@@ -828,18 +883,19 @@ const menuLinks={
 
 function updateActiveMenu(){
 
- const scroll=window.scrollY+140;
+ const scroll=window.scrollY+window.innerHeight*0.35;
 
- const linksTop=document.getElementById("links").offsetTop;
- const scheduleTop=document.getElementById("schedule").offsetTop;
+ const home=document.getElementById("home");
+ const links=document.getElementById("links");
+ const schedule=document.getElementById("schedule");
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- if(scroll<linksTop){
+ if(scroll<links.offsetTop){
 
   menuLinks.home.classList.add("active");
 
- }else if(scroll<scheduleTop){
+ }else if(scroll<schedule.offsetTop){
 
   menuLinks.links.classList.add("active");
 
@@ -852,6 +908,14 @@ function updateActiveMenu(){
 }
 
 window.addEventListener("scroll",updateActiveMenu);
+
+window.addEventListener("scroll",()=>{
+
+ const y=window.scrollY*0.08;
+
+ document.querySelector(".background").style.transform=`translateY(${y}px)`;
+
+});
 
 updateStatus();
 updateCurrent();
