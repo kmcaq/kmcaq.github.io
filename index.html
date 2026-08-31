@@ -229,7 +229,7 @@ nav{
 
 .about-card{
  margin-top:30px;
- background:var(--card);
+
  border:1px solid var(--border);
  backdrop-filter:blur(22px);
  border-radius:24px;
@@ -294,27 +294,28 @@ section h2{
  border-radius:28px;
  padding:32px;
  color:var(--muted);
+}
 
 #currentCard{
  transition:
   border-color .35s ease,
   box-shadow .35s ease,
   transform .35s ease;
+ margin-top:70px;
 }
 
 #currentCard.live-now{
  animation:liveGlow 3.5s ease-in-out infinite;
  box-shadow:
-  0 0 0 rgba(255,77,109,0),
-  0 0 32px rgba(255,77,109,.16),
-  0 0 60px rgba(145,70,255,.12);
+  0 0 18px rgba(255,77,109,.22),
+  0 0 40px rgba(255,77,109,.22),
+  0 0 70px rgba(145,70,255,.18);
 }
 
 @keyframes liveGlow{
  0%,100%{
   transform:translateY(0);
   box-shadow:
-   0 0 0 rgba(255,77,109,0),
    0 0 24px rgba(255,77,109,.14),
    0 0 48px rgba(145,70,255,.10);
  }
@@ -322,12 +323,10 @@ section h2{
  50%{
   transform:translateY(-2px);
   box-shadow:
-   0 0 18px rgba(255,77,109,.22),
-   0 0 40px rgba(255,77,109,.22),
-   0 0 70px rgba(145,70,255,.18);
+   0 0 22px rgba(255,77,109,.28),
+   0 0 48px rgba(255,77,109,.26),
+   0 0 82px rgba(145,70,255,.22);
  }
-}
- 
 }
 
 /* ---------------- СЕЙЧАС НА КАНАЛЕ ---------------- */
@@ -335,10 +334,9 @@ section h2{
 .current-row{
  display:flex;
  justify-content:space-between;
- align-items:flex-start;
+ align-items:center;
  gap:24px;
  flex-wrap:wrap;
- padding-top:34px;
 }
 
 .current-info{
