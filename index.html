@@ -901,14 +901,17 @@ function updateActiveMenu(){
 
  const marker=170;
 
- const home=document.getElementById("home").getBoundingClientRect();
  const links=document.getElementById("links").getBoundingClientRect();
  const gameshelf=document.getElementById("gameshelf").getBoundingClientRect();
  const schedule=document.getElementById("schedule").getBoundingClientRect();
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- if(schedule.top<=marker){
+ // Если дошли почти до конца страницы — всегда подсвечиваем "Расписание"
+ const nearBottom =
+   window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
+
+ if(schedule.top<=marker || nearBottom){
   menuLinks.schedule.classList.add("active");
  }
  else if(gameshelf.top<=marker){
