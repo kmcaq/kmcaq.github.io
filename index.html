@@ -372,10 +372,6 @@ section{
  scroll-margin-top:60px;
 }
 
-section:last-of-type{
- padding-bottom:100px;
-}
-
 section h2{
  font-size:40px;
  margin-bottom:30px;
@@ -739,6 +735,18 @@ section h2{
 
 </section>
 
+
+<section id="gameshelf">
+
+<h2>Игровая полка</h2>
+<p style="color:var(--muted);margin-bottom:28px;">
+Здесь живут игры, которые уже успели оставить след.
+</p>
+
+<div id="gameshelfContainer"></div>
+
+</section>
+
 <section id="schedule">
 
 <h2>Расписание</h2>
@@ -889,26 +897,24 @@ const menuLinks={
 
 function updateActiveMenu(){
 
+ const marker=120;
+
+ const home=document.getElementById("home").getBoundingClientRect();
  const links=document.getElementById("links").getBoundingClientRect();
+ const schedule=document.getElementById("schedule").getBoundingClientRect();
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- // Если почти в самом низу страницы — это "Расписание"
- if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80){
-
+ if(schedule.top<=marker){
   menuLinks.schedule.classList.add("active");
-
- }else if(links.top <= 170){
-
+ }else if(links.top<=marker){
   menuLinks.links.classList.add("active");
-
  }else{
-
   menuLinks.home.classList.add("active");
-
  }
 
 }
+
 window.addEventListener("scroll",updateActiveMenu);
 
 window.addEventListener("scroll",()=>{
@@ -931,5 +937,6 @@ setInterval(()=>{
 
 </script>
 
+  <script src="js/gameshelf.js"></script>
 </body>
 </html>
