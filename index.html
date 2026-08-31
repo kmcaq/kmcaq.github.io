@@ -392,7 +392,7 @@ section h2{
  margin-top:28px;
  border-radius:24px;
  overflow:hidden;
- padding:0;
+ padding:24px;
  transition:
   border-color .35s ease,
   box-shadow .35s ease;
@@ -441,21 +441,32 @@ section h2{
 
 .current-row{
  display:flex;
- justify-content:space-between;
- align-items:center;
- gap:24px;
- flex-wrap:wrap;
+ flex-direction:column;
+ gap:20px;
+ align-items:flex-start;
 }
 
 .current-info{
  display:flex;
  flex-direction:column;
- gap:12px;
+ gap:8px;
 }
 
 .current-info h3{
+ display:flex;
+ align-items:center;
+ gap:12px;
  color:white;
- font-size:30px;
+ font-size:22px;
+}
+
+.live-indicator{
+ width:16px;
+ height:16px;
+ border-radius:50%;
+ background:#ff4d6d;
+ box-shadow:0 0 16px rgba(255,77,109,.7);
+ flex-shrink:0;
 }
 
 .current-info p{
@@ -677,13 +688,14 @@ section h2{
 
 <div class="card" id="currentCard">
 
-<div id="currentBanner" class="current-banner"></div>
-
 <div class="current-row">
 
   <div class="current-info">
 
-   <h3 id="currentTitle">▶ Последняя серия</h3>
+   <h3 id="currentTitle">
+  <span class="live-indicator"></span>
+  Последняя серия
+</h3>
 
    <p id="currentText">Загружаю информацию...</p>
 
@@ -871,7 +883,7 @@ async function updateCurrent(){
 
   if(data.live){
 
-   title.textContent="🔴 Сейчас в эфире";
+   title.innerHTML='<span class="live-indicator"></span>Сейчас в эфире';
    text.innerHTML=`<strong>${data.game}</strong><br>👀 ${data.viewers} зрителей`;
    banner.style.backgroundImage=`url(covers/${data.game.toLowerCase().replace(/\s+/g,"-")}.jpg)`;
 
@@ -883,7 +895,7 @@ async function updateCurrent(){
 
   }else{
 
-   title.textContent="▶ Последняя запись";
+   title.innerHTML='<span class="live-indicator"></span>Последняя серия';
    text.textContent=data.latestTitle || "Последняя запись";
    banner.style.backgroundImage="url(hero-bg.png)";
 
@@ -898,7 +910,7 @@ async function updateCurrent(){
 
   console.error(error);
 
-  title.textContent="▶ Последняя запись";
+  title.innerHTML='<span class="live-indicator"></span>Последняя серия';
   text.textContent="Открыть последнюю запись на YouTube";
   banner.style.backgroundImage="url(hero-bg.png)";
 
