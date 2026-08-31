@@ -33,9 +33,11 @@ body{
 
 .background{
  position:fixed;
- inset:0;
+ inset:-60px;
  background:url("hero-bg.png") center/cover no-repeat;
  filter:brightness(.45);
+ transform:scale(1.08);
+ will-change:transform;
  z-index:-2;
 }
 
@@ -883,26 +885,20 @@ const menuLinks={
 
 function updateActiveMenu(){
 
- const scroll=window.scrollY+window.innerHeight*0.35;
+ const marker=120;
 
- const home=document.getElementById("home");
- const links=document.getElementById("links");
- const schedule=document.getElementById("schedule");
+ const home=document.getElementById("home").getBoundingClientRect();
+ const links=document.getElementById("links").getBoundingClientRect();
+ const schedule=document.getElementById("schedule").getBoundingClientRect();
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- if(scroll<links.offsetTop){
-
-  menuLinks.home.classList.add("active");
-
- }else if(scroll<schedule.offsetTop){
-
-  menuLinks.links.classList.add("active");
-
- }else{
-
+ if(schedule.top<=marker){
   menuLinks.schedule.classList.add("active");
-
+ }else if(links.top<=marker){
+  menuLinks.links.classList.add("active");
+ }else{
+  menuLinks.home.classList.add("active");
  }
 
 }
@@ -911,9 +907,10 @@ window.addEventListener("scroll",updateActiveMenu);
 
 window.addEventListener("scroll",()=>{
 
- const y=window.scrollY*0.08;
+ const y=window.scrollY*0.04;
 
- document.querySelector(".background").style.transform=`translateY(${y}px)`;
+ document.querySelector(".background").style.transform=
+ `translateY(${y}px) scale(1.08)`;
 
 });
 
