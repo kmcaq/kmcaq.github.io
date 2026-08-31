@@ -202,8 +202,8 @@ nav{
 
 .hero-grid{
  display:grid;
- grid-template-columns:1.05fr .95fr;
- gap:40px;
+ grid-template-columns:1fr .95fr;
+ gap:64px;
  align-items:center;
  max-width:1200px;
  margin:auto;
@@ -229,7 +229,7 @@ nav{
 
 .about-card{
  margin-top:30px;
-
+ background:var(--card);
  border:1px solid var(--border);
  backdrop-filter:blur(22px);
  border-radius:24px;
@@ -287,6 +287,7 @@ section h2{
  margin-bottom:30px;
 }
 
+
 .card{
  background:var(--card);
  backdrop-filter:blur(22px);
@@ -297,11 +298,11 @@ section h2{
 }
 
 #currentCard{
+ max-width:560px;
+ margin-top:36px;
  transition:
   border-color .35s ease,
-  box-shadow .35s ease,
-  transform .35s ease;
- margin-top:70px;
+  box-shadow .35s ease;
 }
 
 #currentCard.live-now{
@@ -314,22 +315,20 @@ section h2{
 
 @keyframes liveGlow{
  0%,100%{
-  transform:translateY(0);
   box-shadow:
-   0 0 24px rgba(255,77,109,.14),
-   0 0 48px rgba(145,70,255,.10);
+   0 0 22px rgba(255,77,109,.14),
+   0 0 46px rgba(145,70,255,.10);
  }
 
  50%{
-  transform:translateY(-2px);
   box-shadow:
-   0 0 22px rgba(255,77,109,.28),
-   0 0 48px rgba(255,77,109,.26),
-   0 0 82px rgba(145,70,255,.22);
+   0 0 30px rgba(255,77,109,.26),
+   0 0 60px rgba(145,70,255,.18);
  }
 }
 
 /* ---------------- СЕЙЧАС НА КАНАЛЕ ---------------- */
+
 
 .current-row{
  display:flex;
@@ -565,8 +564,6 @@ section h2{
 Без спойлеров, без токсичности и с уютной атмосферой.
 </p>
 
-</div>
-
 <div class="card" id="currentCard">
 
  <div class="current-row">
@@ -578,6 +575,10 @@ section h2{
    <p id="currentText">Загружаю информацию...</p>
 
   </div>
+
+
+</div>
+
 
   <a id="currentButton" class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">
    Смотреть
