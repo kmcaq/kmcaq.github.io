@@ -36,13 +36,13 @@ style.textContent = `
 }
 
 .tier-box{
- width:48px;
- height:48px;
- border-radius:14px;
+ width:52px;
+ height:52px;
+ border-radius:15px;
  display:flex;
  align-items:center;
  justify-content:center;
- font-size:24px;
+ font-size:26px;
  font-weight:800;
  color:white;
  background:rgba(214,108,255,.14);
@@ -53,8 +53,8 @@ style.textContent = `
 
 .tier-grid{
  display:grid;
- grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
- gap:8px;
+ grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+ gap:10px;
  align-items:center;
 }
 
