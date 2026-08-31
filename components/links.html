@@ -1,3 +1,71 @@
+<style>
+.links{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(220px,1fr));
+ gap:24px;
+}
+
+.link{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:24px;
+ padding:24px;
+ min-height:220px;
+ display:flex;
+ flex-direction:column;
+ gap:18px;
+ position:relative;
+ transition:.25s;
+}
+
+.link::after{
+ content:"↗";
+ position:absolute;
+ right:18px;
+ top:18px;
+ opacity:.25;
+}
+
+.link:hover{
+ transform:translateY(-6px);
+ border-color:rgba(214,108,255,.4);
+ box-shadow:0 18px 34px rgba(214,108,255,.16);
+}
+
+.link h3{
+ font-size:23px;
+ color:white;
+}
+
+.link p{
+ flex:1;
+ color:var(--muted);
+}
+
+.link-btn{
+ width:fit-content;
+ padding:12px 22px;
+ border-radius:14px;
+ background:linear-gradient(135deg,#d66cff,#b84cff);
+ color:white;
+ text-decoration:none;
+ font-weight:700;
+}
+
+.email{
+ margin-top:auto;
+ font-size:22px;
+ font-weight:800;
+ color:white;
+}
+
+@media(max-width:980px){
+ .links{
+  grid-template-columns:1fr;
+ }
+}
+</style>
+
 <section id="links">
 
 <h2>Мои ссылки</h2>
@@ -5,95 +73,39 @@
 <div class="links">
 
 <div class="link">
-
 <h3>🎮 Twitch</h3>
-
 <p>Основные трансляции.</p>
-
-<a class="link-btn"
-   href="https://www.twitch.tv/kmcaq"
-   target="_blank">
-
-Перейти
-
-</a>
-
+<a class="link-btn" href="https://www.twitch.tv/kmcaq" target="_blank">Перейти</a>
 </div>
 
 <div class="link">
-
 <h3>▶️ YouTube VODs</h3>
-
 <p>Записи всех стримов.</p>
-
-<a class="link-btn"
-   href="https://www.youtube.com/@kmcaq"
-   target="_blank">
-
-Перейти
-
-</a>
-
+<a class="link-btn" href="https://www.youtube.com/@kmcaq" target="_blank">Перейти</a>
 </div>
 
 <div class="link">
-
 <h3>🏆 Tier List игр</h3>
-
 <p>Рейтинг игр, которые я прошла или планирую пройти.</p>
-
-<a class="link-btn"
-   href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed"
-   target="_blank">
-
-Перейти
-
-</a>
-
+<a class="link-btn" href="https://tiermaker.ru/tierlist/3ebb7043-e506-49db-a3d3-637b3185e6ed" target="_blank">Перейти</a>
 </div>
 
 <div class="link">
-
 <h3>📊 Статистика игр</h3>
-
 <p>Полный игровой прогресс.</p>
-
-<a class="link-btn"
-   href="https://www.rankone.global/kmcaq"
-   target="_blank">
-
-Перейти
-
-</a>
-
+<a class="link-btn" href="https://www.rankone.global/kmcaq" target="_blank">Перейти</a>
 </div>
 
 <div class="link">
-
 <h3>📢 Telegram</h3>
-
 <p>Анонсы и новости.</p>
-
-<a class="link-btn"
-   href="https://telegram.me/kmcaq"
-   target="_blank">
-
-Перейти
-
-</a>
-
+<a class="link-btn" href="https://telegram.me/kmcaq" target="_blank">Перейти</a>
 </div>
 
 <div class="link">
-
 <h3>✉️ Сотрудничество</h3>
-
 <p>Почта для связи.</p>
-
-<div class="email">
-kmcaq_kp@vk.com
-</div>
-
+<div class="email">kmcaq_kp@vk.com</div>
 </div>
 
 </div>
