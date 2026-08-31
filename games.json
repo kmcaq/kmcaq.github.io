@@ -6,7 +6,7 @@
     "status": "Пройдено",
     "hours": 38,
     "deaths": 14,
-    "cover": "covers/prey.png",
+    "cover": "../covers/prey.png",
     "playlist": "https://youtube.com/playlist?list="
   },
   {
@@ -16,7 +16,7 @@
     "status": "Прохожу",
     "hours": 21,
     "deaths": 8,
-    "cover": "covers/portal.png",
+    "cover": "../covers/portal.png",
     "playlist": "https://youtube.com/playlist?list="
   }
 ]
