@@ -889,24 +889,26 @@ const menuLinks={
 
 function updateActiveMenu(){
 
- const marker=170;
-
- const home=document.getElementById("home").getBoundingClientRect();
  const links=document.getElementById("links").getBoundingClientRect();
- const schedule=document.getElementById("schedule").getBoundingClientRect();
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
- if(schedule.top<=marker){
+ // Если почти в самом низу страницы — это "Расписание"
+ if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80){
+
   menuLinks.schedule.classList.add("active");
- }else if(links.top<=marker){
+
+ }else if(links.top <= 170){
+
   menuLinks.links.classList.add("active");
+
  }else{
+
   menuLinks.home.classList.add("active");
+
  }
 
 }
-
 window.addEventListener("scroll",updateActiveMenu);
 
 window.addEventListener("scroll",()=>{
