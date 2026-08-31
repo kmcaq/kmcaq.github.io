@@ -307,7 +307,9 @@ window.addEventListener("keydown",e=>{
 
 });
 
-fetch("games.json?v=" + Date.now())
+fetch("games.json", {
+  cache: "no-cache"
+})
 
 .then(r=>r.json())
 
