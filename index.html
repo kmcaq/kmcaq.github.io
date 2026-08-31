@@ -389,9 +389,10 @@ section h2{
 
 #currentCard{
  max-width:560px;
- margin-top:36px;
- border-radius:28px;
+ margin-top:28px;
+ border-radius:24px;
  overflow:hidden;
+ padding:0;
  transition:
   border-color .35s ease,
   box-shadow .35s ease;
@@ -420,7 +421,23 @@ section h2{
 }
 
 /* ---------------- СЕЙЧАС НА КАНАЛЕ ---------------- */
+.current-banner{
+ height:120px;
+ background-size:cover;
+ background-position:center;
+ position:relative;
+}
 
+.current-banner::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(
+ 180deg,
+ rgba(0,0,0,.05),
+ rgba(15,10,23,.75)
+ );
+}
 
 .current-row{
  display:flex;
@@ -660,7 +677,9 @@ section h2{
 
 <div class="card" id="currentCard">
 
- <div class="current-row">
+<div id="currentBanner" class="current-banner"></div>
+
+<div class="current-row">
 
   <div class="current-info">
 
@@ -835,6 +854,7 @@ async function updateCurrent(){
  const text=document.getElementById("currentText");
  const button=document.getElementById("currentButton");
  const card=document.getElementById("currentCard");
+ const banner=document.getElementById("currentBanner");
 
  try{
 
@@ -853,6 +873,7 @@ async function updateCurrent(){
 
    title.textContent="🔴 Сейчас в эфире";
    text.innerHTML=`<strong>${data.game}</strong><br>👀 ${data.viewers} зрителей`;
+   banner.style.backgroundImage=`url(covers/${data.game.toLowerCase().replace(/\s+/g,"-")}.jpg)`;
 
    button.textContent="Открыть стрим";
    button.href="https://www.twitch.tv/kmcaq";
@@ -862,8 +883,9 @@ async function updateCurrent(){
 
   }else{
 
-   title.textContent="▶ Последняя серия";
+   title.textContent="▶ Последняя запись";
    text.textContent=data.latestTitle || "Последняя запись";
+   banner.style.backgroundImage="url(hero-bg.png)";
 
    button.textContent="Смотреть VOD";
    button.href=data.latestVideo || "https://www.youtube.com/@kmcaq";
@@ -876,8 +898,9 @@ async function updateCurrent(){
 
   console.error(error);
 
-  title.textContent="▶ Последняя серия";
+  title.textContent="▶ Последняя запись";
   text.textContent="Открыть последнюю запись на YouTube";
+  banner.style.backgroundImage="url(hero-bg.png)";
 
   button.textContent="Смотреть VOD";
   button.href="https://www.youtube.com/@kmcaq";
