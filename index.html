@@ -243,9 +243,43 @@ nav{
  color:white;
 }
 
-.avatar{
+.avatar-frame{
+ position:relative;
  width:min(430px,92%);
- filter:drop-shadow(0 30px 45px rgba(0,0,0,.35));
+ border-radius:28px;
+ overflow:hidden;
+ background:rgba(24,18,38,.55);
+ backdrop-filter:blur(22px);
+ border:1px solid rgba(255,255,255,.18);
+ box-shadow:
+  0 20px 45px rgba(0,0,0,.35),
+  0 0 24px rgba(214,108,255,.12);
+}
+
+.avatar-frame::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ border-radius:inherit;
+ padding:1px;
+ background:linear-gradient(
+  135deg,
+  rgba(255,255,255,.35),
+  rgba(214,108,255,.25),
+  rgba(255,255,255,.08)
+ );
+ -webkit-mask:
+  linear-gradient(#fff 0 0) content-box,
+  linear-gradient(#fff 0 0);
+ -webkit-mask-composite:xor;
+ mask-composite:exclude;
+ pointer-events:none;
+}
+
+.avatar{
+ width:100%;
+ display:block;
+ border-radius:28px;
 }
 
 /* ---------------- КНОПКИ ---------------- */
@@ -300,6 +334,8 @@ section h2{
 #currentCard{
  max-width:560px;
  margin-top:36px;
+ border-radius:28px;
+ overflow:hidden;
  transition:
   border-color .35s ease,
   box-shadow .35s ease;
@@ -588,7 +624,7 @@ section h2{
 
 </div>
 
-<div>
+<div class="avatar-frame">
  <img src="avatar.png" class="avatar" alt="Кэм">
 </div>
 
