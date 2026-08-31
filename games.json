@@ -6,17 +6,17 @@
     "status": "Пройдено",
     "hours": 38,
     "deaths": 14,
-    "cover": "covers/prey.jpg",
+    "cover": "covers/prey.png",
     "playlist": "https://youtube.com/playlist?list="
   },
   {
-    "name": "Mafia II",
-    "tier": "A",
-    "rating": 9.0,
+    "name": "Portal",
+    "tier": "C",
+    "rating": 6.0,
     "status": "Прохожу",
     "hours": 21,
     "deaths": 8,
-    "cover": "covers/mafia2.jpg",
+    "cover": "covers/portal.png",
     "playlist": "https://youtube.com/playlist?list="
   }
 ]
