@@ -893,24 +893,31 @@ async function updateCurrent(){
 const menuLinks={
  home:document.querySelector('.menu a[href="#home"]'),
  links:document.querySelector('.menu a[href="#links"]'),
+ gameshelf:document.querySelector('.menu a[href="#gameshelf"]'),
  schedule:document.querySelector('.menu a[href="#schedule"]')
 };
 
 function updateActiveMenu(){
 
- const marker=120;
+ const marker=170;
 
  const home=document.getElementById("home").getBoundingClientRect();
  const links=document.getElementById("links").getBoundingClientRect();
+ const gameshelf=document.getElementById("gameshelf").getBoundingClientRect();
  const schedule=document.getElementById("schedule").getBoundingClientRect();
 
  Object.values(menuLinks).forEach(link=>link.classList.remove("active"));
 
  if(schedule.top<=marker){
   menuLinks.schedule.classList.add("active");
- }else if(links.top<=marker){
+ }
+ else if(gameshelf.top<=marker){
+  menuLinks.gameshelf.classList.add("active");
+ }
+ else if(links.top<=marker){
   menuLinks.links.classList.add("active");
- }else{
+ }
+ else{
   menuLinks.home.classList.add("active");
  }
 
