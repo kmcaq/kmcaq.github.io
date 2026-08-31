@@ -16,7 +16,7 @@ style.textContent = `
 #gameshelfContainer{
  display:flex;
  flex-direction:column;
- gap:26px;
+ gap:12px;
 }
 
 .tier-row{
@@ -24,14 +24,14 @@ style.textContent = `
  backdrop-filter:blur(22px);
  border:1px solid var(--border);
  border-radius:28px;
- padding:24px;
+ padding:16px 18px;
 }
 
 .tier-head{
  display:flex;
  align-items:center;
  gap:18px;
- margin-bottom:18px;
+ margin-bottom:12px;
 }
 
 .tier-box{
@@ -50,7 +50,7 @@ style.textContent = `
 
 .tier-grid{
  display:grid;
- grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+ grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
  gap:18px;
 }
 
@@ -69,9 +69,9 @@ style.textContent = `
 
 .game-cover{
  width:100%;
- aspect-ratio:2/3;
+ aspect-ratio:460/215;
  object-fit:cover;
- border-radius:16px;
+ border-radius:14px;
  border:1px solid rgba(255,255,255,.12);
  transition:.22s;
 }
