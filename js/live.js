@@ -6,7 +6,7 @@ async function getLiveData(){
  const controller=new AbortController();
  const timeout=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT);
  try{
-  const r=await fetch(API,{cache:"no-store"});
+  const r=await fetch(API,{cache:"no-store",headers:{Accept:"application/json"},signal:controller.signal});
   if(!r.ok) throw new Error(`HTTP ${r.status}`);
   return await r.json();
  }finally{
@@ -104,3 +104,9 @@ window.initLive=function(){
   document.addEventListener("visibilitychange",window.liveVisibilityHandler);
  }
 };
+
+if(document.readyState==="loading"){
+ document.addEventListener("DOMContentLoaded",window.initLive,{once:true});
+}else{
+ window.initLive();
+}
