@@ -17,17 +17,14 @@ const navbarHTML = `
 
 const navbarStyles = `.site-navbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));padding:10px 18px;display:flex;justify-content:space-between;align-items:center;background:rgba(18,15,30,.78);backdrop-filter:blur(22px);border:1px solid rgba(214,108,255,.16);border-radius:999px;z-index:1000;font-family:Nunito,sans-serif}.site-navbar *{box-sizing:border-box}.site-navbar .logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none}.site-navbar .logo-wrap img{width:44px;height:44px;border-radius:50%;border:2px solid rgba(214,108,255,.45)}.site-navbar .logo{font-size:28px;font-weight:800;color:#d66cff}.site-navbar .nav-right{display:flex;align-items:center;gap:18px}.site-navbar .nav-status{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(180,120,255,.12);border:1px solid rgba(180,120,255,.25);font-size:14px;font-weight:700;text-decoration:none;color:white}.site-navbar .nav-status.live{background:rgba(255,77,109,.12);border-color:rgba(255,77,109,.35)}.site-navbar .nav-dot{width:10px;height:10px;border-radius:50%;background:#9c8db8}.site-navbar .social{display:flex;gap:10px}.site-navbar .social a{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:white}.site-navbar .social svg{width:20px;height:20px;fill:currentColor;display:block}.site-navbar .menu{display:flex;gap:22px}.site-navbar .menu a{position:relative;color:white;text-decoration:none;font-weight:700}.site-navbar .menu a:hover,.site-navbar .menu a.active{color:#d66cff}.site-navbar .menu a.active:after{content:"";position:absolute;left:0;bottom:-8px;width:100%;height:3px;border-radius:999px;background:linear-gradient(90deg,#d66cff,#9146ff)}
 
-/* Единый viewport-layout: весь десктопный сайт помещается в один экран 1920x1080. */
+/* Только layout: Live-логика не переопределяется. */
 html{height:100%;overflow:hidden}
 body{height:100vh;min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
-body>main{flex:1 1 auto;min-height:0!important;width:100%;padding-top:90px!important;padding-bottom:24px!important;overflow:hidden}
+body>main{flex:1 1 auto;min-height:0!important;width:100%;padding-top:90px!important;padding-bottom:24px!important}
 body>footer{flex:0 0 auto;padding:18px 20px!important}
-body>.background,body>.overlay,body>.particles{pointer-events:none}
-body>.gm-overlay{z-index:3000}
 .hero{height:100%;min-height:0!important}
 @media(max-width:980px){.site-navbar .nav-status,.site-navbar .social,.site-navbar .menu{display:none}}
-@media(max-width:980px) and (min-height:700px){body>main{overflow:hidden}}
-@media(max-width:800px){html,body{overflow:auto}body{min-height:100vh;height:auto}body>main{overflow:visible;padding-top:100px!important;padding-bottom:32px!important}.hero{height:auto;min-height:0!important}}
+@media(max-width:800px){html,body{overflow:auto}body{min-height:100vh;height:auto}body>main{padding-top:100px!important;padding-bottom:32px!important}.hero{height:auto;min-height:0!important}}
 `;
 
 function initNavbar(){const mount=document.getElementById("navbar");if(!mount)return false;if(!document.getElementById("navbar-styles")){const style=document.createElement("style");style.id="navbar-styles";style.textContent=navbarStyles;document.head.appendChild(style)}mount.innerHTML=navbarHTML;const path=window.location.pathname.replace(/index\.html$/i,"");let active="home";if(path.startsWith("/about/"))active="about";else if(path.startsWith("/games/"))active="games";else if(path.startsWith("/schedule/"))active="schedule";else if(path.startsWith("/links/"))active="links";const link=mount.querySelector(`[data-nav="${active}"]`);if(link)link.classList.add("active");window.dispatchEvent(new Event("navbarReady"));return true}
