@@ -76,12 +76,20 @@ window.initLive=function(){
  window.liveStatusInterval=setInterval(refreshLive,CHECK_INTERVAL);
 };
 
+/* Live должен запускаться независимо от порядка инициализации общей шапки. */
 function startLive(){
  if(document.getElementById("navStatus")){
   window.initLive();
- }else{
-  window.addEventListener("navbarReady",window.initLive,{once:true});
+  return;
  }
+ const observer=new MutationObserver(()=>{
+  if(document.getElementById("navStatus")){
+   observer.disconnect();
+   window.initLive();
+  }
+ });
+ observer.observe(document.documentElement,{childList:true,subtree:true});
+ setTimeout(()=>observer.disconnect(),10000);
 }
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",startLive,{once:true});
