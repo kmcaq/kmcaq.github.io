@@ -1,9 +1,6 @@
 const navbarHTML = `
 <nav class="site-navbar">
-  <a href="/" class="logo-wrap" aria-label="Главная">
-    <img src="/avatar.png" alt="Кэм">
-    <span class="logo">kmcaq</span>
-  </a>
+  <a href="/" class="logo-wrap" aria-label="Главная"><img src="/avatar.png" alt="Кэм"><span class="logo">kmcaq</span></a>
   <div class="nav-right">
     <a id="navStatus" class="nav-status" href="#" aria-label="Статус трансляции"><span id="navDot" class="nav-dot"></span><span id="navText">OFFLINE</span></a>
     <div class="social" aria-label="Социальные сети">
@@ -16,15 +13,8 @@ const navbarHTML = `
 </nav>`;
 
 const navbarStyles = `.site-navbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));padding:10px 18px;display:flex;justify-content:space-between;align-items:center;background:rgba(18,15,30,.78);backdrop-filter:blur(22px);border:1px solid rgba(214,108,255,.16);border-radius:999px;z-index:1000;font-family:Nunito,sans-serif}.site-navbar *{box-sizing:border-box}.site-navbar .logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none}.site-navbar .logo-wrap img{width:44px;height:44px;border-radius:50%;border:2px solid rgba(214,108,255,.45)}.site-navbar .logo{font-size:28px;font-weight:800;color:#d66cff}.site-navbar .nav-right{display:flex;align-items:center;gap:18px}.site-navbar .nav-status{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(180,120,255,.12);border:1px solid rgba(180,120,255,.25);font-size:14px;font-weight:700;text-decoration:none;color:white}.site-navbar .nav-status.live{background:rgba(255,77,109,.12);border-color:rgba(255,77,109,.35)}.site-navbar .nav-dot{width:10px;height:10px;border-radius:50%;background:#9c8db8}.site-navbar .social{display:flex;gap:10px}.site-navbar .social a{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:white}.site-navbar .social svg{width:20px;height:20px;fill:currentColor;display:block}.site-navbar .menu{display:flex;gap:22px}.site-navbar .menu a{position:relative;color:white;text-decoration:none;font-weight:700}.site-navbar .menu a:hover,.site-navbar .menu a.active{color:#d66cff}.site-navbar .menu a.active:after{content:"";position:absolute;left:0;bottom:-8px;width:100%;height:3px;border-radius:999px;background:linear-gradient(90deg,#d66cff,#9146ff)}
-
-/* Только layout: Live-логика не переопределяется. */
-html{height:100%;overflow:hidden}
-body{height:100vh;min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
-body>main{flex:1 1 auto;min-height:0!important;width:100%;padding-top:90px!important;padding-bottom:24px!important}
-body>footer{flex:0 0 auto;padding:18px 20px!important}
-.hero{height:100%;min-height:0!important}
-@media(max-width:980px){.site-navbar .nav-status,.site-navbar .social,.site-navbar .menu{display:none}}
-@media(max-width:800px){html,body{overflow:auto}body{min-height:100vh;height:auto}body>main{padding-top:100px!important;padding-bottom:32px!important}.hero{height:auto;min-height:0!important}}
+@media(max-width:980px){.site-navbar{top:8px;padding:8px 12px;border-radius:22px;align-items:flex-start}.site-navbar .nav-right{width:100%;justify-content:flex-end;gap:0}.site-navbar .nav-status,.site-navbar .social{display:none}.site-navbar .menu{display:flex;flex:1;justify-content:flex-end;align-items:center;gap:clamp(8px,2.5vw,18px);padding:6px 0 0 12px;flex-wrap:wrap}.site-navbar .menu a{font-size:13px;white-space:nowrap}.site-navbar .menu a.active:after{bottom:-5px;height:2px}.site-navbar .logo-wrap{flex-shrink:0}.site-navbar .logo-wrap img{width:38px;height:38px}.site-navbar .logo{font-size:21px}}
+@media(max-width:520px){.site-navbar{width:calc(100% - 12px);padding:7px 9px}.site-navbar .logo-wrap{gap:7px}.site-navbar .logo{display:none}.site-navbar .logo-wrap img{width:36px;height:36px}.site-navbar .menu{gap:6px 10px;padding-left:6px}.site-navbar .menu a{font-size:12px}}
 `;
 
 function initNavbar(){const mount=document.getElementById("navbar");if(!mount)return false;if(!document.getElementById("navbar-styles")){const style=document.createElement("style");style.id="navbar-styles";style.textContent=navbarStyles;document.head.appendChild(style)}mount.innerHTML=navbarHTML;const path=window.location.pathname.replace(/index\.html$/i,"");let active="home";if(path.startsWith("/about/"))active="about";else if(path.startsWith("/games/"))active="games";else if(path.startsWith("/schedule/"))active="schedule";else if(path.startsWith("/links/"))active="links";const link=mount.querySelector(`[data-nav="${active}"]`);if(link)link.classList.add("active");window.dispatchEvent(new Event("navbarReady"));return true}
