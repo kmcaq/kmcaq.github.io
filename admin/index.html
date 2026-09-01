@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Админка</title>
+<title>kmcaq | Админка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1117;--panel:rgba(255,255,255,.06);--border:rgba(255,255,255,.08);--text:#fff;--muted:#9ca3af;--accent:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}.bg{position:fixed;inset:0;background:radial-gradient(circle at top,#1f293780,transparent 50%);z-index:-1}.top{display:flex;justify-content:space-between;align-items:center;padding:40px 60px}.top p{color:var(--muted);margin-top:6px}main{padding:0 60px 60px}.actions{display:flex;gap:16px;margin-bottom:32px}button{border:none;border-radius:14px;padding:14px 20px;cursor:pointer;font-weight:600}.primary{background:var(--accent);color:#fff}.success{background:#16a34a;color:#fff}.ghost{background:var(--panel);color:#fff;border:1px solid var(--border)}#gamesGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px}.hidden{display:none}@media(max-width:768px){.top{padding:24px;flex-direction:column;align-items:flex-start;gap:16px}main{padding:0 24px 32px}.actions{flex-direction:column}}
+</style>
 </head>
 <body>
-
-<h1>Админка</h1>
-
-<button id="login">Войти через GitHub</button>
-<button id="logout" hidden>Выйти</button>
-
-<div id="app" hidden></div>
-
+<div class="bg"></div>
+<header class="top"><div><h1>Игровая полка</h1><p>Панель администратора</p></div><button id="logout" class="ghost" hidden>Выйти</button></header>
+<main><section class="actions"><button id="login" class="primary">Войти через GitHub</button><button id="addGameBtn" class="primary hidden">➕ Добавить игру</button><button id="saveBtn" class="success hidden">💾 Сохранить изменения</button></section><section id="gamesGrid"></section><div id="app" class="hidden"></div></main>
 <script src="admin.js"></script>
-
 </body>
 </html>
