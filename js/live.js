@@ -23,36 +23,22 @@ async function fetchLiveData() {
   }
 }
 
-async function updateStatus() {
+function updateStatus(data) {
   const navStatus = document.getElementById("navStatus");
   const navDot = document.getElementById("navDot");
   const navText = document.getElementById("navText");
 
   if (!navStatus || !navDot || !navText) return;
 
-  try {
-    const d = await fetchLiveData();
+  navDot.style.background = data.live ? "#ff4d6d" : "#9c8db8";
+  navText.textContent = data.live ? "LIVE" : "OFFLINE";
 
-    navDot.style.background = d.live ? "#ff4d6d" : "#9c8db8";
-    navText.textContent = d.live ? "LIVE" : "OFFLINE";
-
-    if (d.live) {
-      navStatus.href = "https://www.twitch.tv/kmcaq";
-      navStatus.target = "_blank";
-      navStatus.rel = "noopener noreferrer";
-      navStatus.classList.add("live");
-    } else {
-      navStatus.href = "#";
-      navStatus.removeAttribute("target");
-      navStatus.removeAttribute("rel");
-      navStatus.classList.remove("live");
-    }
-  } catch (err) {
-    console.error("Live status error:", err);
-
-    navDot.style.background = "#9c8db8";
-    navText.textContent = "OFFLINE";
-
+  if (data.live) {
+    navStatus.href = "https://www.twitch.tv/kmcaq";
+    navStatus.target = "_blank";
+    navStatus.rel = "noopener noreferrer";
+    navStatus.classList.add("live");
+  } else {
     navStatus.href = "#";
     navStatus.removeAttribute("target");
     navStatus.removeAttribute("rel");
@@ -60,7 +46,7 @@ async function updateStatus() {
   }
 }
 
-async function updateCurrent() {
+function updateCurrent(data) {
   const title = document.getElementById("currentTitle");
   const text = document.getElementById("currentText");
   const button = document.getElementById("currentButton");
@@ -68,40 +54,23 @@ async function updateCurrent() {
 
   if (!title || !text || !button || !card) return;
 
-  try {
-    const data = await fetchLiveData();
+  if (data.live) {
+    title.innerHTML = '<span class="live-indicator"></span>Сейчас в эфире';
+    text.innerHTML = `<strong>${data.game ?? "Без названия"}</strong><br>👀 ${data.viewers ?? 0} зрителей`;
 
-    if (data.live) {
-      title.innerHTML = '<span class="live-indicator"></span>Сейчас в эфире';
-      text.innerHTML = `<strong>${data.game ?? "Без названия"}</strong><br>👀 ${data.viewers ?? 0} зрителей`;
+    button.textContent = "Открыть стрим";
+    button.href = "https://www.twitch.tv/kmcaq";
+    button.target = "_blank";
+    button.rel = "noopener noreferrer";
 
-      button.textContent = "Открыть стрим";
-      button.href = "https://www.twitch.tv/kmcaq";
-      button.target = "_blank";
-      button.rel = "noopener noreferrer";
-
-      card.style.borderColor = "#ff4d6d";
-      card.classList.add("live-now");
-    } else {
-      title.innerHTML = '<span class="live-indicator"></span>Последняя серия';
-      text.textContent = data.latestTitle || "Последняя запись";
-
-      button.textContent = "Смотреть VOD";
-      button.href = data.latestVideo || "https://www.youtube.com/@kmcaq";
-      button.target = "_blank";
-      button.rel = "noopener noreferrer";
-
-      card.style.borderColor = "rgba(255,255,255,.12)";
-      card.classList.remove("live-now");
-    }
-  } catch (err) {
-    console.error("Current stream widget error:", err);
-
+    card.style.borderColor = "#ff4d6d";
+    card.classList.add("live-now");
+  } else {
     title.innerHTML = '<span class="live-indicator"></span>Последняя серия';
-    text.textContent = "Не удалось загрузить информацию.";
+    text.textContent = data.latestTitle || "Последняя запись";
 
-    button.textContent = "YouTube";
-    button.href = "https://www.youtube.com/@kmcaq";
+    button.textContent = "Смотреть VOD";
+    button.href = data.latestVideo || "https://www.youtube.com/@kmcaq";
     button.target = "_blank";
     button.rel = "noopener noreferrer";
 
@@ -110,23 +79,43 @@ async function updateCurrent() {
   }
 }
 
+async function refreshLive() {
+  try {
+    const data = await fetchLiveData();
+    updateStatus(data);
+    updateCurrent(data);
+  } catch (err) {
+    console.error("Live widget error:", err);
+
+    const navDot = document.getElementById("navDot");
+    const navText = document.getElementById("navText");
+    const navStatus = document.getElementById("navStatus");
+
+    if (navDot) navDot.style.background = "#9c8db8";
+    if (navText) navText.textContent = "OFFLINE";
+    if (navStatus) {
+      navStatus.href = "#";
+      navStatus.removeAttribute("target");
+      navStatus.removeAttribute("rel");
+      navStatus.classList.remove("live");
+    }
+  }
+}
+
 window.initLive = function () {
-  updateStatus();
-  updateCurrent();
+  refreshLive();
 
   if (window.liveStatusInterval) {
     clearInterval(window.liveStatusInterval);
   }
 
-  window.liveStatusInterval = setInterval(() => {
-    updateStatus();
-    updateCurrent();
-  }, CHECK_INTERVAL);
+  window.liveStatusInterval = setInterval(refreshLive, CHECK_INTERVAL);
 
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
-      updateStatus();
-      updateCurrent();
-    }
-  });
+  if (!window.liveVisibilityHandler) {
+    window.liveVisibilityHandler = () => {
+      if (!document.hidden) refreshLive();
+    };
+
+    document.addEventListener("visibilitychange", window.liveVisibilityHandler);
+  }
 };
