@@ -31,9 +31,13 @@
   }
 
   async function authFetch(resource, options = {}) {
-    const headers = { ...(options.headers || {}) };
     const token = getToken();
-    if (token) headers.Authorization = `Bearer ${token}`;
+    if (!token) {
+      location.replace(`${API}/login?next=${encodeURIComponent(location.pathname + location.search)}`);
+      throw new Error("Missing admin token");
+    }
+
+    const headers = { ...(options.headers || {}), Authorization: `Bearer ${token}` };
     const response = await fetch(resource, { ...options, headers });
     if (response.status === 401) {
       sessionStorage.removeItem(TOKEN_KEY);
@@ -525,17 +529,27 @@
       });
       games.splice(0, games.length, ...unique);
 
+      const payload = JSON.parse(JSON.stringify({ games }));
       const response = await authFetch(`${API}/games`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ games })
+        body: JSON.stringify(payload)
       });
-      if (!response.ok) throw new Error(`Save failed: ${response.status}`);
+
+      if (!response.ok) {
+        let detail = "";
+        try {
+          const text = await response.text();
+          if (text) detail = `: ${text.slice(0, 300)}`;
+        } catch (_) {}
+        throw new Error(`Save failed: ${response.status}${detail}`);
+      }
+
       dirty = false;
       if (button) button.textContent = "💾 Сохранено";
     } catch (error) {
-      console.error(error);
-      alert("Не удалось сохранить изменения.");
+      console.error("Ошибка сохранения игровой полки:", error);
+      alert(`Не удалось сохранить изменения.\n${error.message || "Неизвестная ошибка"}`);
       if (button) button.textContent = "💾 Сохранить*";
     } finally {
       if (button) button.disabled = false;
