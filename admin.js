@@ -47,14 +47,18 @@
   }
 
   function normalizeTier(game) {
-    if (game.tier === "NOW" || game.status === "Играю сейчас") return "NOW";
+    if (game.tier === "NOW" || game.status === "Играю сейчас" || game.status === "Прохожу") return "NOW";
     if (game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано") return "PLANNED";
+    if (game.status === "Дроп") return "F";
     return TIERS.includes(game.tier) ? game.tier : "PLANNED";
   }
 
   function automaticTier(rating, status) {
+    if (status === "Играю сейчас" || status === "Прохожу") return "NOW";
+    if (status === "В планах" || status === "Запланировано") return "PLANNED";
     if (status === "Дроп") return "F";
-    const value = Number(rating);
+
+    const value = Math.round(Number(rating));
     if (!Number.isFinite(value) || value <= 0) return null;
     if (value >= 10) return "S";
     if (value >= 8) return "A";
@@ -439,7 +443,20 @@
       if (tier) tierInput.value = tier;
     };
 
-    ratingInput.addEventListener("input", applyAutomaticTier);
+    const clampRating = () => {
+      if (ratingInput.value === "") {
+        applyAutomaticTier();
+        return;
+      }
+      const value = Number(ratingInput.value);
+      if (Number.isFinite(value)) {
+        const clamped = Math.min(10, Math.max(0, value));
+        if (value !== clamped) ratingInput.value = String(clamped);
+      }
+      applyAutomaticTier();
+    };
+
+    ratingInput.addEventListener("input", clampRating);
     statusInput.addEventListener("change", applyAutomaticTier);
 
     backdrop.querySelector("[data-cancel]").onclick = () => backdrop.remove();
@@ -462,9 +479,17 @@
       }
 
       game.name = form.elements.name.value.trim();
-      game.tier = tierInput.value;
-      game.rating = ratingInput.value === "" ? null : Number(ratingInput.value);
       game.status = normalizeStatus(statusInput.value);
+
+      const rawRating = ratingInput.value;
+      if (rawRating === "") {
+        game.rating = null;
+      } else {
+        const value = Number(rawRating);
+        game.rating = Number.isFinite(value) ? Math.min(10, Math.max(0, value)) : null;
+      }
+
+      game.tier = automaticTier(game.rating, game.status) || tierInput.value;
       game.hours = Number(form.elements.hours.value || 0);
       game.deaths = Number(form.elements.deaths.value || 0);
       game.cover = form.elements.cover.value.trim();
