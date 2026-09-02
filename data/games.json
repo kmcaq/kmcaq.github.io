@@ -1,15 +1,5 @@
 [
   {
-    "name": "Portal",
-    "tier": "NOW",
-    "rating": 6,
-    "status": "Прохожу",
-    "hours": 21,
-    "deaths": 8,
-    "cover": "../covers/portal.png",
-    "playlist": "https://youtube.com/playlist?list="
-  },
-  {
     "name": "Prey",
     "tier": "NOW",
     "rating": 9.8,
@@ -18,5 +8,15 @@
     "deaths": 14,
     "cover": "../covers/prey.png",
     "playlist": "https://www.youtube.com/playlist?list=PLIhTgrnRIiWI"
+  },
+  {
+    "name": "Portal",
+    "tier": "S",
+    "rating": 6,
+    "status": "Прохожу",
+    "hours": 21,
+    "deaths": 8,
+    "cover": "../covers/portal.png",
+    "playlist": "https://youtube.com/playlist?list="
   }
 ]
