@@ -1,5 +1,15 @@
 [
   {
+    "name": "Alan Wake",
+    "status": "Завершено",
+    "rating": 8.5,
+    "tier": "A",
+    "hours": 14,
+    "deaths": 81,
+    "cover": "../covers/alan.png",
+    "playlist": ""
+  },
+  {
     "name": "Prey",
     "tier": "PLANNED",
     "rating": 10,
@@ -18,16 +28,6 @@
     "deaths": 8,
     "cover": "../covers/portal.png",
     "playlist": "https://youtube.com/playlist?list="
-  },
-  {
-    "name": "1",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/alan.png",
-    "playlist": ""
   },
   {
     "name": "2",
