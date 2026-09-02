@@ -2,6 +2,7 @@
   const API = "https://admin.km-tamami.workers.dev";
   const TOKEN_KEY = "admin_token";
   const url = new URL(location.href);
+
   if (url.searchParams.get("admin") !== "1") return;
   const section = location.pathname.split("/").filter(Boolean)[0] || "home";
   if (section !== "games") return;
@@ -122,14 +123,6 @@
     document.getElementById("admin-save").onclick = saveGames;
   }
 
-  async function loadGames() {
-    const response = await authFetch(`${API}/games`, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Games load failed: ${response.status}`);
-    const data = await response.json();
-    if (!Array.isArray(data)) throw new Error("API /games returned invalid data");
-    games = data.map(game => ({ ...game, status: normalizeStatus(game.status), tier: normalizeTier(game) }));
-  }
-
   function getGameName(game) {
     return String(game?.name || "");
   }
@@ -148,6 +141,10 @@
     return document.querySelector(`#gameshelfContainer .tier-row[data-tier="${CSS.escape(tier)}"] .tier-grid`);
   }
 
+  function syncSharedGames() {
+    if (window.GameShelf) window.GameShelf.games = games;
+  }
+
   function addActions(card) {
     if (!card || card.querySelector(".admin-actions")) return;
     const actions = document.createElement("div");
@@ -164,54 +161,18 @@
     card.appendChild(actions);
   }
 
-  function removeDuplicateCards() {
-    const cards = [...document.querySelectorAll("#gameshelfContainer .game-card")];
-    const groups = new Map();
-
-    cards.forEach(card => {
-      const name = card.dataset.gameName || "";
-      if (!name) return;
-      if (!groups.has(name)) groups.set(name, []);
-      groups.get(name).push(card);
-    });
-
-    groups.forEach((duplicates, name) => {
-      if (duplicates.length < 2) return;
-
-      const game = games.find(item => getGameName(item) === name);
-      const expectedTier = game?.tier;
-      const matching = expectedTier
-        ? duplicates.find(card => card.closest(".tier-row")?.dataset.tier === expectedTier)
-        : null;
-      const keep = matching || duplicates[0];
-
-      duplicates.forEach(card => {
-        if (card !== keep) card.remove();
-      });
-    });
-  }
-
   function decorateCard(card) {
     if (!card || card.dataset.adminDecorated === "1") return;
     card.dataset.adminDecorated = "1";
     card.classList.add("admin-game-card");
     card.draggable = true;
     card.title = "Перетащите игру, чтобы изменить раздел и порядок";
-
-    const publicClick = card.onclick;
-    card.onclick = null;
-    card.addEventListener("click", event => {
-      if (event.target.closest(".admin-actions")) return;
-      if (typeof publicClick === "function") publicClick.call(card, event);
-    });
-
     addActions(card);
     setupDrag(card);
   }
 
   function decorateExistingCards() {
-    removeDuplicateCards();
-    games.forEach(game => decorateCard(findGameCard(game)));
+    document.querySelectorAll("#gameshelfContainer .game-card").forEach(decorateCard);
   }
 
   function setupRows() {
@@ -310,21 +271,20 @@
   }
 
   function moveToGrid(gameName, grid, tier) {
-    const sourceIndex = findGameIndex(gameName);
-    if (sourceIndex < 0 || !draggedCard) return;
-    const game = games[sourceIndex];
-    game.tier = tier;
+    const index = findGameIndex(gameName);
+    if (index < 0 || !draggedCard) return;
+    games[index].tier = tier;
     grid.appendChild(draggedCard);
     rebuildOrderFromDom();
+    syncSharedGames();
     markDirty();
     clearDragState();
   }
 
   function moveToCard(gameName, targetName, targetGrid, before) {
-    const sourceIndex = findGameIndex(gameName);
-    if (sourceIndex < 0 || !draggedCard) return;
-    const game = games[sourceIndex];
-    game.tier = targetGrid.closest(".tier-row")?.dataset.tier || "PLANNED";
+    const index = findGameIndex(gameName);
+    if (index < 0 || !draggedCard) return;
+    games[index].tier = targetGrid.closest(".tier-row")?.dataset.tier || "PLANNED";
     const targetCard = [...targetGrid.children].find(card => card.dataset.gameName === targetName);
     if (targetCard) {
       if (before) targetGrid.insertBefore(draggedCard, targetCard);
@@ -333,6 +293,7 @@
       targetGrid.appendChild(draggedCard);
     }
     rebuildOrderFromDom();
+    syncSharedGames();
     markDirty();
     clearDragState();
   }
@@ -357,6 +318,7 @@
     });
 
     games = ordered;
+    syncSharedGames();
   }
 
   function deleteGame(gameName) {
@@ -366,13 +328,14 @@
     games.splice(index, 1);
     const card = findGameCard(gameName);
     if (card) card.remove();
+    syncSharedGames();
     markDirty();
   }
 
   function createCardFromExisting(game, tier) {
     const grid = findGrid(tier);
     if (!grid) return null;
-    const template = grid.querySelector(":scope > .game-card") || document.querySelector("#gameshelfContainer .game-card");
+    const template = document.querySelector("#gameshelfContainer .game-card");
     if (!template) return null;
     const card = template.cloneNode(true);
     card.dataset.gameName = game.name || "";
@@ -530,19 +493,24 @@
         return;
       }
 
+      const duplicateIndex = games.findIndex((item, itemIndex) => itemIndex !== (index < 0 ? games.length - 1 : index) && getGameName(item) === game.name);
+      if (duplicateIndex >= 0) {
+        alert("Игра с таким названием уже существует.");
+        if (index < 0) games.pop();
+        return;
+      }
+
       if (index < 0) {
         createCardFromExisting(game, game.tier);
       } else {
         const card = findGameCard(oldName);
         refreshCard(card, game);
         moveCardToTier(card, game.tier);
-        if (card) {
-          card.dataset.gameName = game.name;
-          card.dataset.adminDecorated = "1";
-        }
+        if (card) card.dataset.gameName = game.name;
       }
 
       rebuildOrderFromDom();
+      syncSharedGames();
       markDirty();
       backdrop.remove();
     });
@@ -553,6 +521,17 @@
     if (button) button.disabled = true;
     try {
       rebuildOrderFromDom();
+      const unique = [];
+      const seen = new Set();
+      games.forEach(game => {
+        const name = getGameName(game);
+        if (!name || seen.has(name)) return;
+        seen.add(name);
+        unique.push(game);
+      });
+      games = unique;
+      syncSharedGames();
+
       const response = await authFetch(`${API}/games`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -572,26 +551,21 @@
 
   function waitForShelf() {
     return new Promise((resolve, reject) => {
-      const shelf = document.getElementById("gameshelfContainer");
-      if (!shelf) {
-        reject(new Error("gameshelfContainer not found"));
-        return;
-      }
-      if (shelf.querySelector(".tier-row")) {
+      if (window.GameShelf?.games) {
         resolve();
         return;
       }
-      const observer = new MutationObserver(() => {
-        if (shelf.querySelector(".tier-row")) {
-          observer.disconnect();
-          resolve();
-        }
-      });
-      observer.observe(shelf, { childList: true });
+
+      const handler = () => {
+        window.removeEventListener("gameshelf:loaded", handler);
+        resolve();
+      };
+      window.addEventListener("gameshelf:loaded", handler, { once: true });
+
       setTimeout(() => {
-        observer.disconnect();
-        if (shelf.querySelector(".tier-row")) resolve();
-        else reject(new Error("gameshelf did not render"));
+        window.removeEventListener("gameshelf:loaded", handler);
+        if (window.GameShelf?.games) resolve();
+        else reject(new Error("gameshelf did not load"));
       }, 10000);
     });
   }
@@ -603,8 +577,11 @@
     setupGlobalDragScroll();
 
     try {
-      await loadGames();
       await waitForShelf();
+      games = Array.isArray(window.GameShelf.games)
+        ? window.GameShelf.games.map(game => ({ ...game, status: normalizeStatus(game.status), tier: normalizeTier(game) }))
+        : [];
+      syncSharedGames();
       decorateExistingCards();
       setupRows();
     } catch (error) {
