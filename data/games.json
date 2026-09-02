@@ -1,5 +1,25 @@
 [
   {
+    "name": "9",
+    "status": "В планах",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/ghostrunner.png",
+    "playlist": ""
+  },
+  {
+    "name": "15",
+    "status": "В планах",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/rdr2.png",
+    "playlist": ""
+  },
+  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -10,6 +30,16 @@
     "playlist": ""
   },
   {
+    "name": "Prey",
+    "tier": "S",
+    "rating": 10,
+    "status": "Завершено",
+    "hours": 26,
+    "deaths": 45,
+    "cover": "../covers/prey.png",
+    "playlist": "https://www.youtube.com/playlist?list=PLIhTgrnRIiWI"
+  },
+  {
     "name": "Ghostwire: Tokyo",
     "status": "Завершено",
     "rating": 10,
@@ -17,6 +47,16 @@
     "hours": 11,
     "deaths": 4,
     "cover": "../covers/tokyo.png",
+    "playlist": ""
+  },
+  {
+    "name": "Portal 2",
+    "status": "Завершено",
+    "rating": 9.5,
+    "tier": "A",
+    "hours": 8,
+    "deaths": 28,
+    "cover": "../covers/portal2.png",
     "playlist": ""
   },
   {
@@ -30,6 +70,16 @@
     "playlist": ""
   },
   {
+    "name": "Evil School",
+    "status": "Завершено",
+    "rating": 8,
+    "tier": "A",
+    "hours": 5,
+    "deaths": 22,
+    "cover": "../covers/evilschool.png",
+    "playlist": ""
+  },
+  {
     "name": "Alan Wake",
     "status": "Завершено",
     "rating": 8.5,
@@ -37,6 +87,26 @@
     "hours": 14,
     "deaths": 81,
     "cover": "../covers/alan.png",
+    "playlist": ""
+  },
+  {
+    "name": "Resident Evil 4",
+    "status": "Завершено",
+    "rating": 7.5,
+    "tier": "B",
+    "hours": 18,
+    "deaths": 24,
+    "cover": "../covers/re4.png",
+    "playlist": ""
+  },
+  {
+    "name": "Alice: Madness Returns",
+    "status": "Завершено",
+    "rating": 7,
+    "tier": "B",
+    "hours": 16,
+    "deaths": 178,
+    "cover": "../covers/alice.png",
     "playlist": ""
   },
   {
@@ -60,6 +130,16 @@
     "playlist": ""
   },
   {
+    "name": "Portal",
+    "tier": "B",
+    "rating": 6,
+    "status": "Завершено",
+    "hours": 3,
+    "deaths": 30,
+    "cover": "../covers/portal.png",
+    "playlist": "https://youtube.com/playlist?list="
+  },
+  {
     "name": "Control",
     "status": "Завершено",
     "rating": 6,
@@ -67,6 +147,16 @@
     "hours": 16,
     "deaths": 59,
     "cover": "../covers/control.png",
+    "playlist": ""
+  },
+  {
+    "name": "Subliminal",
+    "status": "Завершено",
+    "rating": 5,
+    "tier": "C",
+    "hours": 2,
+    "deaths": 5,
+    "cover": "../covers/subliminal.png",
     "playlist": ""
   },
   {
@@ -110,113 +200,23 @@
     "playlist": ""
   },
   {
-    "name": "Prey",
-    "tier": "PLANNED",
-    "rating": 10,
-    "status": "Завершено",
-    "hours": 38,
-    "deaths": 14,
-    "cover": "../covers/prey.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLIhTgrnRIiWI"
-  },
-  {
-    "name": "Portal",
-    "tier": "PLANNED",
-    "rating": 6,
+    "name": "Disco Elysium",
     "status": "Дроп",
-    "hours": 21,
-    "deaths": 8,
-    "cover": "../covers/portal.png",
-    "playlist": "https://youtube.com/playlist?list="
-  },
-  {
-    "name": "3",
-    "status": "В планах",
     "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/alice.png",
-    "playlist": ""
-  },
-  {
-    "name": "7",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
+    "tier": "F",
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/disco.png",
     "playlist": ""
   },
   {
-    "name": "8",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/evilschool.png",
-    "playlist": ""
-  },
-  {
-    "name": "9",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/ghostrunner.png",
-    "playlist": ""
-  },
-  {
     "name": "10",
-    "status": "В планах",
+    "status": "Заморозка",
     "rating": null,
     "tier": "PLANNED",
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/kcd.png",
-    "playlist": ""
-  },
-  {
-    "name": "14",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/portal2.png",
-    "playlist": ""
-  },
-  {
-    "name": "15",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/rdr2.png",
-    "playlist": ""
-  },
-  {
-    "name": "18",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/re4.png",
-    "playlist": ""
-  },
-  {
-    "name": "20",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/subliminal.png",
     "playlist": ""
   },
   {
