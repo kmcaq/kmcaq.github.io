@@ -8,6 +8,7 @@
 
   let games = [];
   let dirty = false;
+  let draggedGame = null;
 
   function getToken() {
     return sessionStorage.getItem(TOKEN_KEY);
@@ -17,7 +18,6 @@
     const hash = new URLSearchParams(location.hash.slice(1));
     const token = hash.get("token");
     if (!token) return false;
-
     sessionStorage.setItem(TOKEN_KEY, token);
     history.replaceState(null, "", location.pathname + location.search);
     return true;
@@ -26,17 +26,14 @@
   async function authFetch(resource, options = {}) {
     const headers = { ...(options.headers || {}) };
     const token = getToken();
-
     if (token) headers.Authorization = `Bearer ${token}`;
 
     const res = await fetch(resource, { ...options, headers });
-
     if (res.status === 401) {
       sessionStorage.removeItem(TOKEN_KEY);
       location.replace(`${API}/login?next=${encodeURIComponent(location.pathname + location.search)}`);
       throw new Error("Unauthorized");
     }
-
     return res;
   }
 
@@ -69,6 +66,11 @@
       .admin-actions{display:flex;gap:8px;margin-top:12px;position:relative;z-index:5}
       .admin-actions button{background:#111827;color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 12px;cursor:pointer;font:inherit}
       .admin-actions .delete{background:#7f1d1d}
+      .admin-drag-hint{color:#9ca3af;font-size:13px;margin:0 0 18px}
+      .admin-dragging{opacity:.35!important;transform:scale(.98)!important}
+      .admin-drop-target{outline:2px dashed rgba(214,108,255,.8);outline-offset:4px}
+      .admin-drop-zone{min-height:74px;border-radius:16px;transition:.15s;background:rgba(214,108,255,.025)}
+      .admin-drop-zone.admin-over{background:rgba(214,108,255,.1);outline:2px dashed rgba(214,108,255,.55);outline-offset:-2px}
       .admin-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100000}
       .admin-modal{width:min(560px,100%);max-height:90vh;overflow:auto;background:#151922;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:24px;color:#fff;box-shadow:0 20px 70px rgba(0,0,0,.5)}
       .admin-modal h2{margin-bottom:18px}
@@ -110,82 +112,14 @@
   async function loadGames() {
     const res = await authFetch(`${API}/games`, { cache: "no-store" });
     if (!res.ok) throw new Error(`Games load failed: ${res.status}`);
-
     const data = await res.json();
     if (!Array.isArray(data)) throw new Error("API /games returned invalid data");
-
     games = data.map(game => ({ ...game }));
-  }
-
-  function findGameIndex(card) {
-    const name = card.querySelector(".game-cover")?.alt || "";
-    const cover = card.querySelector(".game-cover")?.getAttribute("src") || "";
-
-    let index = games.findIndex(game => game.name === name && game.cover === cover);
-    if (index < 0) index = games.findIndex(game => game.name === name);
-    return index;
-  }
-
-  function attachButtons() {
-    if (section !== "games") return;
-
-    document.querySelectorAll(".game-card").forEach(card => {
-      if (card.querySelector(".admin-actions")) return;
-
-      const index = findGameIndex(card);
-      const actions = document.createElement("div");
-      actions.className = "admin-actions";
-      actions.innerHTML = `
-        <button class="edit" type="button">✏️ Редактировать</button>
-        <button class="delete" type="button">🗑 Удалить</button>
-      `;
-
-      actions.querySelector(".edit").onclick = event => {
-        event.stopPropagation();
-        const currentIndex = findGameIndex(card);
-        if (currentIndex >= 0) openEditor(currentIndex);
-      };
-
-      actions.querySelector(".delete").onclick = event => {
-        event.stopPropagation();
-        const currentIndex = findGameIndex(card);
-        if (currentIndex < 0) return;
-
-        const game = games[currentIndex];
-        if (!confirm(`Удалить игру «${game.name}»?\n\nИзменение вступит в силу на сайте после сохранения.`)) return;
-
-        games.splice(currentIndex, 1);
-        markDirty();
-        card.remove();
-        rebuildEmptyTiers();
-      };
-
-      card.append(actions);
-    });
-  }
-
-  function rebuildEmptyTiers() {
-    document.querySelectorAll(".tier-row").forEach(row => {
-      const grid = row.querySelector(".tier-grid");
-      if (!grid) return;
-      const tierId = row.querySelector(".tier-box")?.textContent.trim();
-      if (!tierId) return;
-      row.style.display = games.some(game => game.tier === tierId) ? "" : "none";
-    });
   }
 
   function openEditor(index) {
     const source = index < 0
-      ? {
-          name: "",
-          tier: "C",
-          rating: 0,
-          status: "",
-          hours: 0,
-          deaths: 0,
-          cover: "",
-          playlist: ""
-        }
+      ? { name:"", tier:"C", rating:0, status:"", hours:0, deaths:0, cover:"", playlist:"" }
       : { ...games[index] };
 
     const backdrop = document.createElement("div");
@@ -218,7 +152,6 @@
     `;
 
     document.body.append(backdrop);
-
     const form = backdrop.querySelector("form");
     form.elements.tier.value = source.tier || "C";
 
@@ -257,64 +190,154 @@
     form.elements.name.focus();
   }
 
+  function moveGame(movingGame, targetGame, targetTier, before) {
+    const sourceIndex = games.indexOf(movingGame);
+    if (sourceIndex < 0) return;
+
+    games.splice(sourceIndex, 1);
+    movingGame.tier = targetTier;
+
+    if (!targetGame) {
+      games.push(movingGame);
+      return;
+    }
+
+    const targetIndex = games.indexOf(targetGame);
+    if (targetIndex < 0) {
+      games.push(movingGame);
+      return;
+    }
+
+    games.splice(before ? targetIndex : targetIndex + 1, 0, movingGame);
+  }
+
+  function clearDragState() {
+    document.querySelectorAll(".admin-dragging,.admin-drop-target,.admin-over").forEach(element => {
+      element.classList.remove("admin-dragging", "admin-drop-target", "admin-over");
+    });
+    draggedGame = null;
+  }
+
+  function setupDrag(card, game, grid, tier) {
+    card.draggable = true;
+
+    card.addEventListener("dragstart", event => {
+      draggedGame = game;
+      card.classList.add("admin-dragging");
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", game.name || "game");
+    });
+
+    card.addEventListener("dragend", clearDragState);
+
+    card.addEventListener("dragover", event => {
+      if (!draggedGame || draggedGame === game) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+      card.classList.add("admin-drop-target");
+    });
+
+    card.addEventListener("dragleave", () => card.classList.remove("admin-drop-target"));
+
+    card.addEventListener("drop", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!draggedGame || draggedGame === game) return;
+
+      const rect = card.getBoundingClientRect();
+      const before = event.clientX < rect.left + rect.width / 2;
+      moveGame(draggedGame, game, tier, before);
+      markDirty();
+      clearDragState();
+      renderAdminView();
+    });
+
+    grid.addEventListener("dragover", event => {
+      if (!draggedGame) return;
+      if (event.target.closest(".game-card")) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+      grid.classList.add("admin-over");
+    });
+
+    grid.addEventListener("dragleave", event => {
+      if (!grid.contains(event.relatedTarget)) grid.classList.remove("admin-over");
+    });
+
+    grid.addEventListener("drop", event => {
+      if (!draggedGame || event.target.closest(".game-card")) return;
+      event.preventDefault();
+      moveGame(draggedGame, null, tier, false);
+      markDirty();
+      clearDragState();
+      renderAdminView();
+    });
+  }
+
   function renderAdminView() {
     const container = document.getElementById("gameshelfContainer");
     if (!container) return;
 
     container.innerHTML = "";
 
-    const tierNames = {
-      S: "Легендарно",
-      A: "Отлично",
-      B: "Хорошо",
-      C: "Нормально",
-      D: "Слабо",
-      F: "Не понравилось"
-    };
+    const hint = document.createElement("p");
+    hint.className = "admin-drag-hint";
+    hint.textContent = "Перетаскивай игры мышкой между любыми строками — тир изменится автоматически. Порядок внутри тира тоже сохраняется.";
+    container.append(hint);
 
     const tierGlows = {
-      S: "0 0 22px rgba(214,108,255,.45)",
-      A: "0 0 14px rgba(214,108,255,.30)",
-      B: "0 0 10px rgba(214,108,255,.18)",
-      C: "0 0 8px rgba(214,108,255,.12)",
-      D: "none",
-      F: "none"
+      S:"0 0 22px rgba(214,108,255,.45)",
+      A:"0 0 14px rgba(214,108,255,.30)",
+      B:"0 0 10px rgba(214,108,255,.18)",
+      C:"0 0 8px rgba(214,108,255,.12)",
+      D:"none",
+      F:"none"
     };
 
-    ["S", "A", "B", "C", "D", "F"].forEach(tier => {
-      const tierGames = games.filter(game => game.tier === tier);
-      if (!tierGames.length) return;
-
+    ["S","A","B","C","D","F"].forEach(tier => {
       const row = document.createElement("div");
       row.className = "tier-row";
-      row.innerHTML = `
-        <div class="tier-box">${tier}</div>
-        <div class="tier-grid"></div>
-      `;
+      row.innerHTML = `<div class="tier-box">${tier}</div><div class="tier-grid admin-drop-zone"></div>`;
       row.querySelector(".tier-box").style.boxShadow = tierGlows[tier];
 
       const grid = row.querySelector(".tier-grid");
+      const tierGames = games.filter(game => game.tier === tier);
+
       tierGames.forEach(game => {
         const card = document.createElement("div");
         card.className = "game-card";
+        card.title = "Перетащите игру, чтобы изменить её тир и порядок";
         card.innerHTML = `<img class="game-cover" src="${escapeHtml(game.cover)}" alt="${escapeHtml(game.name)}">`;
         card.querySelector(".game-cover").style.boxShadow = tierGlows[tier];
 
-        card.onclick = () => {
-          const modalButton = document.querySelector(".gm-close");
-          if (modalButton) {
-            const event = new Event("click");
-            modalButton.dispatchEvent(event);
-          }
+        const actions = document.createElement("div");
+        actions.className = "admin-actions";
+        actions.innerHTML = `
+          <button class="edit" type="button">✏️ Редактировать</button>
+          <button class="delete" type="button">🗑 Удалить</button>
+        `;
+
+        actions.querySelector(".edit").onclick = event => {
+          event.stopPropagation();
+          openEditor(games.indexOf(game));
         };
 
+        actions.querySelector(".delete").onclick = event => {
+          event.stopPropagation();
+          if (!confirm(`Удалить игру «${game.name}»?\n\nИзменение вступит в силу после сохранения.`)) return;
+          const index = games.indexOf(game);
+          if (index >= 0) games.splice(index, 1);
+          markDirty();
+          renderAdminView();
+        };
+
+        card.append(actions);
+        setupDrag(card, game, grid, tier);
         grid.append(card);
       });
 
       container.append(row);
     });
-
-    attachButtons();
   }
 
   async function saveGames() {
@@ -357,7 +380,6 @@
     if (!isAdmin || section !== "games") return;
 
     saveHashToken();
-
     if (!getToken()) {
       location.replace(`${API}/login?next=${encodeURIComponent(location.pathname + location.search)}`);
       return;
@@ -379,7 +401,7 @@
       await loadGames();
 
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", renderAdminView, { once: true });
+        document.addEventListener("DOMContentLoaded", renderAdminView, { once:true });
       } else {
         renderAdminView();
       }
