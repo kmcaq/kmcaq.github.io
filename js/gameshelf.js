@@ -6,7 +6,7 @@ const TIERS = [
   { id: "C", title: "Нормально", mark: "C", glow: "0 0 8px rgba(214,108,255,.12)" },
   { id: "D", title: "Слабо", mark: "D", glow: "none" },
   { id: "F", title: "Не понравилось", mark: "F", glow: "none" },
-  { id: "PLANNED", title: "Не отсортировано", mark: "…", special: true, glow: "none" }
+  { id: "PLANNED", title: "Запланировано", mark: "…", special: true, glow: "none" }
 ];
 
 const container = document.getElementById("gameshelfContainer");
