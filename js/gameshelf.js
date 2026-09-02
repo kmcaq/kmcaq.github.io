@@ -99,8 +99,7 @@ if (container) {
       }));
 
       window.GameShelf = {
-        games: normalizedGames,
-        reload: () => location.reload()
+        games: normalizedGames
       };
 
       TIERS.forEach(tier => {
