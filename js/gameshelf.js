@@ -106,8 +106,10 @@ if (container) {
               overlay.querySelector(".gm-title").textContent = game.name;
               overlay.querySelector(".gm-rating").textContent = game.rating != null ? `${game.rating}/10` : "—";
               overlay.querySelector(".gm-status").textContent = game.status === "Запланировано" ? "В планах" : (game.status ?? "—");
+              overlay.querySelector(".gm-hours").textContent = game.hours != null ? `${game.hours} ч.` : "—";
+              overlay.querySelector(".gm-deaths").textContent = game.deaths != null ? game.deaths : "—";
 
-              const compactCard = game.tier === "PLANNED" || game.tier === "PLAN" || game.tier === "NOW" || game.status === "В планах" || game.status === "Запланировано" || game.status === "Заморозка" || game.status === "Играю сейчас" || game.status === "Прохожу";
+              const compactCard = tier.id === "NOW" || tier.id === "PLANNED";
               overlay.querySelector(".gm-rating-item").style.display = compactCard ? "none" : "";
               overlay.querySelector(".gm-hours-item").style.display = compactCard ? "none" : "";
               overlay.querySelector(".gm-deaths-item").style.display = compactCard ? "none" : "";
