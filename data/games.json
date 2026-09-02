@@ -18,5 +18,35 @@
     "deaths": 8,
     "cover": "../covers/portal.png",
     "playlist": "https://youtube.com/playlist?list="
+  },
+  {
+    "name": "1",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/alan.png",
+    "playlist": ""
+  },
+  {
+    "name": "2",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/alandlc.png",
+    "playlist": ""
+  },
+  {
+    "name": "3",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/alice.png",
+    "playlist": ""
   }
 ]
