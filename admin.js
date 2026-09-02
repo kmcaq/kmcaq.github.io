@@ -7,6 +7,8 @@
   const section = location.pathname.split("/").filter(Boolean)[0] || "home";
   if (section !== "games") return;
 
+  // Admin is only a behavior layer over the public gameshelf.
+  // The actual game list comes from window.GameShelf, which is loaded by gameshelf.js.
   let games = [];
   let dirty = false;
   let draggedGame = null;
@@ -141,10 +143,6 @@
     return document.querySelector(`#gameshelfContainer .tier-row[data-tier="${CSS.escape(tier)}"] .tier-grid`);
   }
 
-  function syncSharedGames() {
-    if (window.GameShelf) window.GameShelf.games = games;
-  }
-
   function addActions(card) {
     if (!card || card.querySelector(".admin-actions")) return;
     const actions = document.createElement("div");
@@ -276,7 +274,6 @@
     games[index].tier = tier;
     grid.appendChild(draggedCard);
     rebuildOrderFromDom();
-    syncSharedGames();
     markDirty();
     clearDragState();
   }
@@ -293,7 +290,6 @@
       targetGrid.appendChild(draggedCard);
     }
     rebuildOrderFromDom();
-    syncSharedGames();
     markDirty();
     clearDragState();
   }
@@ -317,8 +313,7 @@
       if (!seen.has(getGameName(game))) ordered.push(game);
     });
 
-    games = ordered;
-    syncSharedGames();
+    games.splice(0, games.length, ...ordered);
   }
 
   function deleteGame(gameName) {
@@ -328,7 +323,6 @@
     games.splice(index, 1);
     const card = findGameCard(gameName);
     if (card) card.remove();
-    syncSharedGames();
     markDirty();
   }
 
@@ -510,7 +504,6 @@
       }
 
       rebuildOrderFromDom();
-      syncSharedGames();
       markDirty();
       backdrop.remove();
     });
@@ -521,6 +514,7 @@
     if (button) button.disabled = true;
     try {
       rebuildOrderFromDom();
+
       const unique = [];
       const seen = new Set();
       games.forEach(game => {
@@ -529,8 +523,7 @@
         seen.add(name);
         unique.push(game);
       });
-      games = unique;
-      syncSharedGames();
+      games.splice(0, games.length, ...unique);
 
       const response = await authFetch(`${API}/games`, {
         method: "PUT",
@@ -578,10 +571,8 @@
 
     try {
       await waitForShelf();
-      games = Array.isArray(window.GameShelf.games)
-        ? window.GameShelf.games.map(game => ({ ...game, status: normalizeStatus(game.status), tier: normalizeTier(game) }))
-        : [];
-      syncSharedGames();
+      games = window.GameShelf.games;
+      if (!Array.isArray(games)) throw new Error("GameShelf.games is invalid");
       decorateExistingCards();
       setupRows();
     } catch (error) {
