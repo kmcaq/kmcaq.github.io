@@ -7,12 +7,12 @@
     "hours": 38,
     "deaths": 14,
     "cover": "../covers/prey.png",
-    "playlist": "https://youtube.com/playlist?list="
+    "playlist": "https://studio.youtube.com/playlist/PLIhTgrnRIiWI/edit"
   },
   {
     "name": "Portal",
     "tier": "C",
-    "rating": 6.0,
+    "rating": 6,
     "status": "Прохожу",
     "hours": 21,
     "deaths": 8,
