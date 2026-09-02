@@ -48,5 +48,195 @@
     "deaths": 0,
     "cover": "../covers/alice.png",
     "playlist": ""
+  },
+  {
+    "name": "5",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/bioshockinf.png",
+    "playlist": ""
+  },
+  {
+    "name": "6",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/control.png",
+    "playlist": ""
+  },
+  {
+    "name": "7",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/disco.png",
+    "playlist": ""
+  },
+  {
+    "name": "8",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/evilschool.png",
+    "playlist": ""
+  },
+  {
+    "name": "9",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/ghostrunner.png",
+    "playlist": ""
+  },
+  {
+    "name": "10",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/kcd.png",
+    "playlist": ""
+  },
+  {
+    "name": "11",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/lof.png",
+    "playlist": ""
+  },
+  {
+    "name": "12",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/miside.png",
+    "playlist": ""
+  },
+  {
+    "name": "13",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/nte.png",
+    "playlist": ""
+  },
+  {
+    "name": "14",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/portal2.png",
+    "playlist": ""
+  },
+  {
+    "name": "15",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/rdr2.png",
+    "playlist": ""
+  },
+  {
+    "name": "16",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/re2.png",
+    "playlist": ""
+  },
+  {
+    "name": "17",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/re3.png",
+    "playlist": ""
+  },
+  {
+    "name": "18",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/re4.png",
+    "playlist": ""
+  },
+  {
+    "name": "19",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/sh2.png",
+    "playlist": ""
+  },
+  {
+    "name": "20",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/subliminal.png",
+    "playlist": ""
+  },
+  {
+    "name": "21",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/tbs.png",
+    "playlist": ""
+  },
+  {
+    "name": "22",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/tokyo.png",
+    "playlist": ""
+  },
+  {
+    "name": "23",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/winx.png",
+    "playlist": ""
   }
 ]
