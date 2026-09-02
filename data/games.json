@@ -1,7 +1,7 @@
 [
   {
     "name": "Prey",
-    "tier": "B",
+    "tier": "PLANNED",
     "rating": 10,
     "status": "Завершено",
     "hours": 38,
@@ -11,7 +11,7 @@
   },
   {
     "name": "Portal",
-    "tier": "B",
+    "tier": "PLANNED",
     "rating": 6,
     "status": "Дроп",
     "hours": 21,
