@@ -1,7 +1,17 @@
 [
   {
-    "name": "Prey",
+    "name": "Test2",
+    "status": "В планах",
+    "rating": null,
     "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "",
+    "playlist": ""
+  },
+  {
+    "name": "Prey",
+    "tier": "S",
     "rating": 9.8,
     "status": "Завершено",
     "hours": 38,
@@ -11,12 +21,22 @@
   },
   {
     "name": "Portal",
-    "tier": "F",
+    "tier": "C",
     "rating": 6,
     "status": "Дроп",
     "hours": 21,
     "deaths": 8,
     "cover": "../covers/portal.png",
     "playlist": "https://youtube.com/playlist?list="
+  },
+  {
+    "name": "Test",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "",
+    "playlist": ""
   }
 ]
