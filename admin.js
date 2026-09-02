@@ -14,7 +14,7 @@
   let dragScrollRunning = false;
 
   const TIERS = ["NOW", "S", "A", "B", "C", "D", "F", "PLANNED"];
-  const STATUSES = ["Прохожу", "Завершено", "Дроп", "Запланировано"];
+  const STATUSES = ["Прохожу", "Завершено", "Дроп", "В планах"];
 
   const getToken = () => sessionStorage.getItem(TOKEN_KEY);
 
@@ -40,9 +40,15 @@
     return response;
   }
 
+  function normalizeStatus(status) {
+    if (status === "Пройдено") return "Завершено";
+    if (status === "Запланировано") return "В планах";
+    return STATUSES.includes(status) ? status : "Прохожу";
+  }
+
   function normalizeTier(game) {
     if (game.tier === "NOW" || game.status === "Играю сейчас") return "NOW";
-    if (game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах") return "PLANNED";
+    if (game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано") return "PLANNED";
     return TIERS.includes(game.tier) ? game.tier : "PLANNED";
   }
 
@@ -108,7 +114,7 @@
       clean.searchParams.delete("admin");
       location.href = clean.pathname + clean.search;
     };
-    document.getElementById("admin-add").onclick = () => openEditor(-1);
+    document.getElementById("admin-add").onclick = () => openEditor(null);
     document.getElementById("admin-save").onclick = saveGames;
   }
 
@@ -117,34 +123,44 @@
     if (!response.ok) throw new Error(`Games load failed: ${response.status}`);
     const data = await response.json();
     if (!Array.isArray(data)) throw new Error("API /games returned invalid data");
-    games = data.map(game => ({ ...game, tier: normalizeTier(game) }));
+    games = data.map(game => ({ ...game, status: normalizeStatus(game.status), tier: normalizeTier(game) }));
   }
 
-  function findGameCard(game) {
-    return [...document.querySelectorAll("#gameshelfContainer .game-card")].find(card => card.dataset.gameName === (game.name || ""));
+  function getGameName(game) {
+    return String(game?.name || "");
+  }
+
+  function findGameIndex(gameOrName) {
+    const name = typeof gameOrName === "string" ? gameOrName : getGameName(gameOrName);
+    return games.findIndex(game => getGameName(game) === name);
+  }
+
+  function findGameCard(gameOrName) {
+    const name = typeof gameOrName === "string" ? gameOrName : getGameName(gameOrName);
+    return [...document.querySelectorAll("#gameshelfContainer .game-card")].find(card => card.dataset.gameName === name) || null;
   }
 
   function findGrid(tier) {
     return document.querySelector(`#gameshelfContainer .tier-row[data-tier="${CSS.escape(tier)}"] .tier-grid`);
   }
 
-  function addActions(card, game) {
+  function addActions(card) {
     if (!card || card.querySelector(".admin-actions")) return;
     const actions = document.createElement("div");
     actions.className = "admin-actions";
     actions.innerHTML = `<button class="edit" type="button" aria-label="Редактировать">✏️</button><button class="delete" type="button" aria-label="Удалить">🗑</button>`;
     actions.querySelector(".edit").onclick = event => {
       event.stopPropagation();
-      openEditor(games.indexOf(game));
+      openEditor(card.dataset.gameName);
     };
     actions.querySelector(".delete").onclick = event => {
       event.stopPropagation();
-      deleteGame(game);
+      deleteGame(card.dataset.gameName);
     };
     card.appendChild(actions);
   }
 
-  function decorateCard(card, game) {
+  function decorateCard(card) {
     if (!card || card.dataset.adminDecorated === "1") return;
     card.dataset.adminDecorated = "1";
     card.classList.add("admin-game-card");
@@ -158,12 +174,12 @@
       if (typeof publicClick === "function") publicClick.call(card, event);
     });
 
-    addActions(card, game);
-    setupDrag(card, game);
+    addActions(card);
+    setupDrag(card);
   }
 
   function decorateExistingCards() {
-    games.forEach(game => decorateCard(findGameCard(game), game));
+    games.forEach(game => decorateCard(findGameCard(game)));
   }
 
   function setupRows() {
@@ -219,22 +235,24 @@
     requestAnimationFrame(tick);
   }
 
-  function setupDrag(card, game) {
+  function setupDrag(card) {
     card.addEventListener("dragstart", event => {
       if (event.target.closest("button")) {
         event.preventDefault();
         return;
       }
-      draggedGame = game;
+      const name = card.dataset.gameName;
+      if (findGameIndex(name) < 0) return;
+      draggedGame = name;
       draggedCard = card;
       card.classList.add("admin-dragging");
       event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/plain", game.name || "game");
+      event.dataTransfer.setData("text/plain", name);
     });
 
     card.addEventListener("dragend", clearDragState);
     card.addEventListener("dragover", event => {
-      if (!draggedGame || draggedGame === game) return;
+      if (!draggedGame || draggedGame === card.dataset.gameName) return;
       event.preventDefault();
       event.stopPropagation();
       event.dataTransfer.dropEffect = "move";
@@ -242,11 +260,11 @@
     });
     card.addEventListener("dragleave", () => card.classList.remove("admin-drop-target"));
     card.addEventListener("drop", event => {
-      if (!draggedGame || draggedGame === game) return;
+      if (!draggedGame || draggedGame === card.dataset.gameName) return;
       event.preventDefault();
       event.stopPropagation();
       const rect = card.getBoundingClientRect();
-      moveToCard(draggedGame, game, card.parentElement, event.clientX < rect.left + rect.width / 2);
+      moveToCard(draggedGame, card.dataset.gameName, card.parentElement, event.clientX < rect.left + rect.width / 2);
     });
   }
 
@@ -259,10 +277,10 @@
     dragScrollDirection = 0;
   }
 
-  function moveToGrid(game, grid, tier) {
-    const sourceIndex = games.indexOf(game);
+  function moveToGrid(gameName, grid, tier) {
+    const sourceIndex = findGameIndex(gameName);
     if (sourceIndex < 0 || !draggedCard) return;
-    games.splice(sourceIndex, 1);
+    const game = games[sourceIndex];
     game.tier = tier;
     grid.appendChild(draggedCard);
     rebuildOrderFromDom();
@@ -270,12 +288,12 @@
     clearDragState();
   }
 
-  function moveToCard(game, targetGame, targetGrid, before) {
-    const sourceIndex = games.indexOf(game);
+  function moveToCard(gameName, targetName, targetGrid, before) {
+    const sourceIndex = findGameIndex(gameName);
     if (sourceIndex < 0 || !draggedCard) return;
-    games.splice(sourceIndex, 1);
+    const game = games[sourceIndex];
     game.tier = targetGrid.closest(".tier-row")?.dataset.tier || "PLANNED";
-    const targetCard = [...targetGrid.children].find(card => card.dataset.gameName === targetGame.name);
+    const targetCard = [...targetGrid.children].find(card => card.dataset.gameName === targetName);
     if (targetCard) {
       if (before) targetGrid.insertBefore(draggedCard, targetCard);
       else targetGrid.insertBefore(draggedCard, targetCard.nextSibling);
@@ -288,25 +306,33 @@
   }
 
   function rebuildOrderFromDom() {
+    const byName = new Map(games.map(game => [getGameName(game), game]));
     const ordered = [];
+
     document.querySelectorAll("#gameshelfContainer .tier-row").forEach(row => {
       const tier = row.dataset.tier;
       row.querySelectorAll(":scope > .tier-grid > .game-card").forEach(card => {
-        const game = games.find(item => item.name === card.dataset.gameName);
-        if (game) {
-          game.tier = tier;
-          ordered.push(game);
-        }
+        const game = byName.get(card.dataset.gameName);
+        if (!game) return;
+        game.tier = tier;
+        ordered.push(game);
       });
     });
+
+    const seen = new Set(ordered.map(getGameName));
+    games.forEach(game => {
+      if (!seen.has(getGameName(game))) ordered.push(game);
+    });
+
     games = ordered;
   }
 
-  function deleteGame(game) {
-    if (!confirm(`Удалить игру «${game.name}»?`)) return;
-    const index = games.indexOf(game);
-    if (index >= 0) games.splice(index, 1);
-    const card = findGameCard(game);
+  function deleteGame(gameName) {
+    const index = findGameIndex(gameName);
+    if (index < 0) return;
+    if (!confirm(`Удалить игру «${games[index].name}»?`)) return;
+    games.splice(index, 1);
+    const card = findGameCard(gameName);
     if (card) card.remove();
     markDirty();
   }
@@ -325,8 +351,10 @@
       image.src = game.cover || "";
       image.alt = game.name || "";
     }
+    const oldActions = card.querySelector(".admin-actions");
+    if (oldActions) oldActions.remove();
     grid.appendChild(card);
-    decorateCard(card, game);
+    decorateCard(card);
     return card;
   }
 
@@ -345,15 +373,16 @@
     if (grid && card && card.parentElement !== grid) grid.appendChild(card);
   }
 
-  function openEditor(index) {
+  function openEditor(gameName = null) {
+    const index = gameName === null ? -1 : findGameIndex(gameName);
+    if (gameName !== null && index < 0) return;
+
     const source = index < 0
-      ? { name: "", tier: "PLANNED", rating: "", status: "Запланировано", hours: 0, deaths: 0, cover: "", playlist: "" }
-      : { ...games[index] };
+      ? { name: "", tier: "PLANNED", rating: "", status: "В планах", hours: 0, deaths: 0, cover: "", playlist: "" }
+      : { ...games[index], status: normalizeStatus(games[index].status) };
 
     source.tier = normalizeTier(source);
-    if (source.status === "В планах") source.status = "Запланировано";
-    if (source.status === "Пройдено") source.status = "Завершено";
-    if (!STATUSES.includes(source.status)) source.status = source.tier === "PLANNED" ? "Запланировано" : "Прохожу";
+    if (!STATUSES.includes(source.status)) source.status = source.tier === "PLANNED" ? "В планах" : "Прохожу";
 
     const backdrop = document.createElement("div");
     backdrop.className = "admin-modal-backdrop";
@@ -370,14 +399,14 @@
             <option value="C">C — Нормально</option>
             <option value="D">D — Слабо</option>
             <option value="F">F — Не понравилось</option>
-            <option value="PLANNED">Запланировано</option>
+            <option value="PLANNED">В планах</option>
           </select></label>
           <label>Оценка<input name="rating" type="number" min="0" max="10" step="0.1" inputmode="decimal"></label>
           <label>Статус<select name="status">
             <option value="Прохожу">Прохожу</option>
             <option value="Завершено">Завершено</option>
             <option value="Дроп">Дроп</option>
-            <option value="Запланировано">Запланировано</option>
+            <option value="В планах">В планах</option>
           </select></label>
           <label>Часы<input name="hours" type="number" min="0" step="1"></label>
           <label>Смерти<input name="deaths" type="number" min="0" step="1"></label>
@@ -421,26 +450,41 @@
     form.addEventListener("submit", event => {
       event.preventDefault();
 
-      const game = index < 0 ? {} : games[index];
-      const oldName = game.name;
+      const oldName = gameName;
+      let game;
+      if (index < 0) {
+        game = {};
+        games.push(game);
+      } else {
+        const currentIndex = findGameIndex(oldName);
+        if (currentIndex < 0) return;
+        game = games[currentIndex];
+      }
+
       game.name = form.elements.name.value.trim();
       game.tier = tierInput.value;
       game.rating = ratingInput.value === "" ? null : Number(ratingInput.value);
-      game.status = statusInput.value;
+      game.status = normalizeStatus(statusInput.value);
       game.hours = Number(form.elements.hours.value || 0);
       game.deaths = Number(form.elements.deaths.value || 0);
       game.cover = form.elements.cover.value.trim();
       game.playlist = form.elements.playlist.value.trim();
 
-      if (!game.name) return;
+      if (!game.name) {
+        if (index < 0) games.pop();
+        return;
+      }
 
       if (index < 0) {
-        games.push(game);
         createCardFromExisting(game, game.tier);
       } else {
-        const card = [...document.querySelectorAll("#gameshelfContainer .game-card")].find(item => item.dataset.gameName === oldName);
+        const card = findGameCard(oldName);
         refreshCard(card, game);
         moveCardToTier(card, game.tier);
+        if (card) {
+          card.dataset.gameName = game.name;
+          card.dataset.adminDecorated = "1";
+        }
       }
 
       rebuildOrderFromDom();
