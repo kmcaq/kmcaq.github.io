@@ -1,5 +1,35 @@
 [
   {
+    "name": "Resident Evil 2",
+    "status": "Завершено",
+    "rating": 10,
+    "tier": "S",
+    "hours": 10,
+    "deaths": 41,
+    "cover": "../covers/re2.png",
+    "playlist": ""
+  },
+  {
+    "name": "Ghostwire: Tokyo",
+    "status": "Завершено",
+    "rating": 10,
+    "tier": "S",
+    "hours": 11,
+    "deaths": 4,
+    "cover": "../covers/tokyo.png",
+    "playlist": ""
+  },
+  {
+    "name": "MiSide",
+    "status": "Завершено",
+    "rating": 9,
+    "tier": "A",
+    "hours": 4,
+    "deaths": 6,
+    "cover": "../covers/miside.png",
+    "playlist": ""
+  },
+  {
     "name": "Alan Wake",
     "status": "Завершено",
     "rating": 8.5,
@@ -7,6 +37,76 @@
     "hours": 14,
     "deaths": 81,
     "cover": "../covers/alan.png",
+    "playlist": ""
+  },
+  {
+    "name": "Resident Evil 3",
+    "status": "Завершено",
+    "rating": 6.5,
+    "tier": "B",
+    "hours": 7,
+    "deaths": 12,
+    "cover": "../covers/re3.png",
+    "playlist": ""
+  },
+  {
+    "name": "BioShock Infinite",
+    "status": "Завершено",
+    "rating": 6,
+    "tier": "B",
+    "hours": 10,
+    "deaths": 12,
+    "cover": "../covers/bioshockinf.png",
+    "playlist": ""
+  },
+  {
+    "name": "Control",
+    "status": "Завершено",
+    "rating": 6,
+    "tier": "B",
+    "hours": 16,
+    "deaths": 59,
+    "cover": "../covers/control.png",
+    "playlist": ""
+  },
+  {
+    "name": "Alan Wake: American Nightmare",
+    "status": "Завершено",
+    "rating": 4,
+    "tier": "C",
+    "hours": 4,
+    "deaths": 4,
+    "cover": "../covers/alandlc.png",
+    "playlist": ""
+  },
+  {
+    "name": "NTE: Neverness to Everness",
+    "status": "Завершено",
+    "rating": 2,
+    "tier": "D",
+    "hours": 10,
+    "deaths": 0,
+    "cover": "../covers/nte.png",
+    "playlist": ""
+  },
+  {
+    "name": "Layers of Fear",
+    "status": "Завершено",
+    "rating": 1,
+    "tier": "F",
+    "hours": 12,
+    "deaths": 13,
+    "cover": "../covers/lof.png",
+    "playlist": ""
+  },
+  {
+    "name": "Silent Hill 2",
+    "status": "Дроп",
+    "rating": null,
+    "tier": "F",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/sh2.png",
     "playlist": ""
   },
   {
@@ -30,16 +130,6 @@
     "playlist": "https://youtube.com/playlist?list="
   },
   {
-    "name": "2",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/alandlc.png",
-    "playlist": ""
-  },
-  {
     "name": "3",
     "status": "В планах",
     "rating": null,
@@ -47,26 +137,6 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/alice.png",
-    "playlist": ""
-  },
-  {
-    "name": "5",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/bioshockinf.png",
-    "playlist": ""
-  },
-  {
-    "name": "6",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/control.png",
     "playlist": ""
   },
   {
@@ -110,36 +180,6 @@
     "playlist": ""
   },
   {
-    "name": "11",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/lof.png",
-    "playlist": ""
-  },
-  {
-    "name": "12",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/miside.png",
-    "playlist": ""
-  },
-  {
-    "name": "13",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/nte.png",
-    "playlist": ""
-  },
-  {
     "name": "14",
     "status": "В планах",
     "rating": null,
@@ -160,26 +200,6 @@
     "playlist": ""
   },
   {
-    "name": "16",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/re2.png",
-    "playlist": ""
-  },
-  {
-    "name": "17",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/re3.png",
-    "playlist": ""
-  },
-  {
     "name": "18",
     "status": "В планах",
     "rating": null,
@@ -187,16 +207,6 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/re4.png",
-    "playlist": ""
-  },
-  {
-    "name": "19",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/sh2.png",
     "playlist": ""
   },
   {
@@ -217,16 +227,6 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/tbs.png",
-    "playlist": ""
-  },
-  {
-    "name": "22",
-    "status": "В планах",
-    "rating": null,
-    "tier": "PLANNED",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/tokyo.png",
     "playlist": ""
   },
   {
