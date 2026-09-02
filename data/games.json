@@ -11,9 +11,9 @@
   },
   {
     "name": "Portal",
-    "tier": "B",
+    "tier": "F",
     "rating": 6,
-    "status": "Прохожу",
+    "status": "Дроп",
     "hours": 21,
     "deaths": 8,
     "cover": "../covers/portal.png",
