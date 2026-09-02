@@ -9,6 +9,9 @@ const save = document.getElementById("saveBtn");
 
 let games = [];
 
+const TIERS = ["NOW", "S", "A", "B", "C", "D", "F", "PLANNED"];
+const STATUSES = ["Прохожу", "Завершено", "Дроп", "В планах"];
+
 function getToken() {
   return sessionStorage.getItem(TOKEN_KEY);
 }
@@ -48,6 +51,38 @@ async function authFetch(url, options = {}) {
   return res;
 }
 
+function normalizeStatus(status) {
+  if (status === "Пройдено") return "Завершено";
+  if (status === "Запланировано") return "В планах";
+  return STATUSES.includes(status) ? status : "Прохожу";
+}
+
+function normalizeTier(game) {
+  if (game.tier === "NOW" || game.status === "Играю сейчас") return "NOW";
+  if (
+    game.tier === "PLANNED" ||
+    game.tier === "PLAN" ||
+    game.status === "В планах" ||
+    game.status === "Запланировано"
+  ) return "PLANNED";
+  return TIERS.includes(game.tier) ? game.tier : "PLANNED";
+}
+
+function automaticTier(rating, status) {
+  if (status === "Играю сейчас") return "NOW";
+  if (status === "В планах" || status === "Запланировано") return "PLANNED";
+  if (status === "Дроп") return "F";
+
+  const value = Number(rating);
+  if (!Number.isFinite(value) || value <= 0) return null;
+  if (value >= 10) return "S";
+  if (value >= 8) return "A";
+  if (value >= 6) return "B";
+  if (value >= 4) return "C";
+  if (value >= 2) return "D";
+  return "F";
+}
+
 init();
 
 async function init() {
@@ -82,7 +117,15 @@ async function init() {
       throw new Error(`Games load failed: ${gamesRes.status}`);
     }
 
-    games = await gamesRes.json();
+    const data = await gamesRes.json();
+    games = Array.isArray(data)
+      ? data.map(game => ({
+          ...game,
+          status: normalizeStatus(game.status),
+          tier: normalizeTier(game)
+        }))
+      : [];
+
     render();
   } catch (error) {
     console.error("Admin initialization failed:", error);
@@ -126,15 +169,18 @@ function edit(i) {
     i === -1
       ? {
           name: "",
-          status: "",
-          tier: "C",
+          status: "В планах",
+          tier: "PLANNED",
           rating: 0,
           hours: 0,
           deaths: 0,
           playlist: "",
           cover: "../covers/placeholder.png"
         }
-      : games[i];
+      : { ...games[i] };
+
+  g.status = normalizeStatus(g.status);
+  g.tier = normalizeTier(g);
 
   const modal = document.createElement("div");
 
@@ -146,12 +192,26 @@ function edit(i) {
       <h2>${i === -1 ? "Новая игра" : "Редактирование"}</h2>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
         <input id="n" value="${g.name}">
-        <input id="s" value="${g.status}">
-        <input id="t" value="${g.tier}">
-        <input id="r" type="number" step=".1" value="${g.rating}">
-        <input id="h" type="number" value="${g.hours}">
-        <input id="d" type="number" value="${g.deaths}">
-        <input id="p" value="${g.playlist}">
+        <select id="s">
+          <option value="Прохожу">Прохожу</option>
+          <option value="Завершено">Завершено</option>
+          <option value="Дроп">Дроп</option>
+          <option value="В планах">В планах</option>
+        </select>
+        <select id="t">
+          <option value="NOW">Играю сейчас</option>
+          <option value="S">S</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
+          <option value="PLANNED">В планах</option>
+        </select>
+        <input id="r" type="number" min="0" max="10" step=".1" value="${g.rating ?? ""}">
+        <input id="h" type="number" value="${g.hours ?? 0}">
+        <input id="d" type="number" value="${g.deaths ?? 0}">
+        <input id="p" value="${g.playlist ?? ""}">
         <button id="ok">Сохранить</button>
         <button id="cancel">Отмена</button>
       </div>
@@ -160,19 +220,37 @@ function edit(i) {
 
   document.body.append(modal);
 
+  const statusInput = modal.querySelector("#s");
+  const tierInput = modal.querySelector("#t");
+  const ratingInput = modal.querySelector("#r");
+
+  statusInput.value = g.status;
+  tierInput.value = g.tier;
+
+  const applyAutomaticTier = () => {
+    const tier = automaticTier(ratingInput.value, statusInput.value);
+    if (tier) tierInput.value = tier;
+  };
+
+  ratingInput.addEventListener("input", applyAutomaticTier);
+  statusInput.addEventListener("change", applyAutomaticTier);
+
   modal.querySelector("#cancel").onclick = () => modal.remove();
 
   modal.querySelector("#ok").onclick = () => {
     const updated = {
-      name: modal.querySelector("#n").value,
-      status: modal.querySelector("#s").value,
-      tier: modal.querySelector("#t").value,
-      rating: +modal.querySelector("#r").value,
+      name: modal.querySelector("#n").value.trim(),
+      status: normalizeStatus(statusInput.value),
+      tier: tierInput.value,
+      rating: ratingInput.value === "" ? null : Number(ratingInput.value),
       hours: +modal.querySelector("#h").value,
       deaths: +modal.querySelector("#d").value,
       playlist: modal.querySelector("#p").value,
       cover: g.cover
     };
+
+    const automatic = automaticTier(updated.rating, updated.status);
+    if (automatic) updated.tier = automatic;
 
     if (i === -1) {
       games.push(updated);
