@@ -56,10 +56,10 @@ if (container) {
           <div class="gm-tier"></div>
           <div class="gm-title"></div>
           <div class="gm-grid">
-            <div class="gm-item"><span>Оценка</span><div class="gm-rating"></div></div>
+            <div class="gm-item gm-rating-item"><span>Оценка</span><div class="gm-rating"></div></div>
             <div class="gm-item"><span>Статус</span><div class="gm-status"></div></div>
-            <div class="gm-item"><span>Часы</span><div class="gm-hours"></div></div>
-            <div class="gm-item"><span>Смерти</span><div class="gm-deaths"></div></div>
+            <div class="gm-item gm-hours-item"><span>Часы</span><div class="gm-hours"></div></div>
+            <div class="gm-item gm-deaths-item"><span>Смерти</span><div class="gm-deaths"></div></div>
           </div>
           <a class="gm-btn" target="_blank" rel="noopener noreferrer">▶ Открыть плейлист</a>
         </div>
@@ -89,8 +89,8 @@ if (container) {
         const grid = row.querySelector(".tier-grid");
         games
           .filter(game => {
-            if (tier.id === "NOW") return game.tier === "NOW" || game.status === "Играю сейчас";
-            if (tier.id === "PLANNED") return game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано";
+            if (tier.id === "NOW") return game.tier === "NOW" || game.status === "Играю сейчас" || game.status === "Прохожу";
+            if (tier.id === "PLANNED") return game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано" || game.status === "Заморозка";
             return game.tier === tier.id;
           })
           .forEach(game => {
@@ -106,8 +106,12 @@ if (container) {
               overlay.querySelector(".gm-title").textContent = game.name;
               overlay.querySelector(".gm-rating").textContent = game.rating != null ? `${game.rating}/10` : "—";
               overlay.querySelector(".gm-status").textContent = game.status === "Запланировано" ? "В планах" : (game.status ?? "—");
-              overlay.querySelector(".gm-hours").textContent = game.hours ?? "—";
-              overlay.querySelector(".gm-deaths").textContent = game.deaths ?? "—";
+
+              const compactCard = game.tier === "PLANNED" || game.tier === "PLAN" || game.tier === "NOW" || game.status === "В планах" || game.status === "Запланировано" || game.status === "Заморозка" || game.status === "Играю сейчас" || game.status === "Прохожу";
+              overlay.querySelector(".gm-rating-item").style.display = compactCard ? "none" : "";
+              overlay.querySelector(".gm-hours-item").style.display = compactCard ? "none" : "";
+              overlay.querySelector(".gm-deaths-item").style.display = compactCard ? "none" : "";
+
               overlay.querySelector(".gm-btn").href = game.playlist || "#";
               overlay.classList.add("show");
             };
