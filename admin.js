@@ -164,6 +164,33 @@
     card.appendChild(actions);
   }
 
+  function removeDuplicateCards() {
+    const cards = [...document.querySelectorAll("#gameshelfContainer .game-card")];
+    const groups = new Map();
+
+    cards.forEach(card => {
+      const name = card.dataset.gameName || "";
+      if (!name) return;
+      if (!groups.has(name)) groups.set(name, []);
+      groups.get(name).push(card);
+    });
+
+    groups.forEach((duplicates, name) => {
+      if (duplicates.length < 2) return;
+
+      const game = games.find(item => getGameName(item) === name);
+      const expectedTier = game?.tier;
+      const matching = expectedTier
+        ? duplicates.find(card => card.closest(".tier-row")?.dataset.tier === expectedTier)
+        : null;
+      const keep = matching || duplicates[0];
+
+      duplicates.forEach(card => {
+        if (card !== keep) card.remove();
+      });
+    });
+  }
+
   function decorateCard(card) {
     if (!card || card.dataset.adminDecorated === "1") return;
     card.dataset.adminDecorated = "1";
@@ -183,6 +210,7 @@
   }
 
   function decorateExistingCards() {
+    removeDuplicateCards();
     games.forEach(game => decorateCard(findGameCard(game)));
   }
 
