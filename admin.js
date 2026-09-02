@@ -58,7 +58,7 @@
     if (status === "В планах" || status === "Запланировано") return "PLANNED";
     if (status === "Дроп") return "F";
 
-    const value = Math.round(Number(rating));
+    const value = Math.floor(Number(rating));
     if (!Number.isFinite(value) || value <= 0) return null;
     if (value >= 10) return "S";
     if (value >= 8) return "A";
