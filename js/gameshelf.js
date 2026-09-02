@@ -6,7 +6,7 @@ const TIERS = [
   { id: "C", title: "Нормально", mark: "C", glow: "0 0 8px rgba(214,108,255,.12)" },
   { id: "D", title: "Слабо", mark: "D", glow: "none" },
   { id: "F", title: "Не понравилось", mark: "F", glow: "none" },
-  { id: "PLANNED", title: "Запланировано", mark: "…", special: true, glow: "none" }
+  { id: "PLANNED", title: "В планах", mark: "…", special: true, glow: "none" }
 ];
 
 const container = document.getElementById("gameshelfContainer");
@@ -18,7 +18,6 @@ if (container) {
     .tier-row{display:grid;grid-template-columns:72px 1fr;align-items:center;gap:12px;background:var(--card);backdrop-filter:blur(22px);border:1px solid var(--border);border-radius:24px;padding:10px 12px}
     .tier-box{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:white;background:rgba(214,108,255,.14);border:1px solid rgba(214,108,255,.28);margin:auto;text-align:center}
     .tier-box.special{width:68px;font-size:13px;line-height:1.1;padding:6px}
-    .tier-box.special-wide{width:100px}
     .tier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;min-width:0}
     .game-card{cursor:pointer;transition:.22s;min-width:0}
     .game-card:hover{transform:translateY(-3px) scale(1.02)}
@@ -38,7 +37,6 @@ if (container) {
     @media(max-width:720px){
       .tier-row{grid-template-columns:56px 1fr}
       .tier-box.special{width:52px;font-size:11px}
-      .tier-box.special-wide{width:52px}
       .tier-grid{grid-template-columns:repeat(2,1fr)}
       .gm-content{grid-template-columns:1fr}
       .gm-cover{max-width:220px;margin:auto}
@@ -84,7 +82,7 @@ if (container) {
         const row = document.createElement("div");
         row.className = "tier-row";
         row.dataset.tier = tier.id;
-        const boxClass = tier.id === "PLANNED" ? "tier-box special special-wide" : tier.special ? "tier-box special" : "tier-box";
+        const boxClass = tier.special ? "tier-box special" : "tier-box";
         row.innerHTML = `<div class="${boxClass}">${tier.special ? tier.title : tier.mark}</div><div class="tier-grid"></div>`;
         row.querySelector(".tier-box").style.boxShadow = tier.glow;
 
@@ -92,7 +90,7 @@ if (container) {
         games
           .filter(game => {
             if (tier.id === "NOW") return game.tier === "NOW" || game.status === "Играю сейчас";
-            if (tier.id === "PLANNED") return game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах";
+            if (tier.id === "PLANNED") return game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано";
             return game.tier === tier.id;
           })
           .forEach(game => {
@@ -107,7 +105,7 @@ if (container) {
               overlay.querySelector(".gm-tier").textContent = tier.title;
               overlay.querySelector(".gm-title").textContent = game.name;
               overlay.querySelector(".gm-rating").textContent = game.rating != null ? `${game.rating}/10` : "—";
-              overlay.querySelector(".gm-status").textContent = game.status ?? "—";
+              overlay.querySelector(".gm-status").textContent = game.status === "Запланировано" ? "В планах" : (game.status ?? "—");
               overlay.querySelector(".gm-hours").textContent = game.hours ?? "—";
               overlay.querySelector(".gm-deaths").textContent = game.deaths ?? "—";
               overlay.querySelector(".gm-btn").href = game.playlist || "#";
