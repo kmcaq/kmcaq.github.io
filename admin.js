@@ -4,7 +4,6 @@
   const url = new URL(location.href);
   const isAdmin = url.searchParams.get("admin") === "1";
   const section = location.pathname.split("/").filter(Boolean)[0] || "home";
-
   if (!isAdmin || section !== "games") return;
 
   let games = [];
@@ -13,11 +12,7 @@
   let draggedCard = null;
   let dragAutoScroll = 0;
 
-  const SPECIAL = {
-    NOW: "Играю сейчас",
-    PLANNED: "Не отсортировано"
-  };
-
+  const SPECIAL = { NOW: "Играю сейчас", PLANNED: "Не отсортировано" };
   const getToken = () => sessionStorage.getItem(TOKEN_KEY);
 
   function saveHashToken() {
@@ -43,12 +38,7 @@
   }
 
   function escapeHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+    return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
   }
 
   function normalizeTier(game) {
@@ -74,7 +64,7 @@
       #admin-toolbar button:disabled{opacity:.55;cursor:wait}
       .admin-title{flex:1;font-weight:700}
       .admin-drag-hint{color:#9ca3af;font-size:13px;margin:0 0 18px}
-      .admin-drop-zone{min-height:130px;border-radius:16px;transition:.15s}
+      .admin-drop-zone{min-height:48px;border-radius:16px;transition:.15s}
       .admin-drop-zone.admin-over{background:rgba(214,108,255,.10);outline:2px dashed rgba(214,108,255,.55);outline-offset:-2px}
       .admin-dragging{opacity:.35!important;transform:scale(.98)!important}
       .admin-drop-target{outline:2px dashed rgba(214,108,255,.8);outline-offset:4px}
@@ -101,7 +91,6 @@
     bar.id = "admin-toolbar";
     bar.innerHTML = `<button id="admin-back">← Обычная страница</button><div class="admin-title">Игровая полка • Админ</div><button id="admin-add">➕ Добавить</button><button id="admin-save">💾 Сохранить</button>`;
     document.body.prepend(bar);
-
     document.getElementById("admin-back").onclick = () => {
       if (dirty && !confirm("Есть несохранённые изменения. Выйти без сохранения?")) return;
       const clean = new URL(location.href);
@@ -121,32 +110,7 @@
   }
 
   function findGameCard(game) {
-    return [...document.querySelectorAll("#gameshelfContainer .game-card")]
-      .find(card => card.dataset.gameName === (game.name || ""));
-  }
-
-  function buildAdminCard(game, tier) {
-    const card = document.createElement("div");
-    card.className = "game-card admin-game-card";
-    card.dataset.gameName = game.name || "";
-    card.draggable = true;
-    card.title = "Перетащите игру, чтобы изменить раздел и порядок";
-    card.innerHTML = `<img class="game-cover" src="${escapeHtml(game.cover)}" alt="${escapeHtml(game.name)}">`;
-
-    const actions = document.createElement("div");
-    actions.className = "admin-actions";
-    actions.innerHTML = `<button class="edit" type="button" aria-label="Редактировать">✏️</button><button class="delete" type="button" aria-label="Удалить">🗑</button>`;
-    actions.querySelector(".edit").onclick = event => { event.stopPropagation(); openEditor(games.indexOf(game)); };
-    actions.querySelector(".delete").onclick = event => { event.stopPropagation(); deleteGame(game); };
-    card.appendChild(actions);
-
-    card.addEventListener("click", event => {
-      if (event.target.closest(".admin-actions")) return;
-      card._publicClick?.(event);
-    });
-
-    setupDrag(card, game);
-    return card;
+    return [...document.querySelectorAll("#gameshelfContainer .game-card")].find(card => card.dataset.gameName === (game.name || ""));
   }
 
   function decorateExistingCards() {
@@ -157,8 +121,12 @@
       card.classList.add("admin-game-card");
       card.draggable = true;
       card.title = "Перетащите игру, чтобы изменить раздел и порядок";
-      card._publicClick = card.onclick;
+      const publicClick = card.onclick;
       card.onclick = null;
+      card.addEventListener("click", event => {
+        if (event.target.closest(".admin-actions")) return;
+        if (typeof publicClick === "function") publicClick.call(card, event);
+      });
 
       const actions = document.createElement("div");
       actions.className = "admin-actions";
@@ -179,16 +147,13 @@
       if (!grid) return;
       grid.classList.add("admin-drop-zone");
       grid.addEventListener("dragover", event => {
-        if (!draggedGame) return;
-        if (event.target.closest(".game-card")) return;
+        if (!draggedGame || event.target.closest(".game-card")) return;
         event.preventDefault();
         event.dataTransfer.dropEffect = "move";
         grid.classList.add("admin-over");
         autoScroll(event.clientY);
       });
-      grid.addEventListener("dragleave", event => {
-        if (!grid.contains(event.relatedTarget)) grid.classList.remove("admin-over");
-      });
+      grid.addEventListener("dragleave", event => { if (!grid.contains(event.relatedTarget)) grid.classList.remove("admin-over"); });
       grid.addEventListener("drop", event => {
         if (!draggedGame || event.target.closest(".game-card")) return;
         event.preventDefault();
@@ -207,9 +172,7 @@
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("text/plain", game.name || "game");
     });
-
     card.addEventListener("dragend", clearDragState);
-
     card.addEventListener("dragover", event => {
       if (!draggedGame || draggedGame === game) return;
       event.preventDefault();
@@ -218,24 +181,18 @@
       card.classList.add("admin-drop-target");
       autoScroll(event.clientY);
     });
-
     card.addEventListener("dragleave", () => card.classList.remove("admin-drop-target"));
-
     card.addEventListener("drop", event => {
       if (!draggedGame || draggedGame === game) return;
       event.preventDefault();
       event.stopPropagation();
       const rect = card.getBoundingClientRect();
-      const before = event.clientX < rect.left + rect.width / 2;
-      const targetGrid = card.parentElement;
-      moveToCard(draggedGame, game, targetGrid, before);
+      moveToCard(draggedGame, game, card.parentElement, event.clientX < rect.left + rect.width / 2);
     });
   }
 
   function clearDragState() {
-    document.querySelectorAll(".admin-dragging,.admin-drop-target,.admin-over").forEach(element => {
-      element.classList.remove("admin-dragging", "admin-drop-target", "admin-over");
-    });
+    document.querySelectorAll(".admin-dragging,.admin-drop-target,.admin-over").forEach(element => element.classList.remove("admin-dragging", "admin-drop-target", "admin-over"));
     draggedGame = null;
     draggedCard = null;
     cancelAutoScroll();
@@ -261,14 +218,13 @@
   function cancelAutoScroll() { dragAutoScroll = 0; }
 
   function moveToGrid(game, grid, tier) {
-    const oldIndex = games.indexOf(game);
-    if (oldIndex < 0) return;
-    games.splice(oldIndex, 1);
+    const sourceIndex = games.indexOf(game);
+    if (sourceIndex < 0) return;
+    games.splice(sourceIndex, 1);
     game.tier = tier;
     const targetCards = [...grid.querySelectorAll(":scope > .game-card")].filter(card => card !== draggedCard);
-    const targetIndex = targetCards.length;
     if (draggedCard) grid.appendChild(draggedCard);
-    insertGameObjectAtTierIndex(game, tier, targetIndex);
+    insertGameObjectAtTierIndex(game, tier, targetCards.length);
     markDirty();
     clearDragState();
   }
@@ -277,11 +233,14 @@
     const sourceIndex = games.indexOf(game);
     if (sourceIndex < 0) return;
     games.splice(sourceIndex, 1);
-    game.tier = normalizeTier({ tier: targetGrid.closest(".tier-row")?.dataset.tier });
-    const targetCard = findGameCard(targetGame);
-    if (targetCard && draggedCard) {
-      if (before) targetGrid.insertBefore(draggedCard, targetCard);
-      else targetGrid.insertBefore(draggedCard, targetCard.nextSibling);
+    const tier = targetGrid.closest(".tier-row")?.dataset.tier || "PLANNED";
+    game.tier = tier;
+    if (draggedCard) {
+      if (before) targetGrid.insertBefore(draggedCard, targetGrid.querySelector(`[data-game-name="${CSS.escape(targetGame.name)}"]`));
+      else {
+        const targetCard = targetGrid.querySelector(`[data-game-name="${CSS.escape(targetGame.name)}"]`);
+        if (targetCard) targetGrid.insertBefore(draggedCard, targetCard.nextSibling);
+      }
     }
     rebuildOrderFromDom();
     markDirty();
@@ -317,10 +276,7 @@
   }
 
   function openEditor(index) {
-    const source = index < 0
-      ? { name: "", tier: "PLANNED", rating: 0, status: "", hours: 0, deaths: 0, cover: "", playlist: "" }
-      : { ...games[index] };
-
+    const source = index < 0 ? { name: "", tier: "PLANNED", rating: 0, status: "", hours: 0, deaths: 0, cover: "", playlist: "" } : { ...games[index] };
     const currentTier = normalizeTier(source);
     const backdrop = document.createElement("div");
     backdrop.className = "admin-modal-backdrop";
@@ -329,16 +285,7 @@
         <h2>${index < 0 ? "Новая игра" : "Редактирование игры"}</h2>
         <form class="admin-form">
           <label>Название<input name="name" required value="${escapeHtml(source.name)}"></label>
-          <label>Раздел<select name="tier">
-            <option value="NOW">Играю сейчас</option>
-            <option value="S">S — Легендарно</option>
-            <option value="A">A — Отлично</option>
-            <option value="B">B — Хорошо</option>
-            <option value="C">C — Нормально</option>
-            <option value="D">D — Слабо</option>
-            <option value="F">F — Не понравилось</option>
-            <option value="PLANNED">Не отсортировано</option>
-          </select></label>
+          <label>Раздел<select name="tier"><option value="NOW">Играю сейчас</option><option value="S">S — Легендарно</option><option value="A">A — Отлично</option><option value="B">B — Хорошо</option><option value="C">C — Нормально</option><option value="D">D — Слабо</option><option value="F">F — Не понравилось</option><option value="PLANNED">Не отсортировано</option></select></label>
           <label>Оценка<input name="rating" type="number" min="0" max="10" step="0.1" value="${escapeHtml(source.rating)}"></label>
           <label>Статус<input name="status" value="${escapeHtml(source.status)}" placeholder="Пройдено / Прохожу"></label>
           <label>Часы<input name="hours" type="number" min="0" step="1" value="${escapeHtml(source.hours)}"></label>
@@ -348,27 +295,20 @@
           <div class="admin-form-actions"><button type="button" class="secondary" data-cancel>Отмена</button><button type="submit" class="primary">${index < 0 ? "Добавить" : "Применить"}</button></div>
         </form>
       </div>`;
-
     document.body.appendChild(backdrop);
     const form = backdrop.querySelector("form");
     form.elements.tier.value = currentTier;
     backdrop.querySelector("[data-cancel]").onclick = () => backdrop.remove();
     backdrop.addEventListener("click", event => { if (event.target === backdrop) backdrop.remove(); });
-
     form.addEventListener("submit", event => {
       event.preventDefault();
       const value = {
-        name: form.elements.name.value.trim(),
-        tier: form.elements.tier.value,
-        rating: Number(form.elements.rating.value) || 0,
-        status: form.elements.status.value.trim(),
-        hours: Number(form.elements.hours.value) || 0,
-        deaths: Number(form.elements.deaths.value) || 0,
-        cover: form.elements.cover.value.trim(),
-        playlist: form.elements.playlist.value.trim()
+        name: form.elements.name.value.trim(), tier: form.elements.tier.value,
+        rating: Number(form.elements.rating.value) || 0, status: form.elements.status.value.trim(),
+        hours: Number(form.elements.hours.value) || 0, deaths: Number(form.elements.deaths.value) || 0,
+        cover: form.elements.cover.value.trim(), playlist: form.elements.playlist.value.trim()
       };
       if (!value.name || !value.cover) { alert("Название и обложка обязательны."); return; }
-
       if (index < 0) {
         games.push(value);
         appendNewGameCard(value);
@@ -384,7 +324,6 @@
           if (targetGrid && card.parentElement !== targetGrid) targetGrid.appendChild(card);
         }
       }
-
       rebuildOrderFromDom();
       markDirty();
       backdrop.remove();
@@ -393,10 +332,21 @@
   }
 
   function appendNewGameCard(game) {
-    const row = document.querySelector('#gameshelfContainer .tier-row[data-tier="PLANNED"]');
-    const grid = row?.querySelector(".tier-grid");
+    const grid = document.querySelector('#gameshelfContainer .tier-row[data-tier="PLANNED"] .tier-grid');
     if (!grid) return;
-    const card = buildAdminCard(game, "PLANNED");
+    const card = document.createElement("div");
+    card.className = "game-card admin-game-card";
+    card.dataset.gameName = game.name;
+    card.draggable = true;
+    card.title = "Перетащите игру, чтобы изменить раздел и порядок";
+    card.innerHTML = `<img class="game-cover" src="${escapeHtml(game.cover)}" alt="${escapeHtml(game.name)}">`;
+    const actions = document.createElement("div");
+    actions.className = "admin-actions";
+    actions.innerHTML = `<button class="edit" type="button" aria-label="Редактировать">✏️</button><button class="delete" type="button" aria-label="Удалить">🗑</button>`;
+    actions.querySelector(".edit").onclick = event => { event.stopPropagation(); openEditor(games.indexOf(game)); };
+    actions.querySelector(".delete").onclick = event => { event.stopPropagation(); deleteGame(game); };
+    card.appendChild(actions);
+    setupDrag(card, game);
     grid.appendChild(card);
   }
 
@@ -405,11 +355,7 @@
     if (button) button.disabled = true;
     try {
       rebuildOrderFromDom();
-      const response = await authFetch(`${API}/games`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ games })
-      });
+      const response = await authFetch(`${API}/games`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ games }) });
       if (!response.ok) throw new Error(`Games save failed: ${response.status}`);
       dirty = false;
       if (button) button.textContent = "💾 Сохранить";
@@ -424,8 +370,7 @@
   function waitForShelf() {
     const container = document.getElementById("gameshelfContainer");
     if (!container) return;
-    const ready = container.querySelectorAll(".tier-row").length >= 8;
-    if (!ready) { setTimeout(waitForShelf, 50); return; }
+    if (container.querySelectorAll(".tier-row").length < 8) { setTimeout(waitForShelf, 50); return; }
     decorateExistingCards();
     setupRows();
     const hint = document.createElement("p");
