@@ -415,7 +415,7 @@
           </select></label>
           <label>Часы<input name="hours" type="number" min="0" step="1"></label>
           <label>Смерти<input name="deaths" type="number" min="0" step="1"></label>
-          <label>Обложка<input name="cover" type="text" placeholder="../covers/game.png"></label>
+          <label>Обложка (../covers/)<input name="cover" type="text" placeholder="game.png"></label>
           <label>Плейлист<input name="playlist" type="url" placeholder="https://youtube.com/playlist?..." ></label>
           <div class="admin-form-actions">
             <button class="secondary" type="button" data-cancel>Отмена</button>
@@ -436,7 +436,7 @@
     statusInput.value = source.status;
     form.elements.hours.value = source.hours ?? 0;
     form.elements.deaths.value = source.deaths ?? 0;
-    form.elements.cover.value = source.cover ?? "";
+    form.elements.cover.value = source.cover ? source.cover.split("/").pop() : "";
     form.elements.playlist.value = source.playlist ?? "";
 
     const applyAutomaticTier = () => {
@@ -493,7 +493,8 @@
       game.tier = automaticTier(game.rating, game.status) || tierInput.value;
       game.hours = Number(form.elements.hours.value || 0);
       game.deaths = Number(form.elements.deaths.value || 0);
-      game.cover = form.elements.cover.value.trim();
+      const coverName = form.elements.cover.value.trim().split("/").pop();
+      game.cover = coverName ? `../covers/${coverName}` : "";
       game.playlist = form.elements.playlist.value.trim();
 
       if (!game.name) {
