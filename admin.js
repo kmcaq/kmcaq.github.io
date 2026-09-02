@@ -14,7 +14,7 @@
   let dragScrollRunning = false;
 
   const TIERS = ["NOW", "S", "A", "B", "C", "D", "F", "PLANNED"];
-  const STATUSES = ["Прохожу", "Завершено", "Дроп", "В планах"];
+  const STATUSES = ["Прохожу", "Завершено", "Дроп", "В планах", "Заморозка"];
 
   const getToken = () => sessionStorage.getItem(TOKEN_KEY);
 
@@ -48,14 +48,14 @@
 
   function normalizeTier(game) {
     if (game.tier === "NOW" || game.status === "Играю сейчас" || game.status === "Прохожу") return "NOW";
-    if (game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано") return "PLANNED";
+    if (game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано" || game.status === "Заморозка") return "PLANNED";
     if (game.status === "Дроп") return "F";
     return TIERS.includes(game.tier) ? game.tier : "PLANNED";
   }
 
   function automaticTier(rating, status) {
     if (status === "Играю сейчас" || status === "Прохожу") return "NOW";
-    if (status === "В планах" || status === "Запланировано") return "PLANNED";
+    if (status === "В планах" || status === "Запланировано" || status === "Заморозка") return "PLANNED";
     if (status === "Дроп") return "F";
 
     const value = Math.floor(Number(rating));
@@ -411,6 +411,7 @@
             <option value="Завершено">Завершено</option>
             <option value="Дроп">Дроп</option>
             <option value="В планах">В планах</option>
+            <option value="Заморозка">Заморозка</option>
           </select></label>
           <label>Часы<input name="hours" type="number" min="0" step="1"></label>
           <label>Смерти<input name="deaths" type="number" min="0" step="1"></label>
