@@ -11,6 +11,20 @@ const TIERS = [
 
 const container = document.getElementById("gameshelfContainer");
 
+function normalizeStatus(status) {
+  if (status === "Пройдено") return "Завершено";
+  if (status === "Запланировано") return "В планах";
+  return status;
+}
+
+function getEffectiveTier(game) {
+  const status = normalizeStatus(game.status);
+  if (game.tier === "NOW" || status === "Играю сейчас" || status === "Прохожу") return "NOW";
+  if (game.tier === "PLANNED" || game.tier === "PLAN" || status === "В планах" || status === "Заморозка") return "PLANNED";
+  if (status === "Дроп") return "F";
+  return TIERS.some(tier => tier.id === game.tier) ? game.tier : "PLANNED";
+}
+
 if (container) {
   const style = document.createElement("style");
   style.textContent = `
@@ -78,6 +92,17 @@ if (container) {
       return r.json();
     })
     .then(games => {
+      const normalizedGames = games.map(game => ({
+        ...game,
+        status: normalizeStatus(game.status),
+        tier: getEffectiveTier(game)
+      }));
+
+      window.GameShelf = {
+        games: normalizedGames,
+        reload: () => location.reload()
+      };
+
       TIERS.forEach(tier => {
         const row = document.createElement("div");
         row.className = "tier-row";
@@ -87,12 +112,8 @@ if (container) {
         row.querySelector(".tier-box").style.boxShadow = tier.glow;
 
         const grid = row.querySelector(".tier-grid");
-        games
-          .filter(game => {
-            if (tier.id === "NOW") return game.tier === "NOW" || game.status === "Играю сейчас" || game.status === "Прохожу";
-            if (tier.id === "PLANNED") return game.tier === "PLANNED" || game.tier === "PLAN" || game.status === "В планах" || game.status === "Запланировано" || game.status === "Заморозка";
-            return game.tier === tier.id;
-          })
+        normalizedGames
+          .filter(game => game.tier === tier.id)
           .forEach(game => {
             const card = document.createElement("div");
             card.className = "game-card";
@@ -105,7 +126,7 @@ if (container) {
               overlay.querySelector(".gm-tier").textContent = tier.title;
               overlay.querySelector(".gm-title").textContent = game.name;
               overlay.querySelector(".gm-rating").textContent = game.rating != null ? `${game.rating}/10` : "—";
-              overlay.querySelector(".gm-status").textContent = game.status === "Запланировано" ? "В планах" : (game.status ?? "—");
+              overlay.querySelector(".gm-status").textContent = game.status ?? "—";
               overlay.querySelector(".gm-hours").textContent = game.hours != null ? `${game.hours} ч.` : "—";
               overlay.querySelector(".gm-deaths").textContent = game.deaths != null ? game.deaths : "—";
 
@@ -121,6 +142,8 @@ if (container) {
           });
         container.appendChild(row);
       });
+
+      window.dispatchEvent(new CustomEvent("gameshelf:loaded", { detail: { games: normalizedGames } }));
     })
     .catch(err => {
       console.error("Ошибка загрузки games.json:", err);
