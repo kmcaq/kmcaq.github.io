@@ -1,22 +1,22 @@
 [
   {
-    "name": "9",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/ghostrunner.png",
-    "playlist": ""
-  },
-  {
-    "name": "15",
-    "status": "В планах",
+    "name": "Red Dead Redemption 2",
+    "status": "Прохожу",
     "rating": null,
     "tier": "NOW",
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/rdr2.png",
+    "playlist": ""
+  },
+  {
+    "name": "Ghostrunner",
+    "status": "Прохожу",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/ghostrunner.png",
     "playlist": ""
   },
   {
@@ -210,7 +210,7 @@
     "playlist": ""
   },
   {
-    "name": "10",
+    "name": "Kingdom Come: Deliverance",
     "status": "Заморозка",
     "rating": null,
     "tier": "PLANNED",
@@ -220,7 +220,7 @@
     "playlist": ""
   },
   {
-    "name": "21",
+    "name": "Tiny Book Shop",
     "status": "В планах",
     "rating": null,
     "tier": "PLANNED",
@@ -230,7 +230,7 @@
     "playlist": ""
   },
   {
-    "name": "23",
+    "name": "Winx Club: The Magic is Back",
     "status": "В планах",
     "rating": null,
     "tier": "PLANNED",
