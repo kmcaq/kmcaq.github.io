@@ -57,30 +57,8 @@ function normalizeStatus(status) {
   return STATUSES.includes(status) ? status : "Прохожу";
 }
 
-function normalizeTier(game) {
-  if (game.tier === "NOW" || game.status === "Играю сейчас") return "NOW";
-  if (
-    game.tier === "PLANNED" ||
-    game.tier === "PLAN" ||
-    game.status === "В планах" ||
-    game.status === "Запланировано"
-  ) return "PLANNED";
-  return TIERS.includes(game.tier) ? game.tier : "PLANNED";
-}
-
-function automaticTier(rating, status) {
-  if (status === "Играю сейчас") return "NOW";
-  if (status === "В планах" || status === "Запланировано") return "PLANNED";
-  if (status === "Дроп") return "F";
-
-  const value = Number(rating);
-  if (!Number.isFinite(value) || value <= 0) return null;
-  if (value >= 10) return "S";
-  if (value >= 8) return "A";
-  if (value >= 6) return "B";
-  if (value >= 4) return "C";
-  if (value >= 2) return "D";
-  return "F";
+function normalizeTier(tier) {
+  return TIERS.includes(tier) ? tier : "PLANNED";
 }
 
 init();
@@ -122,7 +100,7 @@ async function init() {
       ? data.map(game => ({
           ...game,
           status: normalizeStatus(game.status),
-          tier: normalizeTier(game)
+          tier: normalizeTier(game.tier)
         }))
       : [];
 
@@ -145,7 +123,7 @@ function render() {
       <img src="${g.cover}" style="width:100%;aspect-ratio:2/3;object-fit:cover">
       <div style="padding:18px">
         <h3>${g.name}</h3>
-        <p style="color:#9ca3af">${g.status} • ${g.tier} • ⭐ ${g.rating}</p>
+        <p style="color:#9ca3af">${g.status} • ${g.tier} • ⭐ ${g.rating ?? "—"}</p>
         <div style="display:flex;gap:8px;margin-top:16px">
           <button class="edit">✏️</button>
           <button class="delete">🗑</button>
@@ -170,8 +148,8 @@ function edit(i) {
       ? {
           name: "",
           status: "В планах",
+          rating: null,
           tier: "PLANNED",
-          rating: 0,
           hours: 0,
           deaths: 0,
           playlist: "",
@@ -180,7 +158,7 @@ function edit(i) {
       : { ...games[i] };
 
   g.status = normalizeStatus(g.status);
-  g.tier = normalizeTier(g);
+  g.tier = normalizeTier(g.tier);
 
   const modal = document.createElement("div");
 
@@ -192,23 +170,36 @@ function edit(i) {
       <h2>${i === -1 ? "Новая игра" : "Редактирование"}</h2>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
         <input id="n" value="${g.name}">
-        <select id="s">
-          <option value="Прохожу">Прохожу</option>
-          <option value="Завершено">Завершено</option>
-          <option value="Дроп">Дроп</option>
-          <option value="В планах">В планах</option>
-        </select>
-        <select id="t">
-          <option value="NOW">Играю сейчас</option>
-          <option value="S">S</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
-          <option value="PLANNED">В планах</option>
-        </select>
-        <input id="r" type="number" min="0" max="10" step=".1" value="${g.rating ?? ""}">
+
+        <label>
+          Статус
+          <select id="s">
+            <option value="Прохожу">Прохожу</option>
+            <option value="Завершено">Завершено</option>
+            <option value="Дроп">Дроп</option>
+            <option value="В планах">В планах</option>
+          </select>
+        </label>
+
+        <label>
+          Оценка
+          <input id="r" type="number" min="0" max="10" step=".1" value="${g.rating ?? ""}">
+        </label>
+
+        <label>
+          Тир
+          <select id="t">
+            <option value="NOW">Играю сейчас</option>
+            <option value="S">S</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="F">F</option>
+            <option value="PLANNED">В планах</option>
+          </select>
+        </label>
+
         <input id="h" type="number" value="${g.hours ?? 0}">
         <input id="d" type="number" value="${g.deaths ?? 0}">
         <input id="p" value="${g.playlist ?? ""}">
@@ -221,19 +212,12 @@ function edit(i) {
   document.body.append(modal);
 
   const statusInput = modal.querySelector("#s");
-  const tierInput = modal.querySelector("#t");
   const ratingInput = modal.querySelector("#r");
+  const tierInput = modal.querySelector("#t");
 
   statusInput.value = g.status;
+  ratingInput.value = g.rating ?? "";
   tierInput.value = g.tier;
-
-  const applyAutomaticTier = () => {
-    const tier = automaticTier(ratingInput.value, statusInput.value);
-    if (tier) tierInput.value = tier;
-  };
-
-  ratingInput.addEventListener("input", applyAutomaticTier);
-  statusInput.addEventListener("change", applyAutomaticTier);
 
   modal.querySelector("#cancel").onclick = () => modal.remove();
 
@@ -241,16 +225,13 @@ function edit(i) {
     const updated = {
       name: modal.querySelector("#n").value.trim(),
       status: normalizeStatus(statusInput.value),
-      tier: tierInput.value,
       rating: ratingInput.value === "" ? null : Number(ratingInput.value),
+      tier: normalizeTier(tierInput.value),
       hours: +modal.querySelector("#h").value,
       deaths: +modal.querySelector("#d").value,
       playlist: modal.querySelector("#p").value,
       cover: g.cover
     };
-
-    const automatic = automaticTier(updated.rating, updated.status);
-    if (automatic) updated.tier = automatic;
 
     if (i === -1) {
       games.push(updated);
