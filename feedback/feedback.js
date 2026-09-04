@@ -24,6 +24,9 @@ form.addEventListener("submit", async (event) => {
   try {
     const response = await fetch(WORKER_URL, {
       method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json"
       },
@@ -33,18 +36,23 @@ form.addEventListener("submit", async (event) => {
       })
     });
 
-    const data = await response.json();
+    const responseText = await response.text();
+    let data = null;
 
-    if (!response.ok || !data.ok) {
-      throw new Error(data.error || "Не удалось отправить сообщение.");
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      throw new Error("Сервер вернул некорректный ответ.");
+    }
+
+    if (!response.ok || !data?.ok) {
+      throw new Error(data?.error || "Не удалось отправить сообщение.");
     }
 
     form.reset();
-
     showStatus("Сообщение отправлено 💜 Спасибо!", "success");
   } catch (error) {
     console.error("Feedback error:", error);
-
     showStatus(
       "Не получилось отправить сообщение. Попробуй ещё раз немного позже.",
       "error"
