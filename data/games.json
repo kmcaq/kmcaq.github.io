@@ -27,7 +27,7 @@
     "hours": 10,
     "deaths": 41,
     "cover": "../covers/re2.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLIum3g0_Ud2k"
   },
   {
     "name": "Prey",
@@ -47,7 +47,7 @@
     "hours": 11,
     "deaths": 4,
     "cover": "../covers/tokyo.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLUVM0nrkCPmI"
   },
   {
     "name": "Portal 2",
@@ -57,7 +57,7 @@
     "hours": 8,
     "deaths": 28,
     "cover": "../covers/portal2.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLMYjCI3uu4C4"
   },
   {
     "name": "MiSide",
@@ -67,7 +67,7 @@
     "hours": 4,
     "deaths": 6,
     "cover": "../covers/miside.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLHfVVQM8496U"
   },
   {
     "name": "Evil School",
@@ -87,7 +87,7 @@
     "hours": 14,
     "deaths": 81,
     "cover": "../covers/alan.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLcN0Ih2gJOvg"
   },
   {
     "name": "Resident Evil 4",
