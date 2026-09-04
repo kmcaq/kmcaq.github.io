@@ -7,7 +7,7 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/rdr2.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
   },
   {
     "name": "Ghostrunner",
@@ -17,7 +17,7 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/ghostrunner.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLT6RK-5ZcEHk"
   },
   {
     "name": "Resident Evil 2",
@@ -97,7 +97,7 @@
     "hours": 18,
     "deaths": 24,
     "cover": "../covers/re4.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLdK0IONc_mr0"
   },
   {
     "name": "Alice: Madness Returns",
@@ -107,7 +107,7 @@
     "hours": 16,
     "deaths": 178,
     "cover": "../covers/alice.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLGM8GBdIxMO4"
   },
   {
     "name": "Resident Evil 3",
@@ -117,7 +117,7 @@
     "hours": 7,
     "deaths": 12,
     "cover": "../covers/re3.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLWXYKXpifU8o"
   },
   {
     "name": "BioShock Infinite",
@@ -127,7 +127,7 @@
     "hours": 10,
     "deaths": 12,
     "cover": "../covers/bioshockinf.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLMAmVfsQ5Uwg"
   },
   {
     "name": "Portal",
@@ -137,7 +137,7 @@
     "hours": 3,
     "deaths": 30,
     "cover": "../covers/portal.png",
-    "playlist": "https://youtube.com/playlist?list="
+    "playlist": "https://www.youtube.com/playlist?list=PLbBzcWDnfztk"
   },
   {
     "name": "Control",
@@ -147,7 +147,7 @@
     "hours": 16,
     "deaths": 59,
     "cover": "../covers/control.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLQ5uuiVBc5jg"
   },
   {
     "name": "Subliminal",
@@ -157,7 +157,7 @@
     "hours": 2,
     "deaths": 5,
     "cover": "../covers/subliminal.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLHHn5qhazSDE"
   },
   {
     "name": "Alan Wake: American Nightmare",
@@ -167,7 +167,7 @@
     "hours": 4,
     "deaths": 4,
     "cover": "../covers/alandlc.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLbOoQA1GWYs0"
   },
   {
     "name": "NTE: Neverness to Everness",
@@ -187,7 +187,7 @@
     "hours": 12,
     "deaths": 13,
     "cover": "../covers/lof.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLBQYck7X44eI"
   },
   {
     "name": "Silent Hill 2",
@@ -197,7 +197,7 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/sh2.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLNV1P7BWrB5M"
   },
   {
     "name": "Disco Elysium",
@@ -207,7 +207,7 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/disco.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLVHQ07aSt6qs"
   },
   {
     "name": "Kingdom Come: Deliverance",
@@ -217,7 +217,7 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/kcd.png",
-    "playlist": ""
+    "playlist": "https://www.youtube.com/playlist?list=PLCxhqDlSbgic"
   },
   {
     "name": "Tiny Bookshop",
