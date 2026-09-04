@@ -10,16 +10,6 @@
     "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
   },
   {
-    "name": "Ghostrunner",
-    "status": "Прохожу",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/ghostrunner.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLT6RK-5ZcEHk"
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -98,6 +88,16 @@
     "deaths": 24,
     "cover": "../covers/re4.png",
     "playlist": "https://www.youtube.com/playlist?list=PLdK0IONc_mr0"
+  },
+  {
+    "name": "Ghostrunner",
+    "status": "Завершено",
+    "rating": 7,
+    "tier": "B",
+    "hours": 17,
+    "deaths": 1742,
+    "cover": "../covers/ghostrunner.png",
+    "playlist": "https://www.youtube.com/playlist?list=PLT6RK-5ZcEHk"
   },
   {
     "name": "Alice: Madness Returns",
