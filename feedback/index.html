@@ -1,0 +1,85 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Обратная связь — kmcaq</title>
+  <meta
+    name="description"
+    content="Обратная связь с Кэм: предложить игру, сообщить о проблеме или отправить деловое предложение."
+  >
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <div id="navbar"></div>
+
+  <main class="page">
+    <section class="feedback-page">
+
+      <div class="feedback-header">
+        <h1>Обратная связь</h1>
+        <p>
+          Здесь можно предложить игру, сообщить о проблеме,
+          написать по поводу сотрудничества или просто оставить сообщение.
+        </p>
+      </div>
+
+      <form id="feedback-form" class="feedback-form">
+
+        <div class="feedback-field">
+          <label for="feedback-category">Тема</label>
+
+          <select id="feedback-category" name="category" required>
+            <option value="game">🎮 Предложить игру</option>
+            <option value="moderation">🛡️ Модерация</option>
+            <option value="business">💼 Деловое предложение</option>
+            <option value="other">💬 Другое</option>
+          </select>
+        </div>
+
+        <div class="feedback-field">
+          <label for="feedback-message">Сообщение</label>
+
+          <textarea
+            id="feedback-message"
+            name="message"
+            maxlength="5000"
+            placeholder="Напиши всё, что хочешь мне сообщить..."
+            required
+          ></textarea>
+
+          <div class="feedback-hint">
+            Если хочешь получить ответ, можешь оставить свои контакты прямо в сообщении.
+          </div>
+        </div>
+
+        <button type="submit" class="feedback-submit" id="feedback-submit">
+          Отправить сообщение
+        </button>
+
+        <div
+          id="feedback-status"
+          class="feedback-status"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+      </form>
+
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="/js/navbar.js"></script>
+  <script src="/feedback/feedback.js"></script>
+
+</body>
+</html>
+```
