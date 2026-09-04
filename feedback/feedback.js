@@ -1,5 +1,4 @@
-```javascript
-const WORKER_URL = "https://kmcaq-feedback.example.workers.dev/feedback";
+const WORKER_URL = "https://resend.km-tamami.workers.dev/feedback";
 
 const form = document.getElementById("feedback-form");
 const category = document.getElementById("feedback-category");
@@ -42,11 +41,7 @@ form.addEventListener("submit", async (event) => {
 
     form.reset();
 
-    showStatus(
-      "Сообщение отправлено 💜 Спасибо!",
-      "success"
-    );
-
+    showStatus("Сообщение отправлено 💜 Спасибо!", "success");
   } catch (error) {
     console.error("Feedback error:", error);
 
@@ -54,7 +49,6 @@ form.addEventListener("submit", async (event) => {
       "Не получилось отправить сообщение. Попробуй ещё раз немного позже.",
       "error"
     );
-
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = "Отправить сообщение";
@@ -69,4 +63,3 @@ function showStatus(text, type) {
     status.classList.add(`feedback-status-${type}`);
   }
 }
-```
