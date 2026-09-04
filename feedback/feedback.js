@@ -33,17 +33,24 @@ form.addEventListener("submit", async (event) => {
       })
     });
 
-    const data = await response.json();
+    let data = null;
 
-    if (!response.ok || !data.ok) {
-      throw new Error(data.error || "Не удалось отправить сообщение.");
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+
+    // Никогда не выводим текст ошибки сервера в консоль или интерфейс.
+    if (!response.ok || !data?.ok) {
+      throw new Error("FEEDBACK_SEND_FAILED");
     }
 
     form.reset();
-
     showStatus("Сообщение отправлено 💜 Спасибо!", "success");
-  } catch (error) {
-    console.error("Feedback error:", error);
+  } catch {
+    // Не логируем объект ошибки: ответ Worker может содержать внутренние данные.
+    console.error("Feedback submission failed");
 
     showStatus(
       "Не получилось отправить сообщение. Попробуй ещё раз немного позже.",
