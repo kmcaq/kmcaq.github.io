@@ -3,198 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Обратная связь — kmcaq</title>
-  <meta
-    name="description"
-    content="Обратная связь с Кэм: предложить игру, сообщить о проблеме или отправить деловое предложение."
-  >
-
+  <meta name="description" content="Обратная связь с Кэм: предложить игру, сообщить о проблеме или отправить деловое предложение.">
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
-
   <style>
-    .feedback-page {
-      width: min(760px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 42px 0 56px;
-    }
-
-    .feedback-header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .feedback-header h1 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 3vw, 40px);
-      line-height: 1.15;
-    }
-
-    .feedback-header p {
-      max-width: 620px;
-      margin: 0 auto;
-      color: rgba(255, 255, 255, 0.68);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .feedback-form {
-      padding: 28px;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.045);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
-      backdrop-filter: blur(14px);
-    }
-
-    .feedback-field {
-      margin-bottom: 20px;
-    }
-
-    .feedback-field label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .feedback-form select,
-    .feedback-form textarea {
-      width: 100%;
-      box-sizing: border-box;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      outline: none;
-      background: rgba(0, 0, 0, 0.2);
-      color: inherit;
-      font: inherit;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .feedback-form select {
-      min-height: 48px;
-      padding: 0 14px;
-      cursor: pointer;
-    }
-
-    .feedback-form textarea {
-      display: block;
-      min-height: 250px;
-      padding: 14px 16px;
-      resize: vertical;
-      line-height: 1.55;
-    }
-
-    .feedback-form select:focus,
-    .feedback-form textarea:focus {
-      border-color: rgba(214, 108, 255, 0.7);
-      box-shadow: 0 0 0 3px rgba(214, 108, 255, 0.12);
-      background: rgba(0, 0, 0, 0.26);
-    }
-
-    .feedback-form textarea::placeholder {
-      color: rgba(255, 255, 255, 0.38);
-    }
-
-    .feedback-hint {
-      margin-top: 8px;
-      color: rgba(255, 255, 255, 0.45);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .feedback-submit {
-      width: 100%;
-      min-height: 50px;
-      border: 0;
-      border-radius: 14px;
-      padding: 0 20px;
-      background: #d66cff;
-      color: #fff;
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 8px 24px rgba(214, 108, 255, 0.22);
-    }
-
-    .feedback-submit:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(214, 108, 255, 0.3);
-    }
-
-    .feedback-submit:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .feedback-submit:disabled {
-      opacity: 0.55;
-      cursor: wait;
-    }
-
-    .feedback-status {
-      min-height: 20px;
-      margin-top: 14px;
-      text-align: center;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .feedback-status-success {
-      color: #b9f6c5;
-    }
-
-    .feedback-status-error {
-      color: #ffb4b4;
-    }
-
-    @media (max-width: 600px) {
-      .feedback-page {
-        width: min(100% - 20px, 760px);
-        padding: 28px 0 40px;
-      }
-
-      .feedback-header {
-        margin-bottom: 20px;
-      }
-
-      .feedback-header p {
-        font-size: 14px;
-      }
-
-      .feedback-form {
-        padding: 20px;
-        border-radius: 20px;
-      }
-
-      .feedback-form textarea {
-        min-height: 210px;
-      }
-    }
+    :root{--bg:#0f0a17;--card:rgba(24,18,38,.78);--border:rgba(255,255,255,.12);--text:#faf7ff;--muted:#d1c2ea;--accent:#d66cff}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%}
+    body{font-family:Nunito,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    .feedback-background{position:fixed;inset:-60px;background:url("../hero-bg.png") center/cover;filter:brightness(.42);z-index:-2}
+    .feedback-overlay{position:fixed;inset:0;background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.94));z-index:-1}
+    .feedback-page{width:min(760px,calc(100% - 32px));margin:0 auto;padding:118px 0 56px}
+    .feedback-header{text-align:center;margin-bottom:28px}
+    .feedback-header h1{margin:0 0 10px;font-size:clamp(32px,4vw,48px);line-height:1.15}
+    .feedback-header p{max-width:620px;margin:0 auto;color:var(--muted);font-size:15px;line-height:1.6}
+    .feedback-form{padding:28px;border:1px solid var(--border);border-radius:28px;background:var(--card);box-shadow:0 18px 50px rgba(0,0,0,.22);backdrop-filter:blur(22px)}
+    .feedback-field{margin-bottom:20px}
+    .feedback-field label{display:block;margin-bottom:8px;font-size:14px;font-weight:800}
+    .feedback-form select,.feedback-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:14px;outline:none;background:rgba(0,0,0,.2);color:var(--text);font:inherit;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+    .feedback-form select{min-height:48px;padding:0 14px;cursor:pointer}
+    .feedback-form textarea{display:block;min-height:220px;padding:14px 16px;resize:vertical;line-height:1.55}
+    .feedback-form select:focus,.feedback-form textarea:focus{border-color:rgba(214,108,255,.7);box-shadow:0 0 0 3px rgba(214,108,255,.12);background:rgba(0,0,0,.26)}
+    .feedback-form textarea::placeholder{color:rgba(255,255,255,.38)}
+    .feedback-hint{margin-top:8px;color:rgba(255,255,255,.5);font-size:12px;line-height:1.45}
+    .feedback-submit{width:100%;min-height:50px;border:0;border-radius:14px;padding:0 20px;background:var(--accent);color:#fff;font:inherit;font-weight:800;cursor:pointer;transition:transform .2s ease,opacity .2s ease,box-shadow .2s ease;box-shadow:0 8px 24px rgba(214,108,255,.22)}
+    .feedback-submit:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 28px rgba(214,108,255,.3)}
+    .feedback-submit:active:not(:disabled){transform:translateY(0)}
+    .feedback-submit:disabled{opacity:.55;cursor:wait}
+    .feedback-status{min-height:20px;margin-top:14px;text-align:center;font-size:14px;line-height:1.45}
+    .feedback-status-success{color:#b9f6c5}.feedback-status-error{color:#ffb4b4}
+    @media(max-width:600px){.feedback-page{width:min(100% - 20px,760px);padding:92px 0 40px}.feedback-header{margin-bottom:20px}.feedback-header p{font-size:14px}.feedback-form{padding:20px;border-radius:20px}.feedback-form textarea{min-height:210px}}
   </style>
 </head>
-
 <body>
-
+  <div class="feedback-background"></div>
+  <div class="feedback-overlay"></div>
   <div id="navbar"></div>
-
   <main class="page">
     <section class="feedback-page">
-
       <div class="feedback-header">
         <h1>Обратная связь</h1>
-        <p>
-          Здесь можно предложить игру, сообщить о проблеме,
-          написать по поводу сотрудничества или просто оставить сообщение.
-        </p>
+        <p>Здесь можно предложить игру, сообщить о проблеме, написать по поводу сотрудничества или просто оставить сообщение.</p>
       </div>
-
       <form id="feedback-form" class="feedback-form">
-
         <div class="feedback-field">
           <label for="feedback-category">Тема</label>
-
           <select id="feedback-category" name="category" required>
             <option value="game">🎮 Предложить игру</option>
             <option value="moderation">🛡️ Модерация</option>
@@ -202,43 +56,18 @@
             <option value="other">💬 Другое</option>
           </select>
         </div>
-
         <div class="feedback-field">
           <label for="feedback-message">Сообщение</label>
-
-          <textarea
-            id="feedback-message"
-            name="message"
-            maxlength="5000"
-            placeholder="Напиши всё, что хочешь мне сообщить..."
-            required
-          ></textarea>
-
-          <div class="feedback-hint">
-            Если хочешь получить ответ, можешь оставить свои контакты прямо в сообщении.
-          </div>
+          <textarea id="feedback-message" name="message" maxlength="5000" placeholder="Напиши всё, что хочешь мне сообщить..." required></textarea>
+          <div class="feedback-hint">Если хочешь получить ответ, можешь оставить свои контакты прямо в сообщении.</div>
         </div>
-
-        <button type="submit" class="feedback-submit" id="feedback-submit">
-          Отправить сообщение
-        </button>
-
-        <div
-          id="feedback-status"
-          class="feedback-status"
-          role="status"
-          aria-live="polite"
-        ></div>
-
+        <button type="submit" class="feedback-submit" id="feedback-submit">Отправить сообщение</button>
+        <div id="feedback-status" class="feedback-status" role="status" aria-live="polite"></div>
       </form>
-
     </section>
   </main>
-
   <div id="footer"></div>
-
   <script src="/js/navbar.js"></script>
   <script src="/feedback/feedback.js"></script>
-
 </body>
 </html>
