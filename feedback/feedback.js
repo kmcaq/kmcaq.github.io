@@ -33,16 +33,9 @@ form.addEventListener("submit", async (event) => {
       })
     });
 
-    let data = null;
-
-    try {
-      data = await response.json();
-    } catch {
-      data = null;
-    }
-
-    // Никогда не выводим текст ошибки сервера в консоль или интерфейс.
-    if (!response.ok || !data?.ok) {
+    // Успешной считаем любую успешную HTTP-ответку Worker.
+    // Не требуем конкретного JSON-формата ответа.
+    if (!response.ok) {
       throw new Error("FEEDBACK_SEND_FAILED");
     }
 
