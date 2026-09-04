@@ -33,17 +33,17 @@ form.addEventListener("submit", async (event) => {
       })
     });
 
-    // Успешной считаем любую успешную HTTP-ответку Worker.
-    // Не требуем конкретного JSON-формата ответа.
-    if (!response.ok) {
-      throw new Error("FEEDBACK_SEND_FAILED");
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(data.error || "Не удалось отправить сообщение.");
     }
 
     form.reset();
+
     showStatus("Сообщение отправлено 💜 Спасибо!", "success");
-  } catch {
-    // Не логируем объект ошибки: ответ Worker может содержать внутренние данные.
-    console.error("Feedback submission failed");
+  } catch (error) {
+    console.error("Feedback error:", error);
 
     showStatus(
       "Не получилось отправить сообщение. Попробуй ещё раз немного позже.",
