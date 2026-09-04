@@ -13,14 +13,34 @@ const TIER_NAMES = {NOW:"Играю сейчас",S:"S",A:"A",B:"B",C:"C",D:"D",
 const STATUSES = ["Прохожу", "Завершено", "Дроп", "В планах"];
 
 function getToken(){return sessionStorage.getItem(TOKEN_KEY);}
-(function restoreToken(){const hash=new URLSearchParams(location.hash.slice(1));const token=hash.get("token");if(token){sessionStorage.setItem(TOKEN_KEY,token);history.replaceState(null,"",location.pathname+location.search);}})();
+(function restoreToken(){const hash=new URLSearchParams(location.hash.slice(1));if(hash.get("token")){sessionStorage.setItem(TOKEN_KEY,hash.get("token"));history.replaceState(null,"",location.pathname+location.search);}})();
 
 async function authFetch(url,options={}){const token=getToken();const headers={...(options.headers||{})};if(token)headers.Authorization=`Bearer ${token}`;const res=await fetch(url,{...options,headers});if(res.status===401){sessionStorage.removeItem(TOKEN_KEY);location.href=`${API}/login`;throw new Error("Unauthorized");}return res;}
 function normalizeStatus(status){if(status==="Пройдено")return "Завершено";if(status==="Запланировано")return "В планах";return STATUSES.includes(status)?status:"Прохожу";}
 function normalizeTier(tier){return TIERS.includes(tier)?tier:"PLANNED";}
 
 init();
-async function init(){if(!getToken()){location.href=`${API}/login`;return;}try{const sessionRes=await authFetch(`${API}/session`);if(!sessionRes.ok)throw new Error(`Session check failed: ${sessionRes.status}`);const session=await sessionRes.json();if(!session.authenticated){sessionStorage.removeItem(TOKEN_KEY);location.href=`${API}/login`;return;}login.hidden=true;logout.hidden=false;add.hidden=false;save.hidden=false;const [gamesRes,coversRes]=await Promise.all([authFetch(`${API}/games`),authFetch(`${API}/covers`)]);if(!gamesRes.ok)throw new Error(`Games load failed: ${gamesRes.status}`);if(!coversRes.ok)throw new Error(`Covers load failed: ${coversRes.status}`);const data=await gamesRes.json();const coverData=await coversRes.json();covers=Array.isArray(coverData)?coverData.filter(c=>c.type==="file"&&/\.png$/i.test(c.name)):[];games=Array.isArray(data)?data.map(game=>({...game,status:normalizeStatus(game.status),tier:normalizeTier(game.tier)})):[];render();}catch(error){console.error("Admin initialization failed:",error);}}
+async function init(){
+  if(!getToken()){location.href=`${API}/login`;return;}
+  try{
+    const sessionRes=await authFetch(`${API}/session`);
+    if(!sessionRes.ok)throw new Error(`Session check failed: ${sessionRes.status}`);
+    const session=await sessionRes.json();
+    if(!session.authenticated){sessionStorage.removeItem(TOKEN_KEY);location.href=`${API}/login`;return;}
+    login.hidden=true;logout.hidden=false;add.hidden=false;save.hidden=false;
+    const [gamesRes,coversRes]=await Promise.all([
+      authFetch(`${API}/games`),
+      fetch("https://api.github.com/repos/kmcaq/kmcaq.github.io/contents/covers?ref=main")
+    ]);
+    if(!gamesRes.ok)throw new Error(`Games load failed: ${gamesRes.status}`);
+    if(!coversRes.ok)throw new Error(`Covers load failed: ${coversRes.status}`);
+    const data=await gamesRes.json();
+    const coverData=await coversRes.json();
+    covers=Array.isArray(coverData)?coverData.filter(c=>c.type==="file"&&/\.png$/i.test(c.name)).sort((a,b)=>a.name.localeCompare(b.name)):[];
+    games=Array.isArray(data)?data.map(game=>({...game,status:normalizeStatus(game.status),tier:normalizeTier(game.tier)})):[];
+    render();
+  }catch(error){console.error("Admin initialization failed:",error);}
+}
 
 function moveGameToTier(index,tier){if(!Number.isInteger(index)||!games[index]||!TIERS.includes(tier))return false;games[index].tier=tier;return true;}
 function resetRowStyle(row){row.style.borderColor="rgba(255,255,255,.08)";}
@@ -32,64 +52,49 @@ function render(){
     const row=document.createElement("section");
     row.dataset.tier=tier;
     row.style.cssText="display:grid;grid-template-columns:88px 1fr;gap:10px;align-items:stretch;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:8px;min-height:92px;transition:.15s;";
-
     const label=document.createElement("div");
     label.textContent=TIER_NAMES[tier];
     label.style.cssText="display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(214,108,255,.12);font-weight:800;";
-
     const zone=document.createElement("div");
     zone.dataset.tier=tier;
     zone.style.cssText="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;align-items:start;min-height:74px;padding:2px;border-radius:12px;";
-
-    const handleDragOver=e=>{
-      if(draggedGameIndex===null)return;
-      e.preventDefault();
-      e.stopPropagation();
-      e.dataTransfer.dropEffect="move";
-      row.style.borderColor="rgba(214,108,255,.65)";
-    };
-    const handleDrop=e=>{
-      if(draggedGameIndex===null)return;
-      e.preventDefault();
-      e.stopPropagation();
-      const index=draggedGameIndex;
-      if(moveGameToTier(index,tier)){
-        draggedGameIndex=null;
-        render();
-      }else{
-        resetRowStyle(row);
-      }
-    };
-
-    row.addEventListener("dragover",handleDragOver);
-    row.addEventListener("drop",handleDrop);
-    zone.addEventListener("dragover",handleDragOver);
-    zone.addEventListener("drop",handleDrop);
-    label.addEventListener("dragover",handleDragOver);
-    label.addEventListener("drop",handleDrop);
-
+    const handleDragOver=e=>{if(draggedGameIndex===null)return;e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect="move";row.style.borderColor="rgba(214,108,255,.65)";};
+    const handleDrop=e=>{if(draggedGameIndex===null)return;e.preventDefault();e.stopPropagation();const index=draggedGameIndex;if(moveGameToTier(index,tier)){draggedGameIndex=null;render();}else resetRowStyle(row);};
+    row.addEventListener("dragover",handleDragOver);row.addEventListener("drop",handleDrop);zone.addEventListener("dragover",handleDragOver);zone.addEventListener("drop",handleDrop);label.addEventListener("dragover",handleDragOver);label.addEventListener("drop",handleDrop);
     games.forEach((g,i)=>{
       if(g.tier!==tier)return;
       const card=document.createElement("article");
       card.draggable=true;
       card.style.cssText="position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;cursor:grab;min-width:0;";
-      card.innerHTML=`<img src="${g.cover}" alt="${g.name}" style="display:block;width:100%;aspect-ratio:460/215;object-fit:cover"><div style="padding:7px 8px"><strong style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.name}</strong><div style="display:flex;flex-direction:column;gap:2px;margin-top:3px"><small style="color:#9ca3af">Статус: ${g.status}</small><small style="color:#9ca3af">Оценка: ⭐ ${g.rating??"—"}</small><small style="color:#9ca3af">Тир: ${TIER_NAMES[g.tier]??g.tier}</small></div></div><div style="display:flex;gap:5px;padding:0 8px 8px"><button class="edit" type="button">✏️</button><button class="delete" type="button">🗑</button></div>`;
+      card.innerHTML=`<img src="${g.cover||""}" alt="${g.name}" style="display:block;width:100%;aspect-ratio:460/215;object-fit:cover"><div style="padding:7px 8px"><strong style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.name}</strong><div style="display:flex;flex-direction:column;gap:2px;margin-top:3px"><small style="color:#9ca3af">Статус: ${g.status}</small><small style="color:#9ca3af">Оценка: ⭐ ${g.rating??"—"}</small><small style="color:#9ca3af">Тир: ${TIER_NAMES[g.tier]??g.tier}</small></div></div><div style="display:flex;gap:5px;padding:0 8px 8px"><button class="edit" type="button">✏️</button><button class="delete" type="button">🗑</button></div>`;
       card.addEventListener("dragstart",e=>{draggedGameIndex=i;e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",String(i));card.style.opacity=".45";});
       card.addEventListener("dragend",()=>{draggedGameIndex=null;card.style.opacity="1";grid.querySelectorAll("section[data-tier]").forEach(resetRowStyle);});
       card.querySelector(".edit").onclick=()=>edit(i);
       card.querySelector(".delete").onclick=()=>{games.splice(i,1);render();};
       zone.append(card);
     });
-
-    row.append(label,zone);
-    grid.append(row);
+    row.append(label,zone);grid.append(row);
   });
 }
 
 function coverPath(name){return `../covers/${name}`;}
 function coverName(path){return (path||"").split("/").pop();}
 
-function edit(i){const g=i===-1?{name:"",status:"В планах",rating:null,tier:"PLANNED",hours:0,deaths:0,playlist:"",cover:covers[0]?coverPath(covers[0].name):""}:{...games[i]};g.status=normalizeStatus(g.status);g.tier=normalizeTier(g.tier);const modal=document.createElement("div");modal.style.cssText="position:fixed;inset:0;background:#0008;display:flex;justify-content:center;align-items:center;z-index:1000;";modal.innerHTML=`<div style="background:#151922;padding:28px;border-radius:22px;width:min(500px,92%)"><h2>${i===-1?"Новая игра":"Редактирование"}</h2><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px"><input id="n" value="${g.name}"><label>Статус<select id="s"><option>Прохожу</option><option>Завершено</option><option>Дроп</option><option>В планах</option></select></label><label>Оценка<input id="r" type="number" min="0" max="10" step=".1" value="${g.rating??""}"></label><label>Тир<select id="t">${TIERS.map(t=>`<option value="${t}">${TIER_NAMES[t]}</option>`).join("")}</select></label><input id="h" type="number" value="${g.hours??0}"><input id="d" type="number" value="${g.deaths??0"><input id="p" value="${g.playlist??""}"><label>Обложка<select id="c">${covers.map(c=>`<option value="${c.name}">${c.name}</option>`).join("")}</select></label><img id="coverPreview" src="${g.cover||""}" alt="Предпросмотр" style="display:block;width:100%;aspect-ratio:460/215;object-fit:cover;border-radius:12px;background:#0d1117"><button id="ok">Сохранить</button><button id="cancel">Отмена</button></div></div>`;document.body.append(modal);const statusInput=modal.querySelector("#s"),ratingInput=modal.querySelector("#r"),tierInput=modal.querySelector("#t"),coverInput=modal.querySelector("#c"),preview=modal.querySelector("#coverPreview");statusInput.value=g.status;ratingInput.value=g.rating??"";tierInput.value=g.tier;coverInput.value=coverName(g.cover);if(!coverInput.value&&covers[0])coverInput.value=covers[0].name;const updatePreview=()=>{const name=coverInput.value;preview.src=name?coverPath(name):"";};coverInput.onchange=updatePreview;updatePreview();modal.querySelector("#cancel").onclick=()=>modal.remove();modal.querySelector("#ok").onclick=()=>{const updated={name:modal.querySelector("#n").value.trim(),status:normalizeStatus(statusInput.value),rating:ratingInput.value===""?null:Number(ratingInput.value),tier:normalizeTier(tierInput.value),hours:+modal.querySelector("#h").value,deaths:+modal.querySelector("#d").value,playlist:modal.querySelector("#p").value,cover:coverInput.value?coverPath(coverInput.value):""};if(i===-1)games.push(updated);else games[i]=updated;modal.remove();render();};}
+function edit(i){
+  const g=i===-1?{name:"",status:"В планах",rating:null,tier:"PLANNED",hours:0,deaths:0,playlist:"",cover:""}:{...games[i]};
+  g.status=normalizeStatus(g.status);g.tier=normalizeTier(g.tier);
+  const modal=document.createElement("div");
+  modal.style.cssText="position:fixed;inset:0;background:#0008;display:flex;justify-content:center;align-items:center;z-index:1000;";
+  modal.innerHTML=`<div style="background:#151922;padding:28px;border-radius:22px;width:min(500px,92%);max-height:92vh;overflow:auto"><h2>${i===-1?"Новая игра":"Редактирование"}</h2><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px"><input id="n" value="${g.name}"><label>Статус<select id="s"><option>Прохожу</option><option>Завершено</option><option>Дроп</option><option>В планах</option></select></label><label>Оценка<input id="r" type="number" min="0" max="10" step=".1" value="${g.rating??""}"></label><label>Тир<select id="t">${TIERS.map(t=>`<option value="${t}">${TIER_NAMES[t]}</option>`).join("")}</select></label><input id="h" type="number" value="${g.hours??0}"><input id="d" type="number" value="${g.deaths??0}"><input id="p" value="${g.playlist??""}"><label>Обложка<select id="c"><option value="">— Без обложки —</option>${covers.map(c=>`<option value="${c.name}">${c.name}</option>`).join("")}</select></label><img id="coverPreview" src="${g.cover||""}" alt="Предпросмотр" style="display:block;width:100%;aspect-ratio:460/215;object-fit:cover;border-radius:12px;background:#0d1117"><button id="ok">Сохранить</button><button id="cancel">Отмена</button></div></div>`;
+  document.body.append(modal);
+  const statusInput=modal.querySelector("#s"),ratingInput=modal.querySelector("#r"),tierInput=modal.querySelector("#t"),coverInput=modal.querySelector("#c"),preview=modal.querySelector("#coverPreview");
+  statusInput.value=g.status;ratingInput.value=g.rating??"";tierInput.value=g.tier;
+  const currentCover=coverName(g.cover);if(currentCover&&![...coverInput.options].some(o=>o.value===currentCover)){const option=document.createElement("option");option.value=currentCover;option.textContent=`${currentCover} (текущая)`;coverInput.append(option);}coverInput.value=currentCover||"";
+  const updatePreview=()=>{preview.src=coverInput.value?coverPath(coverInput.value):"";preview.style.display=coverInput.value?"block":"none";};
+  coverInput.onchange=updatePreview;updatePreview();
+  modal.querySelector("#cancel").onclick=()=>modal.remove();
+  modal.querySelector("#ok").onclick=()=>{const updated={name:modal.querySelector("#n").value.trim(),status:normalizeStatus(statusInput.value),rating:ratingInput.value===""?null:Number(ratingInput.value),tier:normalizeTier(tierInput.value),hours:+modal.querySelector("#h").value,deaths:+modal.querySelector("#d").value,playlist:modal.querySelector("#p").value,cover:coverInput.value?coverPath(coverInput.value):""};if(i===-1)games.push(updated);else games[i]=updated;modal.remove();render();};
+}
 
 add.onclick=()=>edit(-1);logout.onclick=()=>{sessionStorage.removeItem(TOKEN_KEY);location.href=`${API}/login`;};
 save.onclick=async()=>{save.textContent="Сохраняю…";save.disabled=true;try{const res=await authFetch(`${API}/games`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({games})});if(!res.ok)throw new Error(`Save failed: ${res.status}`);save.textContent="✓ Сохранено";}catch(error){console.error("Games save failed:",error);save.textContent="Ошибка сохранения";}finally{save.disabled=false;setTimeout(()=>{save.textContent="💾 Сохранить изменения";},1500);}};
