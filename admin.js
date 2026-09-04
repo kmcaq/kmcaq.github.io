@@ -74,6 +74,8 @@
       #admin-toolbar{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;gap:12px;padding:0 20px;background:#0d1117;border-bottom:1px solid rgba(255,255,255,.08);z-index:99999;box-sizing:border-box}
       #admin-toolbar button{border:0;border-radius:10px;padding:10px 16px;cursor:pointer;color:#fff;background:#ef4444;font:inherit}
       #admin-toolbar button:disabled{opacity:.55;cursor:wait}.admin-title{flex:1;font-weight:700}
+      #admin-upload-cover{background:#374151}#admin-upload-cover:hover{background:#4b5563}#admin-cover-file{display:none}
+      .admin-upload-status{position:fixed;left:50%;top:72px;transform:translateX(-50%);z-index:100001;max-width:min(560px,calc(100vw - 32px));padding:10px 16px;border-radius:12px;background:#151922;border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 40px rgba(0,0,0,.35);color:#fff;font:14px/1.4 Nunito,sans-serif;text-align:center}
       .admin-drop-zone{min-height:48px;border-radius:16px;transition:.15s}.admin-drop-zone.admin-over{background:rgba(214,108,255,.10);outline:2px dashed rgba(214,108,255,.55);outline-offset:-2px}
       .admin-dragging{opacity:.35!important;transform:scale(.98)!important}.admin-drop-target{outline:2px dashed rgba(214,108,255,.8);outline-offset:4px}.admin-game-card{position:relative!important}
       .admin-actions{position:absolute;left:7px;right:7px;top:7px;display:flex;justify-content:flex-end;gap:5px;margin:0!important;z-index:20;pointer-events:none}.admin-actions button{pointer-events:auto;width:30px;height:30px;padding:0;border:1px solid rgba(255,255,255,.22);border-radius:8px;background:rgba(17,24,39,.90);color:#fff;cursor:pointer;font:15px/30px sans-serif;text-align:center}.admin-actions .delete{background:rgba(127,29,29,.92)}
@@ -84,11 +86,67 @@
     document.head.appendChild(style);
   }
 
+  function uploadStatus(message) {
+    document.querySelector(".admin-upload-status")?.remove();
+    const el = document.createElement("div");
+    el.className = "admin-upload-status";
+    el.textContent = message;
+    document.body.appendChild(el);
+    return el;
+  }
+
+  async function refreshCovers() {
+    const response = await fetch("https://api.github.com/repos/kmcaq/kmcaq.github.io/contents/covers?ref=main");
+    if (!response.ok) throw new Error(`Не удалось обновить список обложек: ${response.status}`);
+    const data = await response.json();
+    covers = Array.isArray(data)
+      ? data.filter(c => c.type === "file" && /\.(png|jpe?g|webp)$/i.test(c.name)).sort((a,b) => a.name.localeCompare(b.name))
+      : [];
+  }
+
+  async function uploadCover(file) {
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp)$/i.test(file.type)) {
+      uploadStatus("Можно загрузить только PNG, JPEG или WebP.");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      uploadStatus("Обложка слишком большая. Максимум — 10 МБ.");
+      return;
+    }
+    if (dirty && !confirm("Есть несохранённые изменения. Загрузка обложки не сбросит их. Продолжить?")) return;
+    const name = prompt("Название игры для обложки:", file.name.replace(/\.[^.]+$/, ""));
+    if (name === null) return;
+    const game = name.trim();
+    if (!game) {
+      uploadStatus("Название игры не может быть пустым.");
+      return;
+    }
+    const form = new FormData();
+    form.append("file", file);
+    form.append("game", game);
+    const message = uploadStatus("Загружаю обложку…");
+    const button = document.getElementById("admin-upload-cover");
+    if (button) button.disabled = true;
+    try {
+      const response = await authFetch(`${API}/upload-cover`, { method: "POST", body: form });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Не удалось загрузить обложку.");
+      await refreshCovers();
+      message.textContent = "Обложка загружена. Она уже доступна в выборе обложки.";
+      setTimeout(() => message.remove(), 2200);
+    } catch (error) {
+      message.textContent = error?.message || "Не удалось загрузить обложку.";
+    } finally {
+      if (button) button.disabled = false;
+    }
+  }
+
   function createToolbar() {
     if (document.getElementById("admin-toolbar")) return;
     const bar = document.createElement("div");
     bar.id = "admin-toolbar";
-    bar.innerHTML = `<button id="admin-back">← Обычная страница</button><div class="admin-title">Игровая полка • Админ</div><button id="admin-add">➕ Добавить</button><button id="admin-save">💾 Сохранить</button>`;
+    bar.innerHTML = `<button id="admin-back">← Обычная страница</button><div class="admin-title">Игровая полка • Админ</div><button id="admin-upload-cover" type="button">🖼️ Загрузить обложку</button><button id="admin-add">➕ Добавить</button><button id="admin-save">💾 Сохранить</button><input id="admin-cover-file" type="file" accept="image/png,image/jpeg,image/webp">`;
     document.body.prepend(bar);
     document.getElementById("admin-back").onclick = () => {
       if (dirty && !confirm("Есть несохранённые изменения. Выйти без сохранения?")) return;
@@ -96,6 +154,9 @@
     };
     document.getElementById("admin-add").onclick = () => openEditor(null);
     document.getElementById("admin-save").onclick = saveGames;
+    const fileInput = document.getElementById("admin-cover-file");
+    document.getElementById("admin-upload-cover").onclick = () => fileInput.click();
+    fileInput.onchange = () => { const file = fileInput.files?.[0]; fileInput.value = ""; uploadCover(file); };
   }
 
   const getGameName = game => String(game?.name || "");
@@ -191,7 +252,7 @@
       const session=await sessionRes.json();
       if(!session.authenticated)throw new Error("Not authenticated");
       const coverData=await coversRes.json();
-      covers=Array.isArray(coverData)?coverData.filter(c=>c.type==="file"&&/\.png$/i.test(c.name)).sort((a,b)=>a.name.localeCompare(b.name)):[];
+      covers=Array.isArray(coverData)?coverData.filter(c=>c.type==="file"&&/\.(png|jpe?g|webp)$/i.test(c.name)).sort((a,b)=>a.name.localeCompare(b.name)):[];
       const wait=()=>window.GameShelf?.games?Promise.resolve():new Promise((resolve,reject)=>{const handler=()=>{window.removeEventListener("gameshelf:loaded",handler);resolve();};window.addEventListener("gameshelf:loaded",handler,{once:true});setTimeout(()=>reject(new Error("gameshelf did not load")),10000);});
       await wait();
       games=window.GameShelf.games;
