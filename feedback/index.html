@@ -6,10 +6,12 @@
   <title>Обратная связь — kmcaq</title>
   <meta name="description" content="Обратная связь с Кэм: предложить игру, сообщить о проблеме или отправить деловое предложение.">
   <link rel="icon" type="image/png" href="/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{--bg:#0f0a17;--card:rgba(24,18,38,.78);--border:rgba(255,255,255,.12);--text:#faf7ff;--muted:#d1c2ea;--accent:#d66cff}
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%}
+    *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:Nunito,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     .feedback-background{position:fixed;inset:-60px;background:url("../hero-bg.png") center/cover;filter:brightness(.42);z-index:-2}
     .feedback-overlay{position:fixed;inset:0;background:linear-gradient(rgba(15,10,23,.2),rgba(15,10,23,.94));z-index:-1}
@@ -67,7 +69,8 @@
     </section>
   </main>
   <div id="footer"></div>
-  <script src="/js/navbar.js"></script>
+  <script src="/js/navbar.js?v=20260904-2"></script>
+  <script src="/js/live.js"></script>
   <script src="/feedback/feedback.js?v=20260904-1"></script>
 </body>
 </html>
