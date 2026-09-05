@@ -10,6 +10,16 @@
     "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
   },
   {
+    "name": "Vampire Survivors",
+    "status": "В планах",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/vampire-survivors.png",
+    "playlist": ""
+  },
+  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
