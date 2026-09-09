@@ -60,16 +60,6 @@
     "playlist": "https://www.youtube.com/playlist?list=PLHfVVQM8496U"
   },
   {
-    "name": "Evil School",
-    "status": "Завершено",
-    "rating": 8,
-    "tier": "A",
-    "hours": 5,
-    "deaths": 22,
-    "cover": "../covers/evilschool.png",
-    "playlist": ""
-  },
-  {
     "name": "Vampire Survivors",
     "status": "Завершено",
     "rating": 9,
@@ -77,6 +67,16 @@
     "hours": 7,
     "deaths": 21,
     "cover": "../covers/vampire-survivors.png",
+    "playlist": ""
+  },
+  {
+    "name": "Evil School",
+    "status": "Завершено",
+    "rating": 8,
+    "tier": "A",
+    "hours": 5,
+    "deaths": 22,
+    "cover": "../covers/evilschool.png",
     "playlist": ""
   },
   {
