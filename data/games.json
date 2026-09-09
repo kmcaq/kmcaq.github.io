@@ -10,16 +10,6 @@
     "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
   },
   {
-    "name": "Vampire Survivors",
-    "status": "Прохожу",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/vampire-survivors.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -77,6 +67,16 @@
     "hours": 5,
     "deaths": 22,
     "cover": "../covers/evilschool.png",
+    "playlist": ""
+  },
+  {
+    "name": "Vampire Survivors",
+    "status": "Завершено",
+    "rating": 9,
+    "tier": "A",
+    "hours": 7,
+    "deaths": 21,
+    "cover": "../covers/vampire-survivors.png",
     "playlist": ""
   },
   {
