@@ -1,15 +1,5 @@
 [
   {
-    "name": "Red Dead Redemption 2",
-    "status": "Прохожу",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/rdr2.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -28,6 +18,16 @@
     "deaths": 45,
     "cover": "../covers/prey.png",
     "playlist": "https://www.youtube.com/playlist?list=PLIhTgrnRIiWI"
+  },
+  {
+    "name": "Red Dead Redemption 2",
+    "status": "Завершено",
+    "rating": 10,
+    "tier": "S",
+    "hours": 32,
+    "deaths": 46,
+    "cover": "../covers/rdr2.png",
+    "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
   },
   {
     "name": "Ghostwire: Tokyo",
