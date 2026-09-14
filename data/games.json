@@ -1,5 +1,25 @@
 [
   {
+    "name": "Twelve Minutes",
+    "status": "В планах",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/twelve-minutes.png",
+    "playlist": ""
+  },
+  {
+    "name": "Ghostrunner 2",
+    "status": "В планах",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/ghostrunner-2.png",
+    "playlist": ""
+  },
+  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
