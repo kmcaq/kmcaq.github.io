@@ -10,6 +10,16 @@
     "playlist": ""
   },
   {
+    "name": "Mafia",
+    "status": "Прохожу",
+    "rating": null,
+    "tier": "NOW",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/Mafia1.png",
+    "playlist": ""
+  },
+  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
