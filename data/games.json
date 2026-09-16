@@ -1,15 +1,5 @@
 [
   {
-    "name": "Twelve Minutes",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/twelve-minutes.png",
-    "playlist": ""
-  },
-  {
     "name": "Ghostrunner 2",
     "status": "В планах",
     "rating": null,
@@ -228,6 +218,16 @@
     "deaths": 0,
     "cover": "../covers/sh2.png",
     "playlist": "https://www.youtube.com/playlist?list=PLNV1P7BWrB5M"
+  },
+  {
+    "name": "Twelve Minutes",
+    "status": "Дроп",
+    "rating": null,
+    "tier": "F",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/twelve-minutes.png",
+    "playlist": ""
   },
   {
     "name": "Disco Elysium",
