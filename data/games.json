@@ -10,16 +10,6 @@
     "playlist": ""
   },
   {
-    "name": "Mafia",
-    "status": "Прохожу",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/Mafia1.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -68,6 +58,16 @@
     "deaths": 28,
     "cover": "../covers/portal2.png",
     "playlist": "https://www.youtube.com/playlist?list=PLMYjCI3uu4C4"
+  },
+  {
+    "name": "Mafia",
+    "status": "Завершено",
+    "rating": 9,
+    "tier": "A",
+    "hours": 10,
+    "deaths": 15,
+    "cover": "../covers/Mafia1.png",
+    "playlist": ""
   },
   {
     "name": "MiSide",
