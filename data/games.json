@@ -1,15 +1,5 @@
 [
   {
-    "name": "Ghostrunner 2",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/ghostrunner-2.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -168,6 +158,16 @@
     "deaths": 30,
     "cover": "../covers/portal.png",
     "playlist": "https://www.youtube.com/playlist?list=PLbBzcWDnfztk"
+  },
+  {
+    "name": "Ghostrunner 2",
+    "status": "Завершено",
+    "rating": 6,
+    "tier": "B",
+    "hours": 18,
+    "deaths": 977,
+    "cover": "../covers/ghostrunner-2.png",
+    "playlist": ""
   },
   {
     "name": "Control",
