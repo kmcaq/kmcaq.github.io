@@ -278,5 +278,25 @@
     "deaths": 0,
     "cover": "../covers/winx.png",
     "playlist": ""
+  },
+  {
+    "name": "Tomb Raider",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/tomb-raider.png",
+    "playlist": ""
+  },
+  {
+    "name": "Dishonored",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/dishonored.png",
+    "playlist": ""
   }
 ]
