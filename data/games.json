@@ -1,15 +1,5 @@
 [
   {
-    "name": "Dishonored",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/dishonored.png",
-    "playlist": ""
-  },
-  {
     "name": "Tomb Raider",
     "status": "В планах",
     "rating": null,
@@ -107,6 +97,16 @@
     "hours": 5,
     "deaths": 22,
     "cover": "../covers/evilschool.png",
+    "playlist": ""
+  },
+  {
+    "name": "Dishonored",
+    "status": "Завершено",
+    "rating": 8,
+    "tier": "A",
+    "hours": 9,
+    "deaths": 41,
+    "cover": "../covers/dishonored.png",
     "playlist": ""
   },
   {
