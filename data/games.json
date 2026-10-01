@@ -308,5 +308,15 @@
     "deaths": 0,
     "cover": "../covers/winx.png",
     "playlist": ""
+  },
+  {
+    "name": "Mafia II: Definitive Edition",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/mafia-ii-definitive-edition.png",
+    "playlist": ""
   }
 ]
