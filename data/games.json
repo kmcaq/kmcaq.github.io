@@ -1,15 +1,5 @@
 [
   {
-    "name": "Tomb Raider",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/tomb-raider.png",
-    "playlist": ""
-  },
-  {
     "name": "Metro 2033 Redux",
     "status": "В планах",
     "rating": null,
@@ -158,6 +148,16 @@
     "deaths": 178,
     "cover": "../covers/alice.png",
     "playlist": "https://www.youtube.com/playlist?list=PLGM8GBdIxMO4"
+  },
+  {
+    "name": "Tomb Raider",
+    "status": "Завершено",
+    "rating": 7,
+    "tier": "B",
+    "hours": 12,
+    "deaths": 42,
+    "cover": "../covers/tomb-raider.png",
+    "playlist": ""
   },
   {
     "name": "Resident Evil 3",
