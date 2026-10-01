@@ -298,5 +298,15 @@
     "deaths": 0,
     "cover": "../covers/winx.png",
     "playlist": ""
+  },
+  {
+    "name": "Metro 2033 Redux",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/metro-2033-redux.png",
+    "playlist": ""
   }
 ]
