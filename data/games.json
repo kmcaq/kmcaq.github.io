@@ -171,11 +171,11 @@
   },
   {
     "name": "Metro 2033 Redux",
-    "status": "В планах",
-    "rating": null,
+    "status": "Завершено",
+    "rating": 6,
     "tier": "B",
-    "hours": 0,
-    "deaths": 0,
+    "hours": 9,
+    "deaths": 31,
     "cover": "../covers/metro-2033-redux.png",
     "playlist": ""
   },
