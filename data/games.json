@@ -1,15 +1,5 @@
 [
   {
-    "name": "Metro 2033 Redux",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/metro-2033-redux.png",
-    "playlist": ""
-  },
-  {
     "name": "Mafia II: Definitive Edition",
     "status": "В планах",
     "rating": null,
@@ -178,6 +168,16 @@
     "deaths": 12,
     "cover": "../covers/re3.png",
     "playlist": "https://www.youtube.com/playlist?list=PLWXYKXpifU8o"
+  },
+  {
+    "name": "Metro 2033 Redux",
+    "status": "В планах",
+    "rating": null,
+    "tier": "B",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/metro-2033-redux.png",
+    "playlist": ""
   },
   {
     "name": "BioShock Infinite",
