@@ -221,11 +221,11 @@
   },
   {
     "name": "Mafia II: Definitive Edition",
-    "status": "В планах",
-    "rating": null,
+    "status": "Завершено",
+    "rating": 5,
     "tier": "C",
-    "hours": 0,
-    "deaths": 0,
+    "hours": 12,
+    "deaths": 23,
     "cover": "../covers/mafia-ii-definitive-edition.png",
     "playlist": ""
   },
