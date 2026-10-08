@@ -1,15 +1,5 @@
 [
   {
-    "name": "Mafia II: Definitive Edition",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/mafia-ii-definitive-edition.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -228,6 +218,16 @@
     "deaths": 5,
     "cover": "../covers/subliminal.png",
     "playlist": "https://www.youtube.com/playlist?list=PLHHn5qhazSDE"
+  },
+  {
+    "name": "Mafia II: Definitive Edition",
+    "status": "В планах",
+    "rating": null,
+    "tier": "C",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/mafia-ii-definitive-edition.png",
+    "playlist": ""
   },
   {
     "name": "Alan Wake: American Nightmare",
