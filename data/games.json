@@ -328,5 +328,15 @@
     "deaths": 0,
     "cover": "../covers/mirror-s-edge.png",
     "playlist": ""
+  },
+  {
+    "name": "Onimusha: Way of the Sword",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/onimusha-way-of-the-sword.png",
+    "playlist": ""
   }
 ]
