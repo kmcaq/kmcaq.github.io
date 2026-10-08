@@ -318,5 +318,15 @@
     "deaths": 0,
     "cover": "../covers/winx.png",
     "playlist": ""
+  },
+  {
+    "name": "Mirror's Edge™",
+    "status": "В планах",
+    "rating": null,
+    "tier": "PLANNED",
+    "hours": 0,
+    "deaths": 0,
+    "cover": "../covers/mirror-s-edge.png",
+    "playlist": ""
   }
 ]
