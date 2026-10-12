@@ -10,16 +10,6 @@
     "playlist": ""
   },
   {
-    "name": "Mirror's Edge™",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/mirror-s-edge.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -267,6 +257,16 @@
     "hours": 10,
     "deaths": 0,
     "cover": "../covers/nte.png",
+    "playlist": ""
+  },
+  {
+    "name": "Mirror's Edge™",
+    "status": "Завершено",
+    "rating": 2,
+    "tier": "D",
+    "hours": 8,
+    "deaths": 163,
+    "cover": "../covers/mirror-s-edge.png",
     "playlist": ""
   },
   {
