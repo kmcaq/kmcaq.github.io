@@ -1,9 +1,7 @@
-/* Shared site backdrop and theme tokens. Page components stay in each page's <style>. */
-:root{--bg:#211915;--card:rgba(47,33,26,.90);--border:rgba(235,194,149,.22);--text:#fff0df;--muted:#d8bda2;--accent:#e5ae79;--live:#e1775d}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text)}
-.site-background{position:fixed;inset:-60px;background:url("/hero-bg.png") center/cover no-repeat;filter:brightness(.37) saturate(.72);z-index:-2;pointer-events:none}
-.site-overlay{position:fixed;inset:0;background:linear-gradient(110deg,rgba(25,17,14,.78),rgba(35,23,18,.48)),linear-gradient(transparent,#211915);z-index:-1;pointer-events:none}
-::selection{background:var(--accent);color:var(--bg)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+/* Shared backdrop and theme tokens; page-specific presentation remains inline. */
+:root{--bg:#1b100b;--card:rgba(35,21,15,.93);--border:rgba(235,178,116,.32);--text:#fff0df;--muted:#d7bba2;--accent:#efbf89;--live:#ff486e}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text)}
+.site-background{position:fixed;inset:-35px;background:url("/hero-bg.png") center/cover no-repeat;filter:brightness(.56) saturate(1.15) sepia(.14);z-index:-2;pointer-events:none}
+.site-overlay{position:fixed;inset:0;background:linear-gradient(90deg,rgba(23,12,7,.23),rgba(29,15,9,.38)),linear-gradient(180deg,rgba(16,8,4,.1),rgba(22,11,6,.45));z-index:-1;pointer-events:none}
+::selection{background:var(--accent);color:var(--bg)}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
