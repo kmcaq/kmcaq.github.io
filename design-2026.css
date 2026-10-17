@@ -12,3 +12,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #e5ae79;outline-offset:4p
 footer{background:rgba(27,19,16,.65)}::selection{background:#e5ae79;color:#211915}
 @media(max-width:800px){.card{padding:22px!important}main{padding-left:18px!important;padding-right:18px!important}.hero{gap:28px!important}.hero h1{font-size:clamp(38px,9vw,56px)!important}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Keep feedback page backdrop identical to all other pages */
+.feedback-background{filter:brightness(.37) saturate(.72)!important;transform:scale(1.04)}
+.feedback-overlay{background:linear-gradient(110deg,rgba(25,17,14,.78),rgba(35,23,18,.48)),linear-gradient(transparent,#211915)!important}
