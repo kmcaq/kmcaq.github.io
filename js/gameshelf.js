@@ -1,9 +1,9 @@
 const TIERS = [
-  { id: "NOW", title: "Играю сейчас", mark: "▶", special: true, glow: "0 0 14px rgba(214,108,255,.30)" },
-  { id: "S", title: "Легендарно", mark: "S", glow: "0 0 22px rgba(214,108,255,.45)" },
-  { id: "A", title: "Отлично", mark: "A", glow: "0 0 14px rgba(214,108,255,.30)" },
-  { id: "B", title: "Хорошо", mark: "B", glow: "0 0 10px rgba(214,108,255,.18)" },
-  { id: "C", title: "Нормально", mark: "C", glow: "0 0 8px rgba(214,108,255,.12)" },
+  { id: "NOW", title: "Играю сейчас", mark: "▶", special: true, glow: "0 0 14px rgba(216,137,72,.30)" },
+  { id: "S", title: "Легендарно", mark: "S", glow: "0 0 22px rgba(216,137,72,.45)" },
+  { id: "A", title: "Отлично", mark: "A", glow: "0 0 14px rgba(216,137,72,.30)" },
+  { id: "B", title: "Хорошо", mark: "B", glow: "0 0 10px rgba(216,137,72,.18)" },
+  { id: "C", title: "Нормально", mark: "C", glow: "0 0 8px rgba(216,137,72,.12)" },
   { id: "D", title: "Слабо", mark: "D", glow: "none" },
   { id: "F", title: "Не понравилось", mark: "F", glow: "none" },
   { id: "PLANNED", title: "В планах", mark: "…", special: true, glow: "none" }
@@ -16,24 +16,24 @@ if (container) {
   style.textContent = `
     #gameshelfContainer{display:flex;flex-direction:column;gap:5px}
     .tier-row{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:8px;background:var(--card);backdrop-filter:blur(22px);border:1px solid var(--border);border-radius:16px;padding:6px 8px;min-height:64px}
-    .tier-box{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;color:white;background:rgba(214,108,255,.14);border:1px solid rgba(214,108,255,.28);margin:auto;text-align:center}
+    .tier-box{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;color:white;background:rgba(216,137,72,.14);border:1px solid rgba(216,137,72,.28);margin:auto;text-align:center}
     .tier-box.special{width:58px;height:46px;font-size:11px;line-height:1.05;padding:5px}
     .tier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:6px;min-width:0}
     .game-card{cursor:pointer;transition:.22s;min-width:0}
     .game-card:hover{transform:translateY(-2px) scale(1.015)}
     .game-cover{width:100%;aspect-ratio:460/215;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,.1);display:block}
-    .gm-overlay{position:fixed;inset:0;background:rgba(8,6,14,.74);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:.2s;z-index:3000}
+    .gm-overlay{position:fixed;inset:0;background:rgba(20,14,10,.82);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:.2s;z-index:3000}
     .gm-overlay.show{opacity:1;visibility:visible}
-    .gm-modal{background:rgba(24,18,38,.96);border:1px solid rgba(255,255,255,.12);border-radius:28px;width:min(760px,100%);padding:28px;position:relative}
+    .gm-modal{background:rgba(45,31,23,.98);border:1px solid rgba(255,255,255,.12);border-radius:28px;width:min(760px,100%);padding:28px;position:relative}
     .gm-close{position:absolute;right:16px;top:16px;background:none;border:0;color:white;font-size:30px;cursor:pointer}
     .gm-content{display:grid;grid-template-columns:190px 1fr;gap:26px}
     .gm-cover{width:100%;border-radius:18px}
-    .gm-tier{display:inline-flex;padding:7px 16px;border-radius:999px;background:rgba(214,108,255,.15);border:1px solid rgba(214,108,255,.3);font-weight:800}
+    .gm-tier{display:inline-flex;padding:7px 16px;border-radius:999px;background:rgba(216,137,72,.15);border:1px solid rgba(216,137,72,.3);font-weight:800}
     .gm-title{font-size:34px;margin:12px 0 18px}
     .gm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
     .gm-item{background:rgba(255,255,255,.05);border-radius:16px;padding:14px}
     .gm-item span{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
-    .gm-btn{display:inline-flex;margin-top:24px;padding:14px 22px;border-radius:16px;background:linear-gradient(135deg,#d66cff,#9146ff);color:white;text-decoration:none;font-weight:700}
+    .gm-btn{display:inline-flex;margin-top:24px;padding:14px 22px;border-radius:16px;background:linear-gradient(135deg,#d88948,#a94f3d);color:white;text-decoration:none;font-weight:700}
     @media(max-width:1100px){
       .tier-row{grid-template-columns:58px 1fr}
       .tier-box{width:44px;height:44px}
