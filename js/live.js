@@ -8,7 +8,9 @@ async function getLiveData(){
  try{
   const response=await fetch(API,{cache:"no-store",headers:{Accept:"application/json"},signal:controller.signal});
   if(!response.ok)throw new Error(`HTTP ${response.status}`);
-  return await response.json();
+  const data=await response.json();
+  if(!data||typeof data!=="object")throw new Error("Invalid live response");
+  return data;
  }finally{clearTimeout(timeout)}
 }
 
@@ -41,7 +43,10 @@ function updateCurrent(data){
  if(!title||!text||!button||!card)return;
  if(data.live){
   title.innerHTML='<span class="live-indicator"></span>Сейчас в эфире';
-  text.innerHTML=`<strong>${data.game||"Без названия"}</strong><br>👀 ${data.viewers??0} зрителей`;
+  text.replaceChildren();
+  const game=document.createElement("strong");
+  game.textContent=data.game||"Без названия";
+  text.append(game,document.createElement("br"),document.createTextNode(`👀 ${data.viewers??0} зрителей`));
   button.textContent="Открыть стрим";
   button.href="https://www.twitch.tv/kmcaq";
   button.target="_blank";
@@ -67,6 +72,19 @@ async function refreshLive(){
   updateCurrent(data);
  }catch(error){
   console.error("Live widget error:",error);
+  updateStatus({live:false});
+  const title=document.getElementById("currentTitle");
+  const message=document.getElementById("currentText");
+  const button=document.getElementById("currentButton");
+  const card=document.getElementById("currentCard");
+  if(title&&message&&button&&card){
+   title.textContent="Статус трансляции недоступен";
+   message.textContent="Не удалось обновить информацию. Попробуй позже или открой Twitch.";
+   button.textContent="Открыть Twitch";
+   button.href="https://www.twitch.tv/kmcaq";
+   button.target="_blank";button.rel="noopener noreferrer";
+   card.classList.remove("live-now");card.style.borderColor="";
+  }
  }
 }
 
