@@ -99,13 +99,7 @@ window.initLive=function(){
  window.liveStatusInterval=setInterval(refreshLive,CHECK_INTERVAL);
 };
 
-function startLive(){
- if(document.getElementById("navStatus")){
-  window.initLive();
- }else{
-  window.addEventListener("navbarReady",window.initLive,{once:true});
- }
-}
+function startLive(){window.initLive();}
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",startLive,{once:true});
 else startLive();
