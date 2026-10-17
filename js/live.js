@@ -35,37 +35,53 @@ function updateStatus(data){
  }
 }
 
+let coverRequest=0;
+function setLiveCover(url,alt){
+ const cover=document.getElementById("currentCover");if(!cover)return;
+ if(!url){cover.hidden=true;cover.removeAttribute("src");return}
+ cover.hidden=false;cover.alt=alt||"Обложка игры";cover.onerror=()=>{cover.onerror=null;cover.hidden=true;cover.removeAttribute("src")};cover.src=url;
+}
+function safeArt(url){
+ if(typeof url!=="string")return "";
+ try{const u=new URL(url);if(u.protocol!=="https:"||!["static-cdn.jtvnw.net","images.igdb.com"].includes(u.hostname))return "";return url.replaceAll("{width}","300").replaceAll("{height}","400")}catch{return ""}
+}
+function safeLocalCover(path){if(typeof path!=="string")return "";const url=path.replace(/^\.\.\//,"/");return /^\/covers\/[\w.%-]+\.(?:png|jpe?g|webp)$/i.test(url)?url:""}
+function formatDuration(data){
+ const started=data.started_at||data.startedAt||data.start_time;
+ if(!started)return "";
+ const time=Date.parse(started);if(!Number.isFinite(time)||time>Date.now())return "";
+ const mins=Math.floor((Date.now()-time)/60000);
+ return "◷ "+String(Math.floor(mins/60)).padStart(2,"0")+":"+String(mins%60).padStart(2,"0")+" в эфире";
+}
 function updateCurrent(data){
- const title=document.getElementById("currentTitle"),text=document.getElementById("currentText"),button=document.getElementById("currentButton"),card=document.getElementById("currentCard");
- if(!title||!text||!button||!card)return;
- const game=document.getElementById("currentGame"),meta=document.getElementById("currentMeta"),cover=document.getElementById("currentCover");
+ const title=document.getElementById("currentTitle"),message=document.getElementById("currentText"),button=document.getElementById("currentButton"),card=document.getElementById("currentCard");
+ if(!title||!message||!button||!card)return;
+ const game=document.getElementById("currentGame"),meta=document.getElementById("currentMeta");
+ const request=++coverRequest;
+ card.classList.toggle("live-now",Boolean(data.live));
  if(data.live){
-  title.textContent="● СЕЙЧАС В ЭФИРЕ";
-  if(game)game.textContent=data.game||"Прямой эфир";
-  text.textContent=data.title||"Присоединяйся к трансляции на Twitch";
-  if(meta)meta.textContent=Number.isFinite(Number(data.viewers))?"♙ "+Number(data.viewers).toLocaleString("ru-RU")+" зрителей":"";
+  title.textContent="СЕЙЧАС В ЭФИРЕ";game.textContent=data.game||"Прямой эфир";
+  message.textContent=data.title||"Присоединяйся к трансляции на Twitch";
+  const viewers=Number(data.viewers);meta.textContent=[Number.isFinite(viewers)&&data.viewers!=null?"♙ "+viewers.toLocaleString("ru-RU")+" зрителей":"",formatDuration(data)].filter(Boolean).join("   ");
   button.textContent="Смотреть на Twitch →";button.href="https://www.twitch.tv/kmcaq";
-  card.classList.add("live-now");
- }else{
-  title.textContent="● СЕЙЧАС НЕ В ЭФИРЕ";
-  if(game)game.textContent="До встречи на стриме!";
-  text.textContent=data.latestTitle||"Последние записи доступны на YouTube.";
-  if(meta)meta.textContent="";
-  button.textContent="Смотреть записи →";button.href=typeof data.latestVideo==="string"&&/^https:\/\//.test(data.latestVideo)?data.latestVideo:"https://www.youtube.com/@kmcaq";
-  card.classList.remove("live-now");
- }
- button.target="_blank";button.rel="noopener noreferrer";
- if(cover){
-  const art=data.live&&(data.box_art_url||data.boxArtUrl||data.gameCover||data.game_cover||data.cover);
-  if(typeof art==="string"&&/^https:\/\/(?:static-cdn\.jtvnw\.net|images\.igdb\.com|.*\.twitch\.tv)\//i.test(art)){
-   cover.src=art.replace("{width}","300").replace("{height}","400");
-  }else if(data.live&&data.game){
-   fetch("/data/games.json").then(r=>r.ok?r.json():[]).then(items=>{
-    const match=Array.isArray(items)&&items.find(g=>g.name?.toLowerCase()===data.game.toLowerCase());
-    if(match&&match.cover)cover.src=match.cover.replace(/^\.\.\//,"/");
+  const art=safeArt(data.box_art_url||data.boxArtUrl||data.gameCover||data.game_cover||data.cover);
+  if(art)setLiveCover(art,"Обложка "+(data.game||"игры"));
+  else{
+   setLiveCover("","");
+   if(data.game)fetch("/data/games.json",{cache:"no-store"}).then(r=>r.ok?r.json():[]).then(items=>{
+    if(request!==coverRequest||!Array.isArray(items))return;
+    const match=items.find(g=>g.name&&g.name.trim().toLowerCase()===data.game.trim().toLowerCase());
+    const local=safeLocalCover(match?.cover);if(local)setLiveCover(local,"Обложка "+data.game);
    }).catch(()=>{});
   }
+ }else{
+  title.textContent="СЕЙЧАС НЕ В ЭФИРЕ";game.textContent="До встречи на стриме!";
+  message.textContent=data.latestTitle||"Последние записи доступны на YouTube.";
+  meta.textContent="";setLiveCover("","");
+  button.textContent="Смотреть записи →";
+  button.href=typeof data.latestVideo==="string"&&/^https:\/\//.test(data.latestVideo)?data.latestVideo:"https://www.youtube.com/@kmcaq";
  }
+ button.target="_blank";button.rel="noopener noreferrer";
 }
 
 async function refreshLive(){
@@ -76,6 +92,7 @@ async function refreshLive(){
  }catch(error){
   console.error("Live widget error:",error);
   updateStatus({live:false});
+  ++coverRequest;setLiveCover("","");
   const title=document.getElementById("currentTitle");
   const message=document.getElementById("currentText");
   const button=document.getElementById("currentButton");
