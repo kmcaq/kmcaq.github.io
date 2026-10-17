@@ -89,6 +89,12 @@ if (container) {
         container.appendChild(row);
       });
 
+      // Open a requested game from the homepage once cards are rendered.
+      const requested=new URLSearchParams(location.search).get("game");
+      if(requested){
+        const card=Array.from(container.querySelectorAll(".game-card")).find(el=>el.dataset.gameName===requested);
+        if(card){card.scrollIntoView({block:"center",behavior:"auto"});card.click()}
+      }
       window.dispatchEvent(new CustomEvent("gameshelf:loaded", { detail: { games } }));
     })
     .catch(err => {
