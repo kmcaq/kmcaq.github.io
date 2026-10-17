@@ -7,7 +7,7 @@ fetch("/data/games.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("HTTP
 if(!Array.isArray(games))throw Error("Invalid games");
 track.replaceChildren();
 // There are no completion dates in the source. Preserve editorial order and exclude planned games.
-const featured=games.filter(g=>g&&g.name&&g.cover&&(g.status==="Завершено"||g.tier==="NOW")).slice(0,18);
+const featured=games.filter(g=>g&&g.name&&g.cover&&(g.status==="Завершено"||(g.tier==="NOW"&&g.status!=="В планах"))).slice(0,18);
 for(const g of featured){
 const a=document.createElement("a");a.className="recent-game";a.href="/games/?game="+encodeURIComponent(g.name);a.title=g.name+" — подробнее";
 const img=document.createElement("img");img.src=safeCover(g.cover);img.alt="Обложка "+g.name;img.loading="lazy";img.onerror=()=>{img.onerror=null;img.src="/avatar.png"};
