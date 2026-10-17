@@ -36,32 +36,35 @@ function updateStatus(data){
 }
 
 function updateCurrent(data){
- const title=document.getElementById("currentTitle");
- const text=document.getElementById("currentText");
- const button=document.getElementById("currentButton");
- const card=document.getElementById("currentCard");
+ const title=document.getElementById("currentTitle"),text=document.getElementById("currentText"),button=document.getElementById("currentButton"),card=document.getElementById("currentCard");
  if(!title||!text||!button||!card)return;
+ const game=document.getElementById("currentGame"),meta=document.getElementById("currentMeta"),cover=document.getElementById("currentCover");
  if(data.live){
-  title.innerHTML='<span class="live-indicator"></span>Сейчас в эфире';
-  text.replaceChildren();
-  const game=document.createElement("strong");
-  game.textContent=data.game||"Без названия";
-  text.append(game,document.createElement("br"),document.createTextNode(`👀 ${data.viewers??0} зрителей`));
-  button.textContent="Открыть стрим";
-  button.href="https://www.twitch.tv/kmcaq";
-  button.target="_blank";
-  button.rel="noopener noreferrer";
-  card.style.borderColor="#ff4d6d";
+  title.textContent="● СЕЙЧАС В ЭФИРЕ";
+  if(game)game.textContent=data.game||"Прямой эфир";
+  text.textContent=data.title||"Присоединяйся к трансляции на Twitch";
+  if(meta)meta.textContent=Number.isFinite(Number(data.viewers))?"♙ "+Number(data.viewers).toLocaleString("ru-RU")+" зрителей":"";
+  button.textContent="Смотреть на Twitch →";button.href="https://www.twitch.tv/kmcaq";
   card.classList.add("live-now");
  }else{
-  title.innerHTML='<span class="live-indicator"></span>Последняя серия';
-  text.textContent=data.latestTitle||"Последняя запись";
-  button.textContent="Смотреть VOD";
-  button.href=data.latestVideo||"https://www.youtube.com/@kmcaq";
-  button.target="_blank";
-  button.rel="noopener noreferrer";
-  card.style.borderColor="rgba(255,255,255,.12)";
+  title.textContent="● СЕЙЧАС НЕ В ЭФИРЕ";
+  if(game)game.textContent="До встречи на стриме!";
+  text.textContent=data.latestTitle||"Последние записи доступны на YouTube.";
+  if(meta)meta.textContent="";
+  button.textContent="Смотреть записи →";button.href=typeof data.latestVideo==="string"&&/^https:\/\//.test(data.latestVideo)?data.latestVideo:"https://www.youtube.com/@kmcaq";
   card.classList.remove("live-now");
+ }
+ button.target="_blank";button.rel="noopener noreferrer";
+ if(cover){
+  const art=data.live&&(data.box_art_url||data.boxArtUrl||data.gameCover||data.game_cover||data.cover);
+  if(typeof art==="string"&&/^https:\/\/(?:static-cdn\.jtvnw\.net|images\.igdb\.com|.*\.twitch\.tv)\//i.test(art)){
+   cover.src=art.replace("{width}","300").replace("{height}","400");
+  }else if(data.live&&data.game){
+   fetch("/data/games.json").then(r=>r.ok?r.json():[]).then(items=>{
+    const match=Array.isArray(items)&&items.find(g=>g.name?.toLowerCase()===data.game.toLowerCase());
+    if(match&&match.cover)cover.src=match.cover.replace(/^\.\.\//,"/");
+   }).catch(()=>{});
+  }
  }
 }
 
@@ -78,9 +81,11 @@ async function refreshLive(){
   const button=document.getElementById("currentButton");
   const card=document.getElementById("currentCard");
   if(title&&message&&button&&card){
-   title.textContent="Статус трансляции недоступен";
-   message.textContent="Не удалось обновить информацию. Попробуй позже или открой Twitch.";
-   button.textContent="Открыть Twitch";
+   title.textContent="● СТАТУС НЕДОСТУПЕН";
+   const game=document.getElementById("currentGame");if(game)game.textContent="Загляни на Twitch";
+   const meta=document.getElementById("currentMeta");if(meta)meta.textContent="";
+   message.textContent="Не удалось проверить эфир. Попробуй позже.";
+   button.textContent="Открыть Twitch →";
    button.href="https://www.twitch.tv/kmcaq";
    button.target="_blank";button.rel="noopener noreferrer";
    card.classList.remove("live-now");card.style.borderColor="";
