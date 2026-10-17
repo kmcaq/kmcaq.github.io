@@ -42,4 +42,16 @@
 @media(min-width:1000px) and (min-height:680px){html,body{height:100%;overflow:hidden}body{display:flex;flex-direction:column}#navbar{flex:0 0 auto}main{flex:1;min-height:0;width:min(1320px,100%);padding:14px 22px 8px!important;display:flex;flex-direction:column;overflow:hidden}main h1{font-size:34px!important;margin:0 0 2px}.subtitle{font-size:13px!important;margin:0 0 8px!important}#gameshelfContainer{flex:1;min-height:0;overflow-y:auto;scrollbar-color:#a77955 transparent;padding-right:8px}footer{flex:0 0 auto;padding:7px!important;font-size:12px!important}}
 @media(max-width:800px){.tier-row{grid-template-columns:52px minmax(0,1fr)!important}.tier-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-height:679px){html,body{height:auto;overflow:auto}main{overflow:visible}#gameshelfContainer{overflow:visible}}
+
+/* Tier shelf: show every Steam capsule at its original 460:215 aspect ratio. */
+html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important}
+body{display:block!important}
+main{display:block!important;max-width:1380px!important;width:100%!important;min-height:0!important;overflow:visible!important;padding:24px 20px 30px!important}
+#gameshelfContainer{display:flex;flex-direction:column;gap:8px;width:100%;max-width:100%;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding:0!important}
+.tier-row{display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;min-height:76px!important;height:auto!important;padding:9px!important;margin:0!important}
+.tier-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:8px!important;min-width:0!important;overflow:visible!important}
+.game-card{display:block!important;flex:0 0 166px!important;width:166px!important;max-width:100%!important;min-width:0!important;transform:none}
+.game-cover{display:block!important;width:100%!important;height:auto!important;aspect-ratio:460/215!important;object-fit:contain!important;object-position:center!important;border-radius:8px}
+@media(max-width:800px){main{padding:18px 12px 24px!important}.tier-row{grid-template-columns:50px minmax(0,1fr)!important;gap:7px!important}.game-card{flex-basis:145px!important;width:145px!important}}
+@media(max-width:450px){.tier-row{grid-template-columns:45px minmax(0,1fr)!important;padding:6px!important}.game-card{flex:0 1 calc(50% - 4px)!important;width:calc(50% - 4px)!important}}
 </style><link rel="stylesheet" href="/css/background.css?v=20261017-4"></head><body><div class="site-background"></div><div class="site-overlay"></div><div id="navbar"></div><main><h1>Игровая <span>полка</span></h1><p class="subtitle">Здесь живут игры, которые уже успели оставить след.</p><div id="gameshelfContainer"></div></main><footer>© kmcaq · <a href="https://www.twitch.tv/kmcaq" target="_blank" rel="noopener noreferrer">Twitch</a> · <a href="https://www.youtube.com/@kmcaq" target="_blank" rel="noopener noreferrer">YouTube</a></footer><script src="../js/gameshelf.js?v=20261017-8"></script><script src="/js/navbar.js?v=20261017-6"></script><script src="/js/live.js?v=20261017-4"></script><script src="/admin.js?v=20260904-6"></script></body></html>
