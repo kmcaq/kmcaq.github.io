@@ -1,0 +1,9 @@
+/* Shared site backdrop and theme tokens. Page components stay in each page's <style>. */
+:root{--bg:#211915;--card:rgba(47,33,26,.90);--border:rgba(235,194,149,.22);--text:#fff0df;--muted:#d8bda2;--accent:#e5ae79;--live:#e1775d}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text)}
+.site-background{position:fixed;inset:-60px;background:url("/hero-bg.png") center/cover no-repeat;filter:brightness(.37) saturate(.72);z-index:-2;pointer-events:none}
+.site-overlay{position:fixed;inset:0;background:linear-gradient(110deg,rgba(25,17,14,.78),rgba(35,23,18,.48)),linear-gradient(transparent,#211915);z-index:-1;pointer-events:none}
+::selection{background:var(--accent);color:var(--bg)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
