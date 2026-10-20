@@ -10,16 +10,6 @@
     "playlist": ""
   },
   {
-    "name": "Call of Duty Modern Warfare 4",
-    "status": "В планах",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/call-of-duty-modern-warfare-4.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -167,6 +157,16 @@
     "hours": 12,
     "deaths": 42,
     "cover": "../covers/tomb-raider.png",
+    "playlist": ""
+  },
+  {
+    "name": "Call of Duty Modern Warfare 4",
+    "status": "Завершено",
+    "rating": 6.5,
+    "tier": "B",
+    "hours": 8,
+    "deaths": 66,
+    "cover": "../covers/call-of-duty-modern-warfare-4.png",
     "playlist": ""
   },
   {
