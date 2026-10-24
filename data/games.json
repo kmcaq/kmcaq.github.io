@@ -1,15 +1,5 @@
 [
   {
-    "name": "Onimusha: Way of the Sword",
-    "status": "Прохожу",
-    "rating": null,
-    "tier": "NOW",
-    "hours": 0,
-    "deaths": 0,
-    "cover": "../covers/onimusha-way-of-the-sword.png",
-    "playlist": ""
-  },
-  {
     "name": "Resident Evil 2",
     "status": "Завершено",
     "rating": 10,
@@ -157,6 +147,16 @@
     "hours": 12,
     "deaths": 42,
     "cover": "../covers/tomb-raider.png",
+    "playlist": ""
+  },
+  {
+    "name": "Onimusha: Way of the Sword",
+    "status": "Завершено",
+    "rating": 7,
+    "tier": "B",
+    "hours": 39,
+    "deaths": 231,
+    "cover": "../covers/onimusha-way-of-the-sword.png",
     "playlist": ""
   },
   {
