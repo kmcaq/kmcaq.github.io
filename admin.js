@@ -32,13 +32,21 @@
       history.replaceState(null, "", location.pathname + location.search);
     }
   }
-  async function authFetch(resource, options = {}) {
-    const token = getToken();
-    if (!token) {
+  class LoginRedirect extends Error {}
+  let redirectingToLogin = false;
+  function redirectToLogin() {
+    if (!redirectingToLogin) {
+      redirectingToLogin = true;
       location.replace(
         `${API}/login?next=${encodeURIComponent(location.pathname + location.search)}`,
       );
-      throw Error("Требуется вход");
+    }
+    return new LoginRedirect("Требуется авторизация");
+  }
+  async function authFetch(resource, options = {}) {
+    const token = getToken();
+    if (!token) {
+      throw redirectToLogin();
     }
     const controller = new AbortController(),
       timer = setTimeout(() => controller.abort(), 15000);
@@ -53,10 +61,7 @@
       });
       if (response.status === 401) {
         sessionStorage.removeItem(TOKEN_KEY);
-        location.replace(
-          `${API}/login?next=${encodeURIComponent(location.pathname + location.search)}`,
-        );
-        throw Error("Сессия истекла");
+        throw redirectToLogin();
       }
       const body = await response.text();
       return {
@@ -138,6 +143,7 @@
       msg.textContent = "Обложка загружена и доступна в выборе.";
       setTimeout(() => msg.remove(), 2200);
     } catch (e) {
+      if (e instanceof LoginRedirect) return;
       msg.textContent = e?.message || "Не удалось загрузить обложку.";
     } finally {
       if (button) button.disabled = false;
@@ -555,6 +561,7 @@
         button.textContent = "💾 Сохранено";
       } else button.textContent = "💾 Сохранить*";
     } catch (error) {
+      if (error instanceof LoginRedirect) return;
       console.error("Ошибка сохранения игровой полки:", error);
       alert(
         `Не удалось сохранить изменения.\n${error.message || "Неизвестная ошибка"}`,
@@ -566,6 +573,10 @@
   }
   async function init() {
     saveHashToken();
+    if (!getToken()) {
+      redirectToLogin();
+      return;
+    }
     createToolbar();
     try {
       const [sessionRes, coversRes] = await Promise.all([
@@ -581,7 +592,10 @@
       if (!sessionRes.ok)
         throw Error(`Session check failed: ${sessionRes.status}`);
       const session = await sessionRes.json();
-      if (!session.authenticated) throw Error("Not authenticated");
+      if (!session.authenticated) {
+        sessionStorage.removeItem(TOKEN_KEY);
+        throw redirectToLogin();
+      }
       const coverList = await coversRes.json();
       covers = Array.isArray(coverList)
         ? coverList
@@ -602,6 +616,7 @@
       for (const id of ["admin-add", "admin-save", "admin-upload-cover"])
         document.getElementById(id).disabled = false;
     } catch (e) {
+      if (e instanceof LoginRedirect) return;
       console.error("Ошибка запуска админки:", e);
       alert("Не удалось загрузить данные игровой полки.");
     }

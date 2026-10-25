@@ -1,6 +1,6 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { JSDOM } = require("jsdom");
+const { JSDOM, VirtualConsole } = require("jsdom");
 const fs = require("node:fs");
 const path = require("node:path");
 const root = path.join(__dirname, "..");
@@ -24,8 +24,21 @@ async function setup({
   games = sourceGames,
   admin = false,
   saveOK = true,
+  hasToken = true,
+  sessionStatus = 200,
+  authenticated = true,
 } = {}) {
+  const navigationAttempts = [];
+  const virtualConsole = new VirtualConsole().sendTo(console, {
+    omitJSDOMErrors: true,
+  });
+  virtualConsole.on("jsdomError", (error) => {
+    if (error.message.startsWith("Not implemented: navigation"))
+      navigationAttempts.push(error);
+    else throw error;
+  });
   const dom = new JSDOM(read("games/index.html"), {
+    virtualConsole,
     url: "https://kmcaq.github.io/games/" + (admin ? "?admin=1" : ""),
     runScripts: "outside-only",
     pretendToBeVisual: true,
@@ -40,17 +53,20 @@ async function setup({
   };
   w.HTMLElement.prototype.scrollIntoView = function () {};
   w.confirm = () => true;
-  w.alert = () => {};
-  w.sessionStorage.setItem("admin_token", "test-token");
+  const alerts = [];
+  w.alert = (message) => alerts.push(message);
+  if (hasToken) w.sessionStorage.setItem("admin_token", "test-token");
+  const requests = [];
   const writes = [];
   w.fetch = async (url, options = {}) => {
+    requests.push(String(url));
     if (url === "/data/games.json")
       return { ok: true, json: async () => structuredClone(games) };
     if (String(url).includes("/session"))
       return {
-        ok: true,
-        status: 200,
-        text: async () => JSON.stringify({ authenticated: true }),
+        ok: sessionStatus === 200,
+        status: sessionStatus,
+        text: async () => JSON.stringify({ authenticated }),
       };
     if (String(url).includes("api.github.com"))
       return {
@@ -75,7 +91,15 @@ async function setup({
     await turn();
     await turn();
   }
-  return { dom, w, writes, close: () => w.close() };
+  return {
+    dom,
+    w,
+    writes,
+    alerts,
+    requests,
+    navigationAttempts,
+    close: () => w.close(),
+  };
 }
 function editor(w, name) {
   if (name)
@@ -378,4 +402,34 @@ test("page asset references and all cover paths exist", () => {
       fs.existsSync(path.resolve(root, "games", game.cover)),
       game.name + " has a missing cover",
     );
+});
+
+test("first visit without a session redirects without an alert or admin API requests", async () => {
+  const s = await setup({ admin: true, hasToken: false });
+  try {
+    assert.deepEqual(s.alerts, []);
+    assert.equal(s.navigationAttempts.length, 1);
+    assert(
+      !s.requests.some(
+        (url) => url.includes("/session") || url.includes("api.github.com"),
+      ),
+    );
+    assert.equal(s.w.document.getElementById("admin-toolbar"), null);
+  } finally {
+    s.close();
+  }
+});
+
+test("expired and rejected sessions redirect without reporting a shelf loading failure", async () => {
+  for (const options of [{ sessionStatus: 401 }, { authenticated: false }]) {
+    const s = await setup({ admin: true, ...options });
+    try {
+      assert.deepEqual(s.alerts, []);
+      assert.equal(s.navigationAttempts.length, 1);
+      assert.equal(s.w.sessionStorage.getItem("admin_token"), null);
+      assert(s.w.document.getElementById("admin-add").disabled);
+    } finally {
+      s.close();
+    }
+  }
 });
