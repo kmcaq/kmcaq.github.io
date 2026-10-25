@@ -280,12 +280,26 @@ test("saving preserves every record and rejected writes keep unsaved edits", asy
   }
 });
 
-test("homepage shows every completed game and puts current games first", async () => {
-  const current = game("Playing", {
-    status: "Прохожу",
-    tier: "NOW",
-  });
-  const records = [...sourceGames, current];
+test("homepage shows the latest additions first regardless of tier, status or shelf order", async () => {
+  const records = [
+    game("Old current", {
+      status: "Прохожу",
+      tier: "NOW",
+      addedAt: "2026-01-01T00:00:00Z",
+    }),
+    game("Old high tier", { tier: "S", addedAt: "2026-01-02T00:00:00Z" }),
+    game("Newest planned", {
+      status: "В планах",
+      tier: "PLANNED",
+      addedAt: "2026-02-03T00:00:00Z",
+    }),
+    game("New dropped", {
+      status: "Дроп",
+      tier: "F",
+      addedAt: "2026-02-02T00:00:00Z",
+    }),
+    game("No legacy date"),
+  ];
   const dom = new JSDOM(read("index.html"), {
     url: "https://kmcaq.github.io/",
     runScripts: "outside-only",
@@ -304,20 +318,26 @@ test("homepage shows every completed game and puts current games first", async (
     w.eval(read("js/home-games.js"));
     await turn();
     await turn();
-    assert.equal(
-      w.document.querySelectorAll(".recent-game").length,
-      records.filter((g) => g.status === "Завершено" || g.tier === "NOW")
-        .length,
+    const names = [...w.document.querySelectorAll(".recent-game strong")].map(
+      (el) => el.textContent,
     );
+    assert.deepEqual(names, [
+      "Newest planned",
+      "New dropped",
+      "Old high tier",
+      "Old current",
+      "No legacy date",
+    ]);
     assert.equal(
-      w.document.querySelector(".recent-game strong").textContent,
-      "Playing",
+      w.document.querySelector(".game-badge").textContent,
+      "В ПЛАНАХ",
     );
     assert.equal(
       w.document.querySelectorAll(".recent-game img").length,
-      records.filter((g) => g.status === "Завершено" || g.tier === "NOW")
-        .length,
+      records.length,
     );
+    assert.equal(w.GameData.newestGames(records)[0].name, "Newest planned");
+    assert.equal(records[0].name, "Old current");
   } finally {
     w.close();
   }
@@ -609,6 +629,44 @@ test("playlist button is omitted without a URL and returns when a linked game op
       );
       s.w.document.querySelector(".gm-close").click();
     }
+  } finally {
+    s.close();
+  }
+});
+
+test("new cards get addition times automatically and edits and tier moves preserve them", async () => {
+  const s = await setup({
+    games: [game("Existing", { addedAt: "2026-01-01T00:00:00Z" })],
+    admin: true,
+  });
+  try {
+    for (const name of ["New first", "New second"]) {
+      const form = editor(s.w);
+      form.elements.name.value = name;
+      submit(s.w, form);
+    }
+    const records = s.w.GameShelf.games;
+    const first = records.find((game) => game.name === "New first"),
+      second = records.find((game) => game.name === "New second");
+    assert(Number.isFinite(Date.parse(first.addedAt)));
+    assert(Date.parse(second.addedAt) > Date.parse(first.addedAt));
+    const created = second.addedAt;
+    const form = editor(s.w, "New second");
+    form.elements.name.value = "Renamed new game";
+    form.elements.tier.value = "S";
+    form.elements.tier.dispatchEvent(new s.w.Event("change"));
+    submit(s.w, form);
+    assert.equal(second.addedAt, created);
+    assert.equal(s.w.GameData.moveToTier(second, "NOW").addedAt, created);
+    assert.equal(s.w.GameData.newestGames(records)[0].name, "Renamed new game");
+    assert.equal(form.elements.addedAt, undefined);
+    s.w.document.getElementById("admin-save").click();
+    await turn();
+    await turn();
+    assert.equal(
+      s.writes[0].games.find((g) => g.name === "Renamed new game").addedAt,
+      created,
+    );
   } finally {
     s.close();
   }

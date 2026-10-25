@@ -104,6 +104,15 @@
       })),
     );
   }
+  function additionTime(game) {
+    const value =
+      typeof game.addedAt === "string" ? Date.parse(game.addedAt) : NaN;
+    return Number.isFinite(value) ? value : 0;
+  }
+  function newestGames(games) {
+    // A copy keeps the shelf's tier and drag-and-drop order untouched.
+    return [...games].sort((a, b) => additionTime(b) - additionTime(a));
+  }
   function prepareGame(source, fields, games, oldName = null) {
     // Validate a detached draft. Rejected edits cannot mutate the original record.
     const draft = {
@@ -112,6 +121,15 @@
       name: String(fields.name || "").trim(),
       status: normalizeStatus(fields.status),
     };
+    if (oldName === null) {
+      // Record additions automatically, even when two cards are created in the same millisecond.
+      const time = games.reduce(
+        (latest, game) => Math.max(latest, additionTime(game) + 1),
+        Date.now(),
+      );
+      draft.addedAt = new Date(time).toISOString();
+    } else if (source.addedAt) draft.addedAt = source.addedAt;
+    else delete draft.addedAt;
     validateGame(draft);
     const key = draft.name.toLocaleLowerCase("ru-RU");
     if (
@@ -163,6 +181,7 @@
     safePlaylist,
     validateGames,
     prepareGame,
+    newestGames,
     moveToTier,
     loadGames,
   };

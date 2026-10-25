@@ -6,7 +6,8 @@
     "hours": 10,
     "deaths": 41,
     "cover": "../covers/re2.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLIum3g0_Ud2k"
+    "playlist": "https://www.youtube.com/playlist?list=PLIum3g0_Ud2k",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Prey",
@@ -15,7 +16,8 @@
     "hours": 26,
     "deaths": 45,
     "cover": "../covers/prey.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLIhTgrnRIiWI"
+    "playlist": "https://www.youtube.com/playlist?list=PLIhTgrnRIiWI",
+    "addedAt": "2026-08-31T13:58:13Z"
   },
   {
     "name": "Red Dead Redemption 2",
@@ -24,7 +26,8 @@
     "hours": 32,
     "deaths": 46,
     "cover": "../covers/rdr2.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is"
+    "playlist": "https://www.youtube.com/playlist?list=PLHjcaTXPl1is",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Ghostwire: Tokyo",
@@ -33,7 +36,8 @@
     "hours": 11,
     "deaths": 4,
     "cover": "../covers/tokyo.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLUVM0nrkCPmI"
+    "playlist": "https://www.youtube.com/playlist?list=PLUVM0nrkCPmI",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Portal 2",
@@ -42,7 +46,8 @@
     "hours": 8,
     "deaths": 28,
     "cover": "../covers/portal2.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLMYjCI3uu4C4"
+    "playlist": "https://www.youtube.com/playlist?list=PLMYjCI3uu4C4",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Mafia",
@@ -51,7 +56,8 @@
     "hours": 10,
     "deaths": 15,
     "cover": "../covers/Mafia1.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-16T19:12:47Z"
   },
   {
     "name": "MiSide",
@@ -60,7 +66,8 @@
     "hours": 4,
     "deaths": 6,
     "cover": "../covers/miside.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLHfVVQM8496U"
+    "playlist": "https://www.youtube.com/playlist?list=PLHfVVQM8496U",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Vampire Survivors",
@@ -69,7 +76,8 @@
     "hours": 7,
     "deaths": 21,
     "cover": "../covers/vampire-survivors.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-05T17:06:58Z"
   },
   {
     "name": "Evil School",
@@ -78,7 +86,8 @@
     "hours": 5,
     "deaths": 22,
     "cover": "../covers/evilschool.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Dishonored",
@@ -87,7 +96,8 @@
     "hours": 9,
     "deaths": 41,
     "cover": "../covers/dishonored.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-26T17:57:07Z"
   },
   {
     "name": "Alan Wake",
@@ -96,7 +106,8 @@
     "hours": 14,
     "deaths": 81,
     "cover": "../covers/alan.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLcN0Ih2gJOvg"
+    "playlist": "https://www.youtube.com/playlist?list=PLcN0Ih2gJOvg",
+    "addedAt": "2026-09-02T14:47:08Z"
   },
   {
     "name": "Resident Evil 4",
@@ -105,7 +116,8 @@
     "hours": 18,
     "deaths": 24,
     "cover": "../covers/re4.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLdK0IONc_mr0"
+    "playlist": "https://www.youtube.com/playlist?list=PLdK0IONc_mr0",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Ghostrunner",
@@ -114,7 +126,8 @@
     "hours": 17,
     "deaths": 1742,
     "cover": "../covers/ghostrunner.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLT6RK-5ZcEHk"
+    "playlist": "https://www.youtube.com/playlist?list=PLT6RK-5ZcEHk",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Alice: Madness Returns",
@@ -123,7 +136,8 @@
     "hours": 16,
     "deaths": 178,
     "cover": "../covers/alice.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLGM8GBdIxMO4"
+    "playlist": "https://www.youtube.com/playlist?list=PLGM8GBdIxMO4",
+    "addedAt": "2026-09-02T14:47:08Z"
   },
   {
     "name": "Tomb Raider",
@@ -132,7 +146,8 @@
     "hours": 12,
     "deaths": 42,
     "cover": "../covers/tomb-raider.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-26T17:57:07Z"
   },
   {
     "name": "Onimusha: Way of the Sword",
@@ -141,7 +156,8 @@
     "hours": 39,
     "deaths": 231,
     "cover": "../covers/onimusha-way-of-the-sword.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-10-08T12:48:57Z"
   },
   {
     "name": "Call of Duty Modern Warfare 4",
@@ -150,7 +166,8 @@
     "hours": 8,
     "deaths": 66,
     "cover": "../covers/call-of-duty-modern-warfare-4.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-10-20T04:20:57Z"
   },
   {
     "name": "Resident Evil 3",
@@ -159,7 +176,8 @@
     "hours": 7,
     "deaths": 12,
     "cover": "../covers/re3.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLWXYKXpifU8o"
+    "playlist": "https://www.youtube.com/playlist?list=PLWXYKXpifU8o",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Metro 2033 Redux",
@@ -168,7 +186,8 @@
     "hours": 9,
     "deaths": 31,
     "cover": "../covers/metro-2033-redux.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-10-01T14:28:55Z"
   },
   {
     "name": "BioShock Infinite",
@@ -177,7 +196,8 @@
     "hours": 10,
     "deaths": 12,
     "cover": "../covers/bioshockinf.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLMAmVfsQ5Uwg"
+    "playlist": "https://www.youtube.com/playlist?list=PLMAmVfsQ5Uwg",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Portal",
@@ -186,7 +206,8 @@
     "hours": 3,
     "deaths": 30,
     "cover": "../covers/portal.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLbBzcWDnfztk"
+    "playlist": "https://www.youtube.com/playlist?list=PLbBzcWDnfztk",
+    "addedAt": "2026-08-31T13:58:13Z"
   },
   {
     "name": "Ghostrunner 2",
@@ -195,7 +216,8 @@
     "hours": 18,
     "deaths": 977,
     "cover": "../covers/ghostrunner-2.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-14T12:51:17Z"
   },
   {
     "name": "Control",
@@ -204,7 +226,8 @@
     "hours": 16,
     "deaths": 59,
     "cover": "../covers/control.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLQ5uuiVBc5jg"
+    "playlist": "https://www.youtube.com/playlist?list=PLQ5uuiVBc5jg",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Subliminal",
@@ -213,7 +236,8 @@
     "hours": 2,
     "deaths": 5,
     "cover": "../covers/subliminal.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLHHn5qhazSDE"
+    "playlist": "https://www.youtube.com/playlist?list=PLHHn5qhazSDE",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Mafia II: Definitive Edition",
@@ -222,7 +246,8 @@
     "hours": 12,
     "deaths": 23,
     "cover": "../covers/mafia-ii-definitive-edition.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-10-01T14:42:11Z"
   },
   {
     "name": "Alan Wake: American Nightmare",
@@ -231,7 +256,8 @@
     "hours": 4,
     "deaths": 4,
     "cover": "../covers/alandlc.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLbOoQA1GWYs0"
+    "playlist": "https://www.youtube.com/playlist?list=PLbOoQA1GWYs0",
+    "addedAt": "2026-09-02T14:47:08Z"
   },
   {
     "name": "NTE: Neverness to Everness",
@@ -240,7 +266,8 @@
     "hours": 10,
     "deaths": 0,
     "cover": "../covers/nte.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Mirror's Edge™",
@@ -249,7 +276,8 @@
     "hours": 8,
     "deaths": 163,
     "cover": "../covers/mirror-s-edge.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-10-08T12:48:43Z"
   },
   {
     "name": "Layers of Fear",
@@ -258,7 +286,8 @@
     "hours": 12,
     "deaths": 13,
     "cover": "../covers/lof.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLBQYck7X44eI"
+    "playlist": "https://www.youtube.com/playlist?list=PLBQYck7X44eI",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Silent Hill 2",
@@ -267,7 +296,8 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/sh2.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLNV1P7BWrB5M"
+    "playlist": "https://www.youtube.com/playlist?list=PLNV1P7BWrB5M",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Twelve Minutes",
@@ -276,7 +306,8 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/twelve-minutes.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-14T12:51:17Z"
   },
   {
     "name": "Ori and the Will of the Wisps",
@@ -285,7 +316,8 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/ori-and-the-will-of-the-wisps.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-10-20T07:13:56Z"
   },
   {
     "name": "Disco Elysium",
@@ -294,7 +326,8 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/disco.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLVHQ07aSt6qs"
+    "playlist": "https://www.youtube.com/playlist?list=PLVHQ07aSt6qs",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Kingdom Come: Deliverance",
@@ -303,7 +336,8 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/kcd.png",
-    "playlist": "https://www.youtube.com/playlist?list=PLCxhqDlSbgic"
+    "playlist": "https://www.youtube.com/playlist?list=PLCxhqDlSbgic",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Tiny Bookshop",
@@ -312,7 +346,8 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/tbs.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-02T14:53:21Z"
   },
   {
     "name": "Winx Club: The Magic is Back",
@@ -321,6 +356,7 @@
     "hours": 0,
     "deaths": 0,
     "cover": "../covers/winx.png",
-    "playlist": ""
+    "playlist": "",
+    "addedAt": "2026-09-02T14:53:21Z"
   }
 ]

@@ -67,20 +67,19 @@
 
   const safeCover = (cover) =>
     window.GameData.safeCover(cover) || "/avatar.webp";
-  const badge = (g) =>
-    g.tier === "NOW"
-      ? ["ИГРАЮ СЕЙЧАС", "now"]
-      : g.status === "Завершено"
-        ? ["ПРОЙДЕНО", "done"]
-        : ["ИГРА", "plan"];
+  const badge = (game) => {
+    if (game.tier === "NOW") return ["ИГРАЮ СЕЙЧАС", "now"];
+    if (game.status === "Завершено") return ["ПРОЙДЕНО", "done"];
+    if (game.status === "В планах") return ["В ПЛАНАХ", "plan"];
+    if (game.status === "Заморозка") return ["НА ПАУЗЕ", "plan"];
+    if (game.status === "Дроп") return ["ДРОП", ""];
+    return ["ИГРА", "plan"];
+  };
   window.GameData.loadGames()
     .then((games) => {
       track.replaceChildren();
-      // No dates are inferred. Show all completed games, with active games first.
-      const featured = [
-        ...games.filter((g) => g.tier === "NOW"),
-        ...games.filter((g) => g.status === "Завершено"),
-      ];
+      // Addition time is recorded automatically, independently of tiers and edits.
+      const featured = window.GameData.newestGames(games);
       for (const g of featured) {
         const a = document.createElement("a");
         a.className = "recent-game";
@@ -109,8 +108,7 @@
         a.append(img, cap);
         track.append(a);
       }
-      if (!featured.length)
-        track.textContent = "Пока нет текущих или завершённых игр.";
+      if (!featured.length) track.textContent = "Пока нет добавленных игр.";
       const update = () => {
         prev.disabled = track.scrollLeft < 10;
         next.disabled =
