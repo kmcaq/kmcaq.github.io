@@ -157,8 +157,8 @@ function updateCurrent(data) {
     message.textContent = "На игровой полке — мои прохождения и планы.";
     meta.textContent = "";
     setLiveCover("", "");
-    button.hidden = true;
-    button.removeAttribute("href");
+    button.textContent = "Записи стримов →";
+    button.href = "https://www.youtube.com/@kmcaq";
     if (shelfLink) {
       shelfLink.hidden = false;
       shelfLink.textContent = "Перейти к игровой полке →";
@@ -177,7 +177,6 @@ function updateCurrent(data) {
             ? "Пока стрима нет, можно посмотреть записи прохождения."
             : "Продолжение — на следующих стримах.";
           setLiveCover(safeLocalCover(current.cover), "Обложка " + current.name);
-          button.hidden = !playlist;
           if (playlist) {
             button.textContent = "Смотреть записи →";
             button.href = playlist;
