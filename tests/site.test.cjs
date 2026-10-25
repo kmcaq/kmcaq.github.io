@@ -189,7 +189,7 @@ test("adding to an empty shelf creates a keyboard button with working details", 
       "New Game",
     );
     assert(s.w.document.querySelector(".gm-btn").hidden);
-    assert(!s.w.document.querySelector(".gm-no-playlist").hidden);
+    assert.equal(s.w.document.querySelector(".gm-no-playlist"), null);
   } finally {
     s.close();
   }
@@ -573,6 +573,42 @@ test("cancelled or invalid edits do not move a card; new cards can use any selec
       s.w.GameShelf.games.find((g) => g.name === "New ranked game").status,
       "Завершено",
     );
+  } finally {
+    s.close();
+  }
+});
+
+test("playlist button is omitted without a URL and returns when a linked game opens", async () => {
+  const s = await setup({
+    games: [
+      game("With playlist", {
+        playlist: "https://www.youtube.com/playlist?list=example",
+      }),
+      game("Without playlist"),
+    ],
+  });
+  try {
+    const cards = [...s.w.document.querySelectorAll(".game-card")];
+    for (const name of ["With playlist", "Without playlist", "With playlist"]) {
+      cards
+        .find((card) => card.dataset.gameName === name)
+        .querySelector(".game-open")
+        .click();
+      const link = s.w.document.querySelector(".gm-btn");
+      assert.equal(link.hidden, name === "Without playlist");
+      assert.equal(link.hasAttribute("href"), name !== "Without playlist");
+      assert.equal(s.w.document.querySelector(".gm-no-playlist"), null);
+      assert(
+        !s.w.document
+          .querySelector(".gm-modal")
+          .textContent.includes("недоступна"),
+      );
+      assert.equal(
+        s.w.document.querySelector(".gm-rank-mark").textContent,
+        "A",
+      );
+      s.w.document.querySelector(".gm-close").click();
+    }
   } finally {
     s.close();
   }
