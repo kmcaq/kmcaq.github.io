@@ -11,7 +11,6 @@
     <div class="gm-content"><img class="gm-cover" alt=""><div>
     <div class="gm-tier"></div><h2 class="gm-title" id="gm-title"></h2>
     <div class="gm-grid">
-      <div class="gm-item gm-rating-item"><span>Оценка</span><div class="gm-rating"></div></div>
       <div class="gm-item"><span>Статус</span><div class="gm-status"></div></div>
       <div class="gm-item gm-hours-item"><span>Часы</span><div class="gm-hours"></div></div>
       <div class="gm-item gm-deaths-item"><span>Смерти</span><div class="gm-deaths"></div></div>
@@ -67,18 +66,13 @@
     for (const [selector, value] of [
       [".gm-tier", tier.title],
       [".gm-title", game.name],
-      [".gm-rating", game.rating != null ? `${game.rating}/10` : "—"],
       [".gm-status", game.status],
       [".gm-hours", `${game.hours} ч.`],
       [".gm-deaths", game.deaths],
     ])
       dialog.querySelector(selector).textContent = value;
     const compact = ["NOW", "PLANNED"].includes(game.tier);
-    for (const selector of [
-      ".gm-rating-item",
-      ".gm-hours-item",
-      ".gm-deaths-item",
-    ])
+    for (const selector of [".gm-hours-item", ".gm-deaths-item"])
       dialog.querySelector(selector).hidden = compact;
     const link = dialog.querySelector(".gm-btn");
     const playlist = data.safePlaylist(game.playlist);

@@ -11,7 +11,6 @@ function game(name, extra = {}) {
   return {
     name,
     tier: "A",
-    rating: 8,
     status: "Завершено",
     hours: 1,
     deaths: 0,
@@ -153,18 +152,23 @@ test("rejected duplicate and empty-name edits leave records unchanged", async ()
   }
 });
 
-test("manual tier survives editing and automatic mode remains explicit", async () => {
+test("editing preserves the card section and exposes no tier or rating selectors", async () => {
   const s = await setup({ games: [game("First")], admin: true });
   try {
-    let form = editor(s.w, "First");
-    form.elements.tier.value = "S";
-    submit(s.w, form);
-    assert.equal(s.w.GameShelf.games[0].tier, "S");
-    form = editor(s.w, "First");
-    form.elements.tierMode.value = "auto";
-    form.elements.tierMode.dispatchEvent(new s.w.Event("change"));
+    const form = editor(s.w, "First");
+    assert.equal(form.elements.tier, undefined);
+    assert.equal(form.elements.tierMode, undefined);
+    assert.equal(form.elements.rating, undefined);
+    assert.equal(form.querySelector(".admin-card-tier").textContent, "A");
+    form.elements.status.value = "Дроп";
     submit(s.w, form);
     assert.equal(s.w.GameShelf.games[0].tier, "A");
+    assert.equal(s.w.GameShelf.games[0].status, "Дроп");
+    assert.equal(
+      s.w.document.querySelector(".game-card").closest(".tier-row").dataset
+        .tier,
+      "A",
+    );
   } finally {
     s.close();
   }
@@ -196,17 +200,13 @@ test("edited cards open the updated title and tier", async () => {
   try {
     const form = editor(s.w, "First");
     form.elements.name.value = "Renamed";
-    form.elements.tier.value = "S";
     submit(s.w, form);
     s.w.document.querySelector(".game-open").click();
     assert.equal(
       s.w.document.querySelector(".gm-title").textContent,
       "Renamed",
     );
-    assert.equal(
-      s.w.document.querySelector(".gm-tier").textContent,
-      "Легендарно",
-    );
+    assert.equal(s.w.document.querySelector(".gm-tier").textContent, "Отлично");
     assert.match(
       s.w.document.querySelector(".game-open").getAttribute("aria-label"),
       /Renamed/,
@@ -242,14 +242,12 @@ test("tier moves keep status consistent and invalid numeric data is rejected", a
     assert.equal(data.moveToTier(game("X"), "NOW").status, "Прохожу");
     assert.equal(data.moveToTier(game("X"), "PLANNED").status, "В планах");
     assert.equal(
-      data.moveToTier(
-        game("X", { tier: "PLANNED", status: "В планах", rating: null }),
-        "F",
-      ).status,
-      "Дроп",
+      data.moveToTier(game("X", { tier: "PLANNED", status: "В планах" }), "F")
+        .status,
+      "Завершено",
     );
     assert.throws(() => data.validateGames([game("X", { deaths: -1 })]));
-    assert.throws(() => data.validateGames([game("X", { rating: 11 })]));
+    assert.throws(() => data.validateGames([game("X", { tier: "unknown" })]));
     assert.throws(() => data.validateGames([game("X"), game("x")]));
   } finally {
     s.close();
@@ -286,7 +284,6 @@ test("homepage shows every completed game and puts current games first", async (
   const current = game("Playing", {
     status: "Прохожу",
     tier: "NOW",
-    rating: null,
   });
   const records = [...sourceGames, current];
   const dom = new JSDOM(read("index.html"), {
@@ -431,5 +428,74 @@ test("expired and rejected sessions redirect without reporting a shelf loading f
     } finally {
       s.close();
     }
+  }
+});
+
+test("dragging a card sets its tier by section and saving retains that position", async () => {
+  const s = await setup({ games: [game("First")], admin: true });
+  try {
+    const card = s.w.document.querySelector(".game-card");
+    function dropInto(tier) {
+      const transfer = { effectAllowed: "", setData() {} };
+      const start = new s.w.Event("dragstart", {
+        bubbles: true,
+        cancelable: true,
+      });
+      Object.defineProperty(start, "dataTransfer", { value: transfer });
+      card.dispatchEvent(start);
+      const grid = s.w.document.querySelector(
+        '[data-tier="' + tier + '"] .tier-grid',
+      );
+      const drop = new s.w.Event("drop", { bubbles: true, cancelable: true });
+      grid.dispatchEvent(drop);
+      assert.equal(card.closest(".tier-row").dataset.tier, tier);
+      assert.equal(s.w.GameShelf.games[0].tier, tier);
+    }
+    dropInto("NOW");
+    assert.equal(s.w.GameShelf.games[0].status, "Прохожу");
+    dropInto("PLANNED");
+    assert.equal(s.w.GameShelf.games[0].status, "В планах");
+    dropInto("S");
+    assert.equal(s.w.GameShelf.games[0].status, "Завершено");
+    const form = editor(s.w, "First");
+    form.elements.hours.value = "100";
+    submit(s.w, form);
+    assert.equal(s.w.GameShelf.games[0].tier, "S");
+    s.w.document.getElementById("admin-save").click();
+    await turn();
+    await turn();
+    assert.equal(s.writes[0].games[0].tier, "S");
+    assert(!("rating" in s.writes[0].games[0]));
+  } finally {
+    s.close();
+  }
+});
+
+test("old numeric ratings are discarded and all game dialogs omit ratings", async () => {
+  const records = [
+    game("Completed", { rating: 10 }),
+    game("Current", { tier: "NOW", status: "Прохожу", rating: 5 }),
+    game("Future", { tier: "PLANNED", status: "В планах", rating: 1 }),
+  ];
+  const s = await setup({ games: records, admin: true });
+  try {
+    assert(s.w.GameShelf.games.every((game) => !("rating" in game)));
+    for (const card of s.w.document.querySelectorAll(".game-card")) {
+      card.querySelector(".game-open").click();
+      assert.equal(s.w.document.querySelector(".gm-rating"), null);
+      s.w.document.querySelector(".gm-close").click();
+      card.querySelector(".edit").click();
+      assert.equal(
+        s.w.document.querySelector(".admin-form").elements.rating,
+        undefined,
+      );
+      s.w.document.querySelector("[data-cancel]").click();
+    }
+    s.w.document.getElementById("admin-save").click();
+    await turn();
+    await turn();
+    assert(s.writes[0].games.every((game) => !("rating" in game)));
+  } finally {
+    s.close();
   }
 });

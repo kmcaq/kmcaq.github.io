@@ -2,7 +2,6 @@
   {
     "name": "Resident Evil 2",
     "status": "Завершено",
-    "rating": 10,
     "tier": "S",
     "hours": 10,
     "deaths": 41,
@@ -12,7 +11,6 @@
   {
     "name": "Prey",
     "tier": "S",
-    "rating": 10,
     "status": "Завершено",
     "hours": 26,
     "deaths": 45,
@@ -22,7 +20,6 @@
   {
     "name": "Red Dead Redemption 2",
     "status": "Завершено",
-    "rating": 10,
     "tier": "S",
     "hours": 32,
     "deaths": 46,
@@ -32,7 +29,6 @@
   {
     "name": "Ghostwire: Tokyo",
     "status": "Завершено",
-    "rating": 10,
     "tier": "S",
     "hours": 11,
     "deaths": 4,
@@ -42,7 +38,6 @@
   {
     "name": "Portal 2",
     "status": "Завершено",
-    "rating": 9.5,
     "tier": "A",
     "hours": 8,
     "deaths": 28,
@@ -52,7 +47,6 @@
   {
     "name": "Mafia",
     "status": "Завершено",
-    "rating": 9,
     "tier": "A",
     "hours": 10,
     "deaths": 15,
@@ -62,7 +56,6 @@
   {
     "name": "MiSide",
     "status": "Завершено",
-    "rating": 9,
     "tier": "A",
     "hours": 4,
     "deaths": 6,
@@ -72,7 +65,6 @@
   {
     "name": "Vampire Survivors",
     "status": "Завершено",
-    "rating": 9,
     "tier": "A",
     "hours": 7,
     "deaths": 21,
@@ -82,7 +74,6 @@
   {
     "name": "Evil School",
     "status": "Завершено",
-    "rating": 8,
     "tier": "A",
     "hours": 5,
     "deaths": 22,
@@ -92,7 +83,6 @@
   {
     "name": "Dishonored",
     "status": "Завершено",
-    "rating": 8,
     "tier": "A",
     "hours": 9,
     "deaths": 41,
@@ -102,7 +92,6 @@
   {
     "name": "Alan Wake",
     "status": "Завершено",
-    "rating": 8.5,
     "tier": "A",
     "hours": 14,
     "deaths": 81,
@@ -112,7 +101,6 @@
   {
     "name": "Resident Evil 4",
     "status": "Завершено",
-    "rating": 7.5,
     "tier": "B",
     "hours": 18,
     "deaths": 24,
@@ -122,7 +110,6 @@
   {
     "name": "Ghostrunner",
     "status": "Завершено",
-    "rating": 7,
     "tier": "B",
     "hours": 17,
     "deaths": 1742,
@@ -132,7 +119,6 @@
   {
     "name": "Alice: Madness Returns",
     "status": "Завершено",
-    "rating": 7,
     "tier": "B",
     "hours": 16,
     "deaths": 178,
@@ -142,7 +128,6 @@
   {
     "name": "Tomb Raider",
     "status": "Завершено",
-    "rating": 7,
     "tier": "B",
     "hours": 12,
     "deaths": 42,
@@ -152,7 +137,6 @@
   {
     "name": "Onimusha: Way of the Sword",
     "status": "Завершено",
-    "rating": 7,
     "tier": "B",
     "hours": 39,
     "deaths": 231,
@@ -162,7 +146,6 @@
   {
     "name": "Call of Duty Modern Warfare 4",
     "status": "Завершено",
-    "rating": 6.5,
     "tier": "B",
     "hours": 8,
     "deaths": 66,
@@ -172,7 +155,6 @@
   {
     "name": "Resident Evil 3",
     "status": "Завершено",
-    "rating": 6.5,
     "tier": "B",
     "hours": 7,
     "deaths": 12,
@@ -182,7 +164,6 @@
   {
     "name": "Metro 2033 Redux",
     "status": "Завершено",
-    "rating": 6,
     "tier": "B",
     "hours": 9,
     "deaths": 31,
@@ -192,7 +173,6 @@
   {
     "name": "BioShock Infinite",
     "status": "Завершено",
-    "rating": 6,
     "tier": "B",
     "hours": 10,
     "deaths": 12,
@@ -202,7 +182,6 @@
   {
     "name": "Portal",
     "tier": "B",
-    "rating": 6,
     "status": "Завершено",
     "hours": 3,
     "deaths": 30,
@@ -212,7 +191,6 @@
   {
     "name": "Ghostrunner 2",
     "status": "Завершено",
-    "rating": 6,
     "tier": "B",
     "hours": 18,
     "deaths": 977,
@@ -222,7 +200,6 @@
   {
     "name": "Control",
     "status": "Завершено",
-    "rating": 6,
     "tier": "B",
     "hours": 16,
     "deaths": 59,
@@ -232,7 +209,6 @@
   {
     "name": "Subliminal",
     "status": "Завершено",
-    "rating": 5,
     "tier": "C",
     "hours": 2,
     "deaths": 5,
@@ -242,7 +218,6 @@
   {
     "name": "Mafia II: Definitive Edition",
     "status": "Завершено",
-    "rating": 5,
     "tier": "C",
     "hours": 12,
     "deaths": 23,
@@ -252,7 +227,6 @@
   {
     "name": "Alan Wake: American Nightmare",
     "status": "Завершено",
-    "rating": 4,
     "tier": "C",
     "hours": 4,
     "deaths": 4,
@@ -262,7 +236,6 @@
   {
     "name": "NTE: Neverness to Everness",
     "status": "Завершено",
-    "rating": 2,
     "tier": "D",
     "hours": 10,
     "deaths": 0,
@@ -272,7 +245,6 @@
   {
     "name": "Mirror's Edge™",
     "status": "Завершено",
-    "rating": 2,
     "tier": "D",
     "hours": 8,
     "deaths": 163,
@@ -282,7 +254,6 @@
   {
     "name": "Layers of Fear",
     "status": "Завершено",
-    "rating": 1,
     "tier": "F",
     "hours": 12,
     "deaths": 13,
@@ -292,7 +263,6 @@
   {
     "name": "Silent Hill 2",
     "status": "Дроп",
-    "rating": null,
     "tier": "F",
     "hours": 0,
     "deaths": 0,
@@ -302,7 +272,6 @@
   {
     "name": "Twelve Minutes",
     "status": "Дроп",
-    "rating": null,
     "tier": "F",
     "hours": 0,
     "deaths": 0,
@@ -312,7 +281,6 @@
   {
     "name": "Ori and the Will of the Wisps",
     "status": "В планах",
-    "rating": null,
     "tier": "PLANNED",
     "hours": 0,
     "deaths": 0,
@@ -322,7 +290,6 @@
   {
     "name": "Disco Elysium",
     "status": "Дроп",
-    "rating": null,
     "tier": "F",
     "hours": 0,
     "deaths": 0,
@@ -332,7 +299,6 @@
   {
     "name": "Kingdom Come: Deliverance",
     "status": "Заморозка",
-    "rating": null,
     "tier": "PLANNED",
     "hours": 0,
     "deaths": 0,
@@ -342,7 +308,6 @@
   {
     "name": "Tiny Bookshop",
     "status": "В планах",
-    "rating": null,
     "tier": "PLANNED",
     "hours": 0,
     "deaths": 0,
@@ -352,7 +317,6 @@
   {
     "name": "Winx Club: The Magic is Back",
     "status": "В планах",
-    "rating": null,
     "tier": "PLANNED",
     "hours": 0,
     "deaths": 0,

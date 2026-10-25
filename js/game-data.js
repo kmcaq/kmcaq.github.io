@@ -43,24 +43,10 @@
       return "";
     }
   }
-  function automaticTier(rating, status) {
-    if (status === "Прохожу") return "NOW";
-    if (status === "В планах" || status === "Заморозка") return "PLANNED";
-    if (status === "Дроп") return "F";
-    if (rating === "" || rating == null || !Number.isFinite(Number(rating)))
-      return null;
-    const n = Number(rating);
-    return n >= 10
-      ? "S"
-      : n >= 8
-        ? "A"
-        : n >= 6
-          ? "B"
-          : n >= 4
-            ? "C"
-            : n >= 2
-              ? "D"
-              : "F";
+  // Legacy numeric ratings are deliberately not part of game records anymore.
+  function withoutRating(game) {
+    const { rating, tierMode, ...record } = game;
+    return record;
   }
   function validateGame(game) {
     if (!game || typeof game !== "object" || Array.isArray(game))
@@ -80,14 +66,6 @@
         "Статус и тир не совпадают. Для текущей игры выбери «Играю сейчас», для планов и заморозки — «В планах».",
       );
     }
-    if (
-      game.rating != null &&
-      (typeof game.rating !== "number" ||
-        !Number.isFinite(game.rating) ||
-        game.rating < 0 ||
-        game.rating > 10)
-    )
-      throw Error("Оценка должна быть от 0 до 10.");
     for (const key of ["hours", "deaths"]) {
       if (
         typeof game[key] !== "number" ||
@@ -120,14 +98,17 @@
   function readGames(value) {
     if (!Array.isArray(value)) throw Error("Некорректный список игр.");
     return validateGames(
-      value.map((g) => ({ ...g, status: normalizeStatus(g.status) })),
+      value.map((g) => ({
+        ...withoutRating(g),
+        status: normalizeStatus(g.status),
+      })),
     );
   }
   function prepareGame(source, fields, games, oldName = null) {
     // Validate a detached draft. Rejected edits cannot mutate the original record.
     const draft = {
-      ...source,
-      ...fields,
+      ...withoutRating(source),
+      ...withoutRating(fields),
       name: String(fields.name || "").trim(),
       status: normalizeStatus(fields.status),
     };
@@ -144,12 +125,12 @@
     return draft;
   }
   function moveToTier(game, tier) {
-    const draft = { ...game, tier };
+    const draft = { ...withoutRating(game), tier };
     if (tier === "NOW") draft.status = "Прохожу";
     else if (tier === "PLANNED")
       draft.status = game.status === "Заморозка" ? "Заморозка" : "В планах";
     else if (["Прохожу", "В планах", "Заморозка"].includes(game.status))
-      draft.status = game.rating == null ? "Дроп" : "Завершено";
+      draft.status = "Завершено";
     return validateGame(draft);
   }
   let loadPromise;
@@ -180,7 +161,6 @@
     normalizeStatus,
     safeCover,
     safePlaylist,
-    automaticTier,
     validateGames,
     prepareGame,
     moveToTier,
