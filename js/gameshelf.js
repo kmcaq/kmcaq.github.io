@@ -83,7 +83,8 @@
     dialog
       .querySelector(".gm-status-line .gm-icon")
       .toggleAttribute("hidden", game.status !== "Завершено");
-    const compact = ["NOW", "PLANNED"].includes(game.tier);
+    const compact =
+      ["NOW", "PLANNED"].includes(game.tier) || game.status === "Дроп";
     dialog.querySelector(".gm-grid").hidden = compact;
     const link = dialog.querySelector(".gm-btn");
     const playlist = data.safePlaylist(game.playlist);
