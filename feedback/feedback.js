@@ -1,10 +1,27 @@
 const WORKER_URL = "https://resend.km-tamami.workers.dev/feedback";
 
 const form = document.getElementById("feedback-form");
-const category = document.getElementById("feedback-category");
+const category = form.elements.category;
 const message = document.getElementById("feedback-message");
 const submitButton = document.getElementById("feedback-submit");
 const status = document.getElementById("feedback-status");
+
+const counter = document.getElementById("feedback-count");
+const placeholders = {
+  game: "Название игры и почему стоит попробовать",
+  moderation: "Опиши ситуацию и укажи свой ник",
+  business: "Расскажи о предложении и оставь контакт для связи",
+  other: "Напиши всё, что хочешь мне сообщить…",
+};
+
+function updateFields() {
+  message.placeholder = placeholders[category.value];
+  counter.textContent = `${message.value.length} / ${message.maxLength}`;
+}
+
+form.addEventListener("change", updateFields);
+message.addEventListener("input", updateFields);
+updateFields();
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -55,7 +72,8 @@ form.addEventListener("submit", async (event) => {
     }
 
     form.reset();
-    showStatus("Сообщение отправлено 💜 Спасибо!", "success");
+    updateFields();
+    showStatus("Сообщение отправлено. Спасибо!", "success");
   } catch (error) {
     console.error("Feedback error:", error);
     showStatus(

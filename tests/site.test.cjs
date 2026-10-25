@@ -343,6 +343,43 @@ test("homepage shows the latest additions first regardless of tier, status or sh
   }
 });
 
+test("feedback topic controls preserve API values and reset after successful submission", async () => {
+  const dom = new JSDOM(read("feedback/index.html"), {
+    url: "https://kmcaq.github.io/feedback/",
+    runScripts: "outside-only",
+  });
+  const w = dom.window;
+  try {
+    let payload;
+    w.fetch = async (_url, options) => {
+      payload = JSON.parse(options.body);
+      return { ok: true, text: async () => JSON.stringify({ ok: true }) };
+    };
+    w.eval(read("feedback/feedback.js"));
+    const form = w.document.getElementById("feedback-form");
+    const message = w.document.getElementById("feedback-message");
+    const counter = w.document.getElementById("feedback-count");
+    assert.equal(form.elements.category.value, "game");
+    w.document.querySelector('[name="category"][value="business"]').click();
+    assert.match(message.placeholder, /предложении/);
+    message.value = "  Деловое предложение  ";
+    message.dispatchEvent(new w.Event("input"));
+    assert.equal(counter.textContent, `${message.value.length} / 5000`);
+    assert(form.contains(w.document.getElementById("feedback-submit")));
+    submit(w, form);
+    await turn();
+    assert.deepEqual(payload, { category: "business", message: "Деловое предложение" });
+    assert.equal(form.elements.category.value, "game");
+    assert.equal(message.value, "");
+    assert.equal(counter.textContent, "0 / 5000");
+    assert.match(message.placeholder, /Название игры/);
+    assert.match(w.document.getElementById("feedback-status").textContent, /отправлено/);
+    assert(!w.document.getElementById("feedback-submit").disabled);
+  } finally {
+    w.close();
+  }
+});
+
 test("feedback timeout restores the button and preserves the message", async () => {
   const dom = new JSDOM(read("feedback/index.html"), {
     url: "https://kmcaq.github.io/feedback/",
