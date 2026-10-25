@@ -72,6 +72,12 @@
 .game-badge{flex:0 0 auto}
 @media(min-width:1000px) and (min-height:680px){.games-track{grid-auto-columns:calc((100% - 70px)/6)}.recent-game{max-height:100%}.game-caption{padding:8px 9px!important}.game-caption strong{font-size:13px!important}}
 @media(max-width:600px){.recent-game{height:auto!important;min-height:165px!important}.games-track{grid-auto-columns:76%}}
+
+/* Drag the recent-games row with the mouse; touch keeps native scrolling. */
+.games-track{cursor:grab;user-select:none;-webkit-user-select:none}
+.games-track .recent-game{cursor:inherit}
+.games-track img{-webkit-user-drag:none}
+.games-track.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
 </style></head>
 <body><div class="site-background"></div><div class="site-overlay"></div><div id="navbar"></div>
 <main>
@@ -86,4 +92,4 @@
 </div></section>
 <section class="glass games-panel" aria-labelledby="recent-heading"><div class="games-heading"><div><h2 class="section-title" id="recent-heading">🎮 Недавние игры</h2><span style="color:#c8a98f;font-size:12px">Текущие и завершённые прохождения</span></div><div style="display:flex;align-items:center;gap:14px"><a href="/games/">Перейти к игровой полке →</a><div class="game-controls"><button type="button" id="gamesPrev" aria-label="Предыдущие игры">←</button><button type="button" id="gamesNext" aria-label="Следующие игры">→</button></div></div></div><div class="games-track" id="recentGames"><p class="game-loading">Загружаю игры...</p></div></section>
 </main><footer class="site-footer">© kmcaq · <a href="https://www.twitch.tv/kmcaq" target="_blank" rel="noopener noreferrer">Twitch</a> · <a href="https://www.youtube.com/@kmcaq" target="_blank" rel="noopener noreferrer">YouTube</a></footer>
-<script src="/js/navbar.js?v=20261025-2"></script><script src="/js/live.js?v=20261017-9"></script><script src="/js/home-games.js?v=20261017-9"></script></body></html>
+<script src="/js/navbar.js?v=20261025-2"></script><script src="/js/live.js?v=20261017-9"></script><script src="/js/home-games.js?v=20261025-drag-1"></script></body></html>
