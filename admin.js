@@ -396,7 +396,7 @@
       backdrop = document.createElement("dialog");
     backdrop.className = "admin-modal-backdrop";
     backdrop.setAttribute("aria-labelledby", "admin-editor-title");
-    backdrop.innerHTML = `<div class="admin-modal"><h2 id="admin-editor-title">${index < 0 ? "Новая игра" : "Редактирование игры"}</h2><form class="admin-form"><label>Название<input name="name" required></label><p class="admin-card-position">Раздел: <strong class="admin-card-tier"></strong></p><p class="admin-tier-hint">Тир меняется перетаскиванием карточки на полке.</p><label>Статус<select name="status"></select></label><label>Часы<input name="hours" type="number" min="0" step="1"></label><label>Смерти<input name="deaths" type="number" min="0" step="1"></label><label>Обложка<select name="cover"><option value="">— Без обложки —</option></select></label><div class="admin-cover-preview-wrap"><img class="admin-cover-preview" alt="Предпросмотр" style="display:none"></div><label>Плейлист<input name="playlist" type="url" placeholder="https://youtube.com/playlist?..." ></label><p class="admin-editor-error" role="alert"></p><div class="admin-form-actions"><button class="secondary" type="button" data-cancel>Отмена</button><button class="primary" type="submit">Сохранить</button></div></form></div>`;
+    backdrop.innerHTML = `<div class="admin-modal"><h2 id="admin-editor-title">${index < 0 ? "Новая игра" : "Редактирование игры"}</h2><form class="admin-form"><label>Название<input name="name" required></label><label>Тир<select name="tier"></select></label><p class="admin-tier-hint">После сохранения карточка переместится в выбранный раздел. Её также можно перетащить на полке.</p><label>Статус<select name="status"></select></label><label>Часы<input name="hours" type="number" min="0" step="1"></label><label>Смерти<input name="deaths" type="number" min="0" step="1"></label><label>Обложка<select name="cover"><option value="">— Без обложки —</option></select></label><div class="admin-cover-preview-wrap"><img class="admin-cover-preview" alt="Предпросмотр" style="display:none"></div><label>Плейлист<input name="playlist" type="url" placeholder="https://youtube.com/playlist?..." ></label><p class="admin-editor-error" role="alert"></p><div class="admin-form-actions"><button class="secondary" type="button" data-cancel>Отмена</button><button class="primary" type="submit">Сохранить</button></div></form></div>`;
     document.body.appendChild(backdrop);
     const returnFocus = document.activeElement;
     backdrop.addEventListener(
@@ -411,6 +411,7 @@
     window.GameShelf.setupDialogFocus(backdrop);
     backdrop.showModal();
     const form = backdrop.querySelector("form"),
+      tierInput = form.elements.tier,
       statusInput = form.elements.status,
       coverInput = form.elements.cover,
       preview = backdrop.querySelector(".admin-cover-preview");
@@ -421,26 +422,37 @@
       form.elements.cover.append(option);
     }
     form.elements.name.value = source.name ?? "";
-    backdrop.querySelector(".admin-card-tier").textContent = data.tiers.find(
-      (tier) => tier.id === position,
-    ).special
-      ? data.tiers.find((tier) => tier.id === position).title
-      : position;
-    const statuses =
-      position === "NOW"
-        ? ["Прохожу"]
-        : position === "PLANNED"
-          ? ["В планах", "Заморозка"]
-          : ["Завершено", "Дроп"];
-    for (const status of statuses) {
+    for (const tier of data.tiers) {
       const option = document.createElement("option");
-      option.value = status;
-      option.textContent = status;
-      statusInput.append(option);
+      option.value = tier.id;
+      option.textContent = tier.special
+        ? tier.title
+        : tier.id + " — " + tier.title;
+      tierInput.append(option);
     }
-    statusInput.value = statuses.includes(source.status)
-      ? source.status
-      : statuses[0];
+    tierInput.value = position;
+    const updateStatuses = (preferred) => {
+      const statuses =
+        tierInput.value === "NOW"
+          ? ["Прохожу"]
+          : tierInput.value === "PLANNED"
+            ? ["В планах", "Заморозка"]
+            : ["Завершено", "Дроп"];
+      statusInput.replaceChildren();
+      for (const status of statuses) {
+        const option = document.createElement("option");
+        option.value = status;
+        option.textContent = status;
+        statusInput.append(option);
+      }
+      statusInput.value = statuses.includes(preferred)
+        ? preferred
+        : statuses[0];
+    };
+    updateStatuses(source.status);
+    tierInput.addEventListener("change", () =>
+      updateStatuses(statusInput.value),
+    );
     form.elements.hours.value = source.hours ?? 0;
     form.elements.deaths.value = source.deaths ?? 0;
     form.elements.playlist.value = source.playlist ?? "";
@@ -480,10 +492,9 @@
       const error = backdrop.querySelector(".admin-editor-error");
       error.textContent = "";
       try {
-        const tier =
-          index < 0
-            ? "PLANNED"
-            : findGameCard(gameName)?.closest(".tier-row")?.dataset.tier;
+        const tier = tierInput.value;
+        const targetGrid = findGrid(tier);
+        if (!targetGrid) throw Error("Выбери существующий тир.");
         const fields = {
           name: form.elements.name.value,
           status: statusInput.value,
@@ -503,6 +514,7 @@
           const card = findGameCard(gameName);
           Object.assign(current, draft);
           refreshCard(card, current);
+          if (card.parentElement !== targetGrid) targetGrid.append(card);
         }
         rebuildOrderFromDom();
         markDirty();

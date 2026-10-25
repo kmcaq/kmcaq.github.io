@@ -152,14 +152,14 @@ test("rejected duplicate and empty-name edits leave records unchanged", async ()
   }
 });
 
-test("editing preserves the card section and exposes no tier or rating selectors", async () => {
+test("editing preserves the selected section without rating or mode controls", async () => {
   const s = await setup({ games: [game("First")], admin: true });
   try {
     const form = editor(s.w, "First");
-    assert.equal(form.elements.tier, undefined);
+    assert.equal(form.elements.tier.value, "A");
     assert.equal(form.elements.tierMode, undefined);
     assert.equal(form.elements.rating, undefined);
-    assert.equal(form.querySelector(".admin-card-tier").textContent, "A");
+    assert.equal(form.elements.tier.options.length, 8);
     form.elements.status.value = "Дроп";
     submit(s.w, form);
     assert.equal(s.w.GameShelf.games[0].tier, "A");
@@ -495,6 +495,84 @@ test("old numeric ratings are discarded and all game dialogs omit ratings", asyn
     await turn();
     await turn();
     assert(s.writes[0].games.every((game) => !("rating" in game)));
+  } finally {
+    s.close();
+  }
+});
+
+test("tier selection moves existing cards and stores the same tier without reordering unchanged cards", async () => {
+  const s = await setup({
+    games: [game("First"), game("Second")],
+    admin: true,
+  });
+  try {
+    const card = s.w.document.querySelector(".game-card");
+    for (const tier of ["S", "NOW", "PLANNED", "B"]) {
+      const form = editor(s.w, "First");
+      form.elements.tier.value = tier;
+      form.elements.tier.dispatchEvent(new s.w.Event("change"));
+      submit(s.w, form);
+      assert.equal(card.closest(".tier-row").dataset.tier, tier);
+      const record = s.w.GameShelf.games.find((g) => g.name === "First");
+      assert.equal(record.tier, tier);
+      assert.equal(
+        record.status,
+        tier === "NOW"
+          ? "Прохожу"
+          : tier === "PLANNED"
+            ? "В планах"
+            : "Завершено",
+      );
+      card.querySelector(".game-open").click();
+      assert.equal(
+        s.w.document.querySelector(".gm-tier").textContent,
+        s.w.GameData.tiers.find((t) => t.id === tier).title,
+      );
+      s.w.document.querySelector(".gm-close").click();
+    }
+    s.w.document.getElementById("admin-save").click();
+    await turn();
+    await turn();
+    assert.equal(s.writes[0].games.find((g) => g.name === "First").tier, "B");
+    assert(s.writes[0].games.every((g) => !("rating" in g)));
+  } finally {
+    s.close();
+  }
+});
+
+test("cancelled or invalid edits do not move a card; new cards can use any selected tier", async () => {
+  const s = await setup({
+    games: [game("First"), game("Second")],
+    admin: true,
+  });
+  try {
+    const card = s.w.document.querySelector(".game-card");
+    let form = editor(s.w, "First");
+    form.elements.tier.value = "S";
+    form.elements.tier.dispatchEvent(new s.w.Event("change"));
+    form.querySelector("[data-cancel]").click();
+    assert.equal(card.closest(".tier-row").dataset.tier, "A");
+    form = editor(s.w, "First");
+    form.elements.name.value = "Second";
+    form.elements.tier.value = "S";
+    form.elements.tier.dispatchEvent(new s.w.Event("change"));
+    submit(s.w, form);
+    assert.equal(card.closest(".tier-row").dataset.tier, "A");
+    assert.equal(s.w.GameShelf.games.find((g) => g.name === "First").tier, "A");
+    form.querySelector("[data-cancel]").click();
+    form = editor(s.w);
+    form.elements.name.value = "New ranked game";
+    form.elements.tier.value = "D";
+    form.elements.tier.dispatchEvent(new s.w.Event("change"));
+    submit(s.w, form);
+    const added = [...s.w.document.querySelectorAll(".game-card")].find(
+      (c) => c.dataset.gameName === "New ranked game",
+    );
+    assert.equal(added.closest(".tier-row").dataset.tier, "D");
+    assert.equal(
+      s.w.GameShelf.games.find((g) => g.name === "New ranked game").status,
+      "Завершено",
+    );
   } finally {
     s.close();
   }
