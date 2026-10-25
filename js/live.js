@@ -164,14 +164,20 @@ function updateCurrent(data) {
         .then((items) => {
           // Ignore a delayed shelf response if the stream state has changed.
           if (request !== coverRequest) return;
-          const current = items.find((item) => item.tier === "NOW");
+          const active = items.find((item) => item.tier === "NOW");
+          const current = active || window.GameData.newestGames(items)[0];
           if (!current) return;
           game.textContent = current.name;
-          if (label) label.hidden = false;
+          if (label) {
+            label.textContent = active ? "Продолжаю проходить" : "Недавно на полке";
+            label.hidden = false;
+          }
           const playlist = window.GameData.safePlaylist(current.playlist);
           message.textContent = playlist
             ? "Пока стрима нет, можно посмотреть записи прохождения."
-            : "Продолжение — на следующих стримах.";
+            : active
+              ? "Продолжение — на следующих стримах."
+              : "Подробности об игре — на игровой полке. Записи стримов — на YouTube.";
           setLiveCover(safeLocalCover(current.cover), "Обложка " + current.name);
           if (playlist) {
             button.textContent = "Смотреть записи →";

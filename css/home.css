@@ -1,7 +1,7 @@
 /* Homepage: a quiet introduction, one live card and the latest shelf additions. */
 .page-home {
-  --site-width: 1920px;
-  --site-gutter: clamp(24px, 3.125vw, 60px);
+  --site-width: 1380px;
+  --site-gutter: 20px;
   font-size: 16px;
 }
 .page-home .site-background {
@@ -11,49 +11,35 @@
 .page-home .site-overlay {
   background: linear-gradient(90deg, #1d1512db, #211811c9);
 }
-.page-home .site-navbar {
-  width: 100%;
-  margin: 0;
-  min-height: 84px;
-  padding: 12px max(var(--site-gutter), calc((100vw - var(--site-width)) / 2 + var(--site-gutter)));
-  background: rgba(30, 22, 18, 0.96);
-  border: 0;
-  border-bottom: 1px solid #e8bd8725;
-  border-radius: 0;
-  box-shadow: none;
-  font-size: 16px;
-  font-weight: 700;
-}
-.page-home .logo-symbol { display: none; }
-.page-home .site-navbar .logo { font-size: 36px; font-weight: 700; }
-.page-home .site-navbar .social { gap: 24px; }
-.page-home .site-navbar .social a { width: 28px; height: 32px; }
+/* Keep the header aligned with the shared, bounded site layout. */
+.page-home .site-navbar { min-height: 60px; }
 .page-home .site-main {
-  padding-block: 30px;
+  padding-block: 24px;
   display: grid;
   grid-template-rows: auto auto;
-  gap: 32px;
+  align-content: center;
+  gap: 24px;
 }
 .home-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(330px, 0.9fr);
-  gap: clamp(24px, 3.125vw, 60px);
+  grid-template-columns: minmax(0, 1fr) minmax(390px, 500px);
+  gap: 32px;
   align-items: center;
   min-width: 0;
   min-height: 0;
 }
 .hero-person {
   display: grid;
-  grid-template-columns: clamp(175px, 15.1vw, 290px) minmax(0, 1fr);
-  gap: clamp(24px, 2.3vw, 44px);
+  grid-template-columns: clamp(190px, 19vw, 260px) minmax(0, 1fr);
+  gap: 26px;
   align-items: center;
   min-width: 0;
 }
 .hero-avatar {
   display: block;
   width: 100%;
-  height: min(37dvh, 400px);
-  min-height: 230px;
+  height: min(34dvh, 340px);
+  min-height: 220px;
   object-fit: cover;
   object-position: center;
   border-radius: 20px;
@@ -61,23 +47,23 @@
 }
 .hero-intro { min-width: 0; }
 .hero-intro h1 {
-  font: 700 clamp(30px, 2.4vw, 46px)/1.15 Georgia, serif;
+  font: 700 clamp(28px, 2.1vw, 34px)/1.15 Georgia, serif;
   color: #f6e9d8;
-  margin: 0 0 24px;
+  margin: 0 0 16px;
 }
 .hero-bio {
-  font-size: clamp(14px, 0.94vw, 18px);
+  font-size: 15px;
   line-height: 1.7;
   color: #d0bda9;
   max-width: 420px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 .hero-rules {
   display: flex;
   flex-wrap: wrap;
   gap: 9px 20px;
   padding: 0;
-  margin: 0 0 26px;
+  margin: 0 0 18px;
   max-width: 450px;
   list-style: none;
   color: #e3cdb5;
@@ -93,16 +79,16 @@
 .hero-telegram:hover { text-decoration: underline; }
 .hero-side { min-width: 0; }
 .live-card {
-  padding: clamp(24px, 2vw, 38px) clamp(24px, 2.1vw, 40px);
+  padding: 24px;
   border: 1px solid #b98a5738;
-  border-radius: 22px;
+  border-radius: 16px;
   background: #33251d;
   box-shadow: 0 10px 30px #1009061a;
   backdrop-filter: none;
 }
 .live-body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(85px, 6.5vw, 125px);
+  grid-template-columns: minmax(0, 1fr) 110px;
   gap: 20px;
   align-items: center;
 }
@@ -125,15 +111,15 @@
 .live-now .live-kicker { color: #ff859b; }
 .live-now .live-kicker::before { background: var(--live); }
 .live-card h2 {
-  font: 700 clamp(26px, 2vw, 38px)/1.2 Georgia, serif;
+  font: 700 26px/1.2 Georgia, serif;
   color: #f6e9d8;
-  margin: 24px 0 20px;
+  margin: 14px 0 12px;
   overflow-wrap: anywhere;
 }
-.offline-game:has(.current-label[hidden]) h2 { max-width: 12ch; }
+
 .live-card p {
   color: #d0bda9;
-  font-size: clamp(14px, 0.9vw, 17px);
+  font-size: 14px;
   line-height: 1.65;
   overflow-wrap: anywhere;
   display: -webkit-box;
@@ -155,19 +141,19 @@
   border-radius: 9px;
 }
 .offline-game .live-body {
-  grid-template-columns: minmax(0, 1fr) clamp(120px, 9vw, 180px);
+  grid-template-columns: minmax(0, 1fr) 150px;
 }
 .offline-game .live-body:has(.live-cover[hidden]) { grid-template-columns: 1fr; }
 .current-label { color: #e9c08c; font-size: 13px; margin-top: 18px; }
 .current-label:not([hidden]) + h2 { margin-top: 8px; }
-.live-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-top: 28px; }
-.live-actions .twitch-btn { padding: 14px 20px; font-size: 16px; background: #ecc38e; }
+.live-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-top: 18px; }
+.live-actions .twitch-btn { padding: 11px 16px; font-size: 14px; background: #ecc38e; }
 .live-actions .twitch-btn:hover { background: #f3ce9e; }
 .current-shelf { font-size: 14px; color: #ecc38e; text-decoration: none; padding-block: 10px; }
 .current-shelf:hover { text-decoration: underline; }
 .games-panel { min-width: 0; padding: 26px 0 12px; border-top: 1px solid #e8bd8725; }
 .games-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 21px; }
-.section-title { font: 700 clamp(23px, 1.52vw, 29px)/1.2 Georgia, serif; color: #f6e9d8; margin-bottom: 7px; }
+.section-title { font: 700 25px/1.2 Georgia, serif; color: #f6e9d8; margin-bottom: 7px; }
 .games-subtitle { font-size: 14px; color: #c2aa92; }
 .games-tools { display: flex; align-items: center; gap: 28px; }
 .games-tools > a { font-size: 15px; color: #ecc38e; text-decoration: none; }
@@ -177,9 +163,9 @@
 .game-controls button:disabled { opacity: 0.35; }
 .games-track {
   display: grid;
-  grid-auto-columns: calc((100% - 120px) / 6);
+  grid-auto-columns: calc((100% - 80px) / 6);
   grid-auto-flow: column;
-  gap: 24px;
+  gap: 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -194,29 +180,37 @@
 .recent-game { display: flex; flex-direction: column; min-width: 0; text-decoration: none; scroll-snap-align: start; cursor: inherit; }
 .recent-game img { display: block; width: 100%; height: auto; aspect-ratio: 460 / 215; object-fit: contain; border-radius: 7px; background: #2b211b; -webkit-user-drag: none; }
 .game-caption { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 6px; padding-top: 12px; }
-.game-caption strong { font-size: clamp(13px, 0.84vw, 16px); line-height: 1.4; color: #eadbc8; min-height: 2.8em; overflow-wrap: anywhere; }
-.game-badge { color: #c6a889; font-size: 12px; margin-top: auto; }
-.game-badge.done { color: #b5bea6; }
-.game-badge.plan { color: #bdc9ce; }
-.game-badge.now { color: #ff95aa; }
+.game-caption strong { font-size: 14px; line-height: 1.4; color: #eadbc8; min-height: 2.8em; overflow-wrap: anywhere; }
+.game-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  margin-top: auto;
+  border-radius: 6px;
+  background: #c39a71;
+  color: #25170e;
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+.game-badge.done { background: #83c39b; color: #10291a; }
+.game-badge.plan { background: #b2c9d0; color: #152a32; }
+.game-badge.now { background: #bd3152; color: #fff; }
 .game-loading { color: #d0bda9; min-height: 140px; }
-.page-home .site-footer { display: flex; justify-content: space-between; gap: 20px; padding: 14px var(--site-gutter); color: #ad9580; border-color: #e8bd8712; }
+.page-home .site-footer { display: flex; justify-content: space-between; gap: 20px; width: 100%; max-width: var(--site-width); margin-inline: auto; padding: 14px var(--site-gutter); color: #ad9580; border-color: #e8bd8712; }
 @media (min-width: 1280px) and (min-height: 720px) {
   .page-home { height: 100dvh; }
-  .page-home .site-main { min-height: 0; grid-template-rows: minmax(0, 1fr) auto; }
+  .page-home .site-main { min-height: 0; }
 }
 @media (max-width: 1500px) {
-  .page-home .site-navbar { min-height: 72px; font-size: 14px; }
-  .page-home .site-navbar .logo { font-size: 30px; }
-  .page-home .site-main { padding-block: 24px; gap: 24px; }
+  .page-home .site-main { padding-block: 18px; gap: 22px; }
   .hero-intro h1 { margin-bottom: 16px; }
   .hero-bio { margin-bottom: 16px; }
   .hero-rules { gap: 6px 14px; margin-bottom: 16px; font-size: 12px; }
   .live-card { padding: 24px; }
-  .live-card h2 { font-size: clamp(24px, 1.9vw, 28px); margin: 16px 0 12px; }
+  .live-card h2 { font-size: 26px; margin: 14px 0 12px; }
   .live-card p { font-size: 14px; }
   .live-body { gap: 14px; }
-  .offline-game .live-body { grid-template-columns: minmax(0, 1fr) clamp(85px, 8vw, 120px); }
+  .offline-game .live-body { grid-template-columns: minmax(0, 1fr) 150px; }
   .live-actions { margin-top: 16px; }
   .live-actions .twitch-btn { font-size: 14px; padding: 12px 16px; }
   .games-track { grid-auto-columns: calc((100% - 80px) / 6); gap: 16px; }
@@ -234,7 +228,7 @@
   .offline-game .live-body { grid-template-columns: minmax(0, 1fr) 180px; }
   .offline-game:has(.current-label[hidden]) h2 { max-width: none; }
   .games-track { grid-auto-columns: calc((100% - 48px) / 4); }
-  .page-home .site-main { gap: 32px; }
+  .page-home .site-main { gap: 28px; align-content: start; }
 }
 @media (max-width: 600px) {
   .page-home { --site-gutter: 20px; }

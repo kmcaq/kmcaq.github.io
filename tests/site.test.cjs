@@ -709,3 +709,60 @@ test("new cards get addition times automatically and edits and tier moves preser
   }
 });
 
+
+test("offline widget keeps a game cover when no current game is selected", async () => {
+  const records = [
+    game("Older", { addedAt: "2026-01-01T00:00:00Z" }),
+    game("Newest", { addedAt: "2026-02-01T00:00:00Z" }),
+  ];
+  const dom = new JSDOM(read("index.html"), {
+    url: "https://kmcaq.github.io/",
+    runScripts: "outside-only",
+  });
+  const w = dom.window;
+  try {
+    w.fetch = async (url) => ({
+      ok: true,
+      json: async () => url === "/data/games.json" ? records : { live: false },
+    });
+    w.eval(read("js/game-data.js"));
+    w.eval(read("js/live.js"));
+    await turn();
+    await turn();
+    const element = (id) => w.document.getElementById(id);
+    assert.equal(element("currentGame").textContent, "Newest");
+    assert.equal(element("currentLabel").textContent, "Недавно на полке");
+    assert.equal(element("currentCover").hidden, false);
+    assert.equal(element("currentButton").href, "https://www.youtube.com/@kmcaq");
+    assert.equal(new URL(element("currentShelf").href).searchParams.get("game"), "Newest");
+
+    const active = game("Current", {
+      tier: "NOW", status: "Прохожу", addedAt: "2025-01-01T00:00:00Z",
+      playlist: "https://www.youtube.com/playlist?list=test",
+    });
+    w.GameData.loadGames = async () => [...records, active];
+    w.updateCurrent({ live: false });
+    await turn();
+    assert.equal(element("currentGame").textContent, "Current");
+    assert.equal(element("currentLabel").textContent, "Продолжаю проходить");
+    assert.equal(element("currentButton").href, active.playlist);
+
+    let finish;
+    w.GameData.loadGames = () => new Promise((resolve) => { finish = resolve; });
+    w.updateCurrent({ live: false });
+    w.updateCurrent({ live: true, game: "Live game", box_art_url: "https://images.igdb.com/cover.png" });
+    finish(records);
+    await turn();
+    assert.equal(element("currentGame").textContent, "Live game");
+    assert.equal(element("currentButton").href, "https://www.twitch.tv/kmcaq");
+
+    w.GameData.loadGames = async () => [];
+    w.updateCurrent({ live: false });
+    await turn();
+    assert.equal(element("currentCover").hidden, true);
+    assert.equal(element("currentLabel").hidden, true);
+    assert.equal(element("currentButton").href, "https://www.youtube.com/@kmcaq");
+  } finally {
+    w.close();
+  }
+});
