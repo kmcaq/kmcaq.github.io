@@ -6,7 +6,7 @@
     <title>kmcaq — уютные игровые стримы</title>
     <meta
       name="description"
-      content="Кэм — игровые стримы, прохождения, игровая полка и уютное сообщество."
+      content="Кэм — играю и стримлю в своё удовольствие. Прямые эфиры, записи прохождений и игровая полка."
     />
     <meta property="og:title" content="kmcaq — уютные игровые стримы" />
     <meta property="og:image" content="/avatar.png" />
@@ -18,14 +18,14 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/site.css?v=20261025-audit-1" />
-    <link rel="stylesheet" href="/css/home.css?v=20261025-offline-1" />
+    <link rel="stylesheet" href="/css/home.css?v=20261025-calm-1" />
   </head>
   <body class="page-home">
     <div class="site-background"></div>
     <div class="site-overlay"></div>
     <div id="navbar"></div>
     <main class="site-main">
-      <section class="home-hero" aria-label="Добро пожаловать">
+      <section class="home-hero" aria-label="О канале и трансляция">
         <div class="hero-person">
           <img
             class="hero-avatar"
@@ -35,7 +35,18 @@
             fetchpriority="high"
             alt="Кэм в уютной игровой комнате"
           />
-          <div class="welcome">Добро<br />пожаловать! ♡</div>
+          <div class="hero-intro" id="about">
+            <h1>Привет, я Кэм!</h1>
+            <p class="hero-bio">Играю и стримлю, потому что мне это нравится.
+              Выбираю игры по настроению и люблю разбираться сама.</p>
+            <ul class="hero-rules" aria-label="Правила канала">
+              <li>Без спойлеров</li>
+              <li>Без советов и подсказок</li>
+              <li>Без оскорблений</li>
+            </ul>
+            <a class="hero-telegram" href="https://t.me/kmcaq" target="_blank"
+              rel="noopener noreferrer">Мой Telegram ↗</a>
+          </div>
         </div>
         <div class="hero-side">
           <section
@@ -72,77 +83,40 @@
               >
             </div>
           </section>
-          <section class="glass about-card" id="about">
-            <h2 class="section-title">О канале</h2>
-            <div class="about-grid">
-              <p>
-                Привет, я Кэм! Играю и стримлю, потому что мне это нравится.
-                Выбираю игры по настроению и люблю разбираться сама.
-                Для меня главное, чтобы было интересно. Правила нужны, чтобы
-                мне было комфортно играть, а вам — смотреть.
-              </p>
-              <div class="about-points">
-                <span><b>✧</b> Без спойлеров</span
-                ><span><b>♡</b> Без советов и подсказок</span
-                ><span><b>✦</b> Без оскорблений</span>
-              </div>
-            </div>
-            <div class="schedule-note" id="schedule">
-              Ещё можно заглянуть в
-              <a
-                href="https://t.me/kmcaq"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Telegram</a
-              >.
-            </div>
-          </section>
         </div>
       </section>
-      <section class="glass games-panel" aria-labelledby="recent-heading">
+      <section class="games-panel" aria-labelledby="recent-heading">
         <div class="games-heading">
           <div>
-            <h2 class="section-title" id="recent-heading">🎮 Игры на канале</h2>
+            <h2 class="section-title" id="recent-heading">Игры на канале</h2>
             <span class="games-subtitle"
-              >Последние добавленные на игровую полку</span
+              >Последние добавленные на полку</span
             >
           </div>
           <div class="games-tools">
-            <a href="/games/">Перейти к игровой полке →</a>
-            <div class="game-controls">
-              <button type="button" id="gamesPrev" aria-label="Предыдущие игры">
+            <a href="/games/">Вся игровая полка →</a>
+            <div class="game-controls" aria-label="Листать игры">
+              <button type="button" id="gamesPrev" disabled aria-label="Предыдущие игры">
                 ←</button
-              ><button type="button" id="gamesNext" aria-label="Следующие игры">
+              ><button type="button" id="gamesNext" disabled aria-label="Следующие игры">
                 →
               </button>
             </div>
           </div>
         </div>
-        <div class="games-track" id="recentGames">
+        <div class="games-track" id="recentGames" role="region" aria-label="Последние добавленные игры" tabindex="0">
           <p class="game-loading">Загружаю игры...</p>
         </div>
       </section>
     </main>
     <footer class="site-footer">
-      © kmcaq ·
-      <a
-        href="https://www.twitch.tv/kmcaq"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Twitch</a
-      >
-      ·
-      <a
-        href="https://www.youtube.com/@kmcaq"
-        target="_blank"
-        rel="noopener noreferrer"
-        >YouTube</a
-      >
+      <span>© kmcaq</span><span>Играю в своё удовольствие ♡</span>
     </footer>
     <script src="/js/game-data.js?v=20261025-newest-1"></script>
     <script src="/js/navbar.js?v=20261025-audit-1"></script>
-    <script src="/js/live.js?v=20261025-offline-2"></script>
-    <script src="/js/home-games.js?v=20261025-newest-1"></script>
+    <script src="/js/live.js?v=20261025-calm-1"></script>
+    <script src="/js/home-games.js?v=20261025-calm-1"></script>
   </body>
 </html>
+
 

@@ -330,7 +330,7 @@ test("homepage shows the latest additions first regardless of tier, status or sh
     ]);
     assert.equal(
       w.document.querySelector(".game-badge").textContent,
-      "В ПЛАНАХ",
+      "В планах",
     );
     assert.equal(
       w.document.querySelectorAll(".recent-game img").length,
@@ -708,3 +708,4 @@ test("new cards get addition times automatically and edits and tier moves preser
     s.close();
   }
 });
+

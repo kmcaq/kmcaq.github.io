@@ -68,12 +68,12 @@
   const safeCover = (cover) =>
     window.GameData.safeCover(cover) || "/avatar.webp";
   const badge = (game) => {
-    if (game.tier === "NOW") return ["ИГРАЮ СЕЙЧАС", "now"];
-    if (game.status === "Завершено") return ["ПРОЙДЕНО", "done"];
-    if (game.status === "В планах") return ["В ПЛАНАХ", "plan"];
-    if (game.status === "Заморозка") return ["НА ПАУЗЕ", "plan"];
-    if (game.status === "Дроп") return ["ДРОП", ""];
-    return ["ИГРА", "plan"];
+    if (game.tier === "NOW") return ["Играю сейчас", "now"];
+    if (game.status === "Завершено") return ["Завершено", "done"];
+    if (game.status === "В планах") return ["В планах", "plan"];
+    if (game.status === "Заморозка") return ["На паузе", "plan"];
+    if (game.status === "Дроп") return ["Дроп", ""];
+    return ["Игра", "plan"];
   };
   window.GameData.loadGames()
     .then((games) => {
@@ -141,3 +141,4 @@
     }),
   );
 })();
+

@@ -154,15 +154,11 @@ function updateCurrent(data) {
   } else {
     title.textContent = "СЕЙЧАС НЕ В ЭФИРЕ";
     game.textContent = "До встречи на стриме!";
-    message.textContent = "На игровой полке — мои прохождения и планы.";
+    message.textContent = "Пока я не в эфире, можно посмотреть записи прохождений.";
     meta.textContent = "";
     setLiveCover("", "");
     button.textContent = "Записи стримов →";
     button.href = "https://www.youtube.com/@kmcaq";
-    if (shelfLink) {
-      shelfLink.hidden = false;
-      shelfLink.textContent = "Перейти к игровой полке →";
-    }
     if (window.GameData)
       window.GameData.loadGames()
         .then((items) => {
@@ -182,6 +178,7 @@ function updateCurrent(data) {
             button.href = playlist;
           }
           if (shelfLink) {
+            shelfLink.hidden = false;
             shelfLink.textContent = "Об игре на полке →";
             shelfLink.href = "/games/?game=" + encodeURIComponent(current.name);
           }
@@ -242,4 +239,5 @@ function startLive() {
 if (document.readyState === "loading")
   document.addEventListener("DOMContentLoaded", startLive, { once: true });
 else startLive();
+
 
