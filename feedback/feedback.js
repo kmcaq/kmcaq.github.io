@@ -8,6 +8,7 @@ const status = document.getElementById("feedback-status");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (submitButton.disabled) return;
 
   const selectedCategory = category.value;
   const text = message.value.trim();
@@ -21,19 +22,23 @@ form.addEventListener("submit", async (event) => {
   submitButton.textContent = "Отправляем...";
   showStatus("", "");
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  form.setAttribute("aria-busy", "true");
   try {
     const response = await fetch(WORKER_URL, {
+      signal: controller.signal,
       method: "POST",
       mode: "cors",
       credentials: "omit",
       cache: "no-store",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         category: selectedCategory,
-        message: text
-      })
+        message: text,
+      }),
     });
 
     const responseText = await response.text();
@@ -54,10 +59,14 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error("Feedback error:", error);
     showStatus(
-      "Не получилось отправить сообщение. Попробуй ещё раз немного позже.",
-      "error"
+      error.name === "AbortError"
+        ? "Сервер не ответил вовремя. Текст сохранён в поле; попробуй отправить его ещё раз."
+        : "Не получилось отправить сообщение. Текст сохранён в поле; попробуй ещё раз немного позже.",
+      "error",
     );
   } finally {
+    clearTimeout(timeout);
+    form.removeAttribute("aria-busy");
     submitButton.disabled = false;
     submitButton.textContent = "Отправить сообщение";
   }

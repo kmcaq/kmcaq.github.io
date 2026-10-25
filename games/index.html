@@ -1,57 +1,56 @@
-<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Игры | kmcaq</title><meta name="description" content="Игровая полка Кэм — игры, которые уже оставили след."><meta property="og:title" content="Игры | kmcaq"><meta property="og:image" content="/avatar.png"><meta property="og:type" content="website"><link rel="icon" href="/avatar.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Nunito",sans-serif;font-size:18px;font-weight:400;line-height:1.7;background:var(--bg);color:var(--text);min-height:100vh}h1,h2,h3{font-family:"Nunito",sans-serif;font-weight:800;line-height:1.15}p,li,a,button,input,select,textarea{font-family:inherit}main{max-width:1120px;margin:auto;padding:92px 24px 34px}h1{font-size:52px;margin-bottom:6px}h1 span{color:var(--accent)}.subtitle{color:var(--muted);font-size:18px;margin-bottom:14px}.tier-row{display:grid;grid-template-columns:64px 1fr;gap:8px;align-items:center;background:var(--card);backdrop-filter:blur(22px);border:1px solid var(--border);border-radius:16px;padding:6px 8px;margin-bottom:5px;min-height:64px}.tier-box{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;background:rgba(216,137,72,.14);border:1px solid rgba(216,137,72,.25);margin:auto}.tier-box.special{width:58px;font-size:11px;line-height:1.05;padding:5px}.tier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:6px}.game-card{cursor:pointer;transition:.22s}.game-card:hover{transform:translateY(-2px) scale(1.015)}.game-cover{width:100%;aspect-ratio:460/215;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,.1);display:block}.gm-overlay{position:fixed;inset:0;background:rgba(20,14,10,.82);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:.2s;z-index:20}.gm-overlay.show{opacity:1;visibility:visible}.gm-modal{background:rgba(45,31,23,.98);border:1px solid var(--border);border-radius:28px;width:min(760px,100%);padding:28px;position:relative}.gm-close{position:absolute;right:16px;top:12px;background:none;border:0;color:white;font-size:30px;cursor:pointer}.gm-content{display:grid;grid-template-columns:190px 1fr;gap:26px}.gm-cover{width:100%;border-radius:18px}.gm-tier{display:inline-flex;padding:7px 16px;border-radius:999px;background:rgba(216,137,72,.15);border:1px solid rgba(216,137,72,.28);font-weight:800}.gm-title{font-size:34px;margin:14px 0}.gm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.gm-item{background:rgba(255,255,255,.05);border-radius:16px;padding:14px}.gm-item span{display:block;color:var(--muted);font-size:18px;margin-bottom:6px}.gm-btn{display:inline-flex;margin-top:24px;padding:14px 22px;border-radius:16px;background:linear-gradient(135deg,#f0ad62,#c96b48);color:white;text-decoration:none;font-weight:700;font-size:18px;line-height:1.2}footer{text-align:center;color:var(--muted);font-size:18px;line-height:1.7;padding:20px;border-top:1px solid var(--border)}footer a{color:var(--accent)}@media(max-width:1100px){main{padding-top:80px}.tier-row{grid-template-columns:58px 1fr}.tier-box{width:44px;height:44px}.tier-box.special{width:52px}.tier-grid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr))}}@media(max-width:800px){main{padding-top:70px}.tier-row{grid-template-columns:52px 1fr}.tier-box{width:44px;height:44px}.tier-grid{grid-template-columns:repeat(2,1fr)}.gm-content{grid-template-columns:1fr}.gm-cover{max-width:220px;margin:auto}.gm-grid{grid-template-columns:1fr}h1{font-size:42px}}.tier-row{background:linear-gradient(145deg,rgba(73,49,36,.93),rgba(38,27,23,.94))}.gm-modal{background:#30221b}
-    #gameshelfContainer{display:flex;flex-direction:column;gap:5px}
-    .tier-row{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:8px;background:var(--card);backdrop-filter:blur(22px);border:1px solid var(--border);border-radius:16px;padding:6px 8px;min-height:64px}
-    .tier-box{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;color:white;background:rgba(216,137,72,.14);border:1px solid rgba(216,137,72,.28);margin:auto;text-align:center}
-    .tier-box.special{width:58px;height:46px;font-size:11px;line-height:1.05;padding:5px}
-    .tier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:6px;min-width:0}
-    .game-card{cursor:pointer;transition:.22s;min-width:0}
-    .game-card:hover{transform:translateY(-2px) scale(1.015)}
-    .game-cover{width:100%;aspect-ratio:460/215;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,.1);display:block}
-    .gm-overlay{position:fixed;inset:0;background:rgba(20,14,10,.82);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:.2s;z-index:3000}
-    .gm-overlay.show{opacity:1;visibility:visible}
-    .gm-modal{background:rgba(45,31,23,.98);border:1px solid rgba(255,255,255,.12);border-radius:28px;width:min(760px,100%);padding:28px;position:relative}
-    .gm-close{position:absolute;right:16px;top:16px;background:none;border:0;color:white;font-size:30px;cursor:pointer}
-    .gm-content{display:grid;grid-template-columns:190px 1fr;gap:26px}
-    .gm-cover{width:100%;border-radius:18px}
-    .gm-tier{display:inline-flex;padding:7px 16px;border-radius:999px;background:rgba(216,137,72,.15);border:1px solid rgba(216,137,72,.3);font-weight:800}
-    .gm-title{font-size:34px;margin:12px 0 18px}
-    .gm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-    .gm-item{background:rgba(255,255,255,.05);border-radius:16px;padding:14px}
-    .gm-item span{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
-    .gm-btn{display:inline-flex;margin-top:24px;padding:14px 22px;border-radius:16px;background:linear-gradient(135deg,#d88948,#a94f3d);color:white;text-decoration:none;font-weight:700}
-    @media(max-width:1100px){
-      .tier-row{grid-template-columns:58px 1fr}
-      .tier-box{width:44px;height:44px}
-      .tier-box.special{width:52px;height:44px;font-size:10px}
-      .tier-grid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr))}
-    }
-    @media(max-width:720px){
-      .tier-row{grid-template-columns:52px 1fr;padding:5px 6px}
-      .tier-box{width:40px;height:40px;font-size:20px}
-      .tier-box.special{width:46px;height:40px;font-size:9px}
-      .tier-grid{grid-template-columns:repeat(2,1fr);gap:5px}
-      .gm-content{grid-template-columns:1fr}
-      .gm-cover{max-width:220px;margin:auto}
-      .gm-grid{grid-template-columns:1fr}
-    }
-  body{font-size:16px}main{max-width:1320px;padding-top:60px}h1{font-family:Georgia,serif;font-size:clamp(36px,4vw,56px);color:#ffe5c3}.card,.link,.feedback-form,.tier-row{background:linear-gradient(120deg,rgba(35,21,15,.95),rgba(47,29,20,.93));border:1px solid rgba(235,178,116,.32);border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.25)}footer{border-top:1px solid rgba(235,178,116,.2)}.btn,.feedback-submit,.gm-btn{background:#efbf89;color:#2b190f;border-radius:9px}@media(max-width:700px){main{padding:35px 15px 50px}}/* Preserve the original tier shelf proportions and alignment. */
-#gameshelfContainer{width:100%;max-width:100%;overflow-x:hidden}
-.tier-row{grid-template-columns:64px minmax(0,1fr)!important;align-items:center!important;padding:6px 8px!important;gap:8px!important;min-height:64px!important}
-.tier-grid{min-width:0;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(145px,1fr))!important;gap:6px!important;align-items:center}
-.game-card{min-width:0}.game-cover{width:100%;height:auto;aspect-ratio:460/215;object-fit:cover}
-@media(min-width:1000px) and (min-height:680px){html,body{height:100%;overflow:hidden}body{display:flex;flex-direction:column}#navbar{flex:0 0 auto}main{flex:1;min-height:0;width:min(1320px,100%);padding:14px 22px 8px!important;display:flex;flex-direction:column;overflow:hidden}main h1{font-size:34px!important;margin:0 0 2px}.subtitle{font-size:13px!important;margin:0 0 8px!important}#gameshelfContainer{flex:1;min-height:0;overflow-y:auto;scrollbar-color:#a77955 transparent;padding-right:8px}footer{flex:0 0 auto;padding:7px!important;font-size:12px!important}}
-@media(max-width:800px){.tier-row{grid-template-columns:52px minmax(0,1fr)!important}.tier-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-height:679px){html,body{height:auto;overflow:auto}main{overflow:visible}#gameshelfContainer{overflow:visible}}
-
-/* Tier shelf: show every Steam capsule at its original 460:215 aspect ratio. */
-html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important}
-body{display:block!important}
-main{display:block!important;max-width:1380px!important;width:100%!important;min-height:0!important;overflow:visible!important;padding:24px 20px 30px!important}
-#gameshelfContainer{display:flex;flex-direction:column;gap:8px;width:100%;max-width:100%;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding:0!important}
-.tier-row{display:grid!important;grid-template-columns:64px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;min-height:76px!important;height:auto!important;padding:9px!important;margin:0!important}
-.tier-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:8px!important;min-width:0!important;overflow:visible!important}
-.game-card{display:block!important;flex:0 0 166px!important;width:166px!important;max-width:100%!important;min-width:0!important;transform:none}
-.game-cover{display:block!important;width:100%!important;height:auto!important;aspect-ratio:460/215!important;object-fit:contain!important;object-position:center!important;border-radius:8px}
-@media(max-width:800px){main{padding:18px 12px 24px!important}.tier-row{grid-template-columns:50px minmax(0,1fr)!important;gap:7px!important}.game-card{flex-basis:145px!important;width:145px!important}}
-@media(max-width:450px){.tier-row{grid-template-columns:45px minmax(0,1fr)!important;padding:6px!important}.game-card{flex:0 1 calc(50% - 4px)!important;width:calc(50% - 4px)!important}}
-</style><link rel="stylesheet" href="/css/background.css?v=20261017-4"></head><body><div class="site-background"></div><div class="site-overlay"></div><div id="navbar"></div><main><h1>Игровая <span>полка</span></h1><p class="subtitle">Здесь живут игры, которые уже успели оставить след.</p><div id="gameshelfContainer"></div></main><footer>© kmcaq · <a href="https://www.twitch.tv/kmcaq" target="_blank" rel="noopener noreferrer">Twitch</a> · <a href="https://www.youtube.com/@kmcaq" target="_blank" rel="noopener noreferrer">YouTube</a></footer><script src="../js/gameshelf.js?v=20261017-8"></script><script src="/js/navbar.js?v=20261025-2"></script><script src="/js/live.js?v=20261017-4"></script><script src="/admin.js?v=20260904-6"></script></body></html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Игры | kmcaq</title>
+    <meta
+      name="description"
+      content="Игровая полка Кэм — игры, которые уже оставили след."
+    />
+    <meta property="og:title" content="Игры | kmcaq" />
+    <meta property="og:image" content="/avatar.png" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/site.css?v=20261025-audit-1" />
+    <link rel="stylesheet" href="/css/games.css?v=20261025-audit-1" />
+  </head>
+  <body class="page-games">
+    <div class="site-background"></div>
+    <div class="site-overlay"></div>
+    <div id="navbar"></div>
+    <main class="site-main">
+      <h1>Игровая <span>полка</span></h1>
+      <p class="subtitle">
+        Здесь живут игры, которые уже успели оставить след.
+      </p>
+      <div id="gameshelfContainer"></div>
+    </main>
+    <footer class="site-footer">
+      © kmcaq ·
+      <a
+        href="https://www.twitch.tv/kmcaq"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Twitch</a
+      >
+      ·
+      <a
+        href="https://www.youtube.com/@kmcaq"
+        target="_blank"
+        rel="noopener noreferrer"
+        >YouTube</a
+      >
+    </footer>
+    <script src="/js/game-data.js?v=20261025-audit-1"></script>
+    <script src="../js/gameshelf.js?v=20261025-audit-1"></script>
+    <script src="/js/navbar.js?v=20261025-audit-1"></script>
+    <script src="/admin.js?v=20261025-audit-1"></script>
+  </body>
+</html>
