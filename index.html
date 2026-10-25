@@ -18,7 +18,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/site.css?v=20261025-audit-1" />
-    <link rel="stylesheet" href="/css/home.css?v=20261025-audit-1" />
+    <link rel="stylesheet" href="/css/home.css?v=20261025-offline-1" />
   </head>
   <body class="page-home">
     <div class="site-background"></div>
@@ -46,6 +46,7 @@
             <div class="live-body">
               <div>
                 <div class="live-kicker" id="currentTitle">ПРОВЕРЯЕМ СТРИМ</div>
+                <div class="current-label" id="currentLabel" hidden>Продолжаю проходить</div>
                 <h2 id="currentGame">Трансляция</h2>
                 <p id="currentText">Загружаю информацию...</p>
                 <div class="live-meta" id="currentMeta"></div>
@@ -57,14 +58,19 @@
                 hidden
               />
             </div>
-            <a
-              class="twitch-btn"
-              id="currentButton"
-              href="https://www.twitch.tv/kmcaq"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Смотреть на Twitch →</a
-            >
+            <div class="live-actions">
+              <a
+                class="twitch-btn"
+                id="currentButton"
+                href="https://www.twitch.tv/kmcaq"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Смотреть на Twitch →</a
+              >
+              <a class="current-shelf" id="currentShelf" href="/games/" hidden
+                >Об игре на полке →</a
+              >
+            </div>
           </section>
           <section class="glass about-card" id="about">
             <h2 class="section-title">О канале</h2>
@@ -135,7 +141,8 @@
     </footer>
     <script src="/js/game-data.js?v=20261025-newest-1"></script>
     <script src="/js/navbar.js?v=20261025-audit-1"></script>
-    <script src="/js/live.js?v=20261025-audit-1"></script>
+    <script src="/js/live.js?v=20261025-offline-1"></script>
     <script src="/js/home-games.js?v=20261025-newest-1"></script>
   </body>
 </html>
+

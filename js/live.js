@@ -101,8 +101,17 @@ function updateCurrent(data) {
   if (!title || !message || !button || !card) return;
   const game = document.getElementById("currentGame"),
     meta = document.getElementById("currentMeta");
+  const label = document.getElementById("currentLabel"),
+    shelfLink = document.getElementById("currentShelf");
   const request = ++coverRequest;
   card.classList.toggle("live-now", Boolean(data.live));
+  card.classList.toggle("offline-game", !data.live);
+  if (label) label.hidden = true;
+  if (shelfLink) {
+    shelfLink.hidden = true;
+    shelfLink.href = "/games/";
+  }
+  button.hidden = false;
   if (data.live) {
     title.textContent = "СЕЙЧАС В ЭФИРЕ";
     game.textContent = data.game || "Прямой эфир";
@@ -145,16 +154,40 @@ function updateCurrent(data) {
   } else {
     title.textContent = "СЕЙЧАС НЕ В ЭФИРЕ";
     game.textContent = "До встречи на стриме!";
-    message.textContent =
-      data.latestTitle || "Последние записи доступны на YouTube.";
+    message.textContent = "На игровой полке — мои прохождения и планы.";
     meta.textContent = "";
     setLiveCover("", "");
-    button.textContent = "Смотреть записи →";
-    button.href =
-      typeof data.latestVideo === "string" &&
-      /^https:\/\//.test(data.latestVideo)
-        ? data.latestVideo
-        : "https://www.youtube.com/@kmcaq";
+    button.hidden = true;
+    button.removeAttribute("href");
+    if (shelfLink) {
+      shelfLink.hidden = false;
+      shelfLink.textContent = "Перейти к игровой полке →";
+    }
+    if (window.GameData)
+      window.GameData.loadGames()
+        .then((items) => {
+          // Ignore a delayed shelf response if the stream state has changed.
+          if (request !== coverRequest) return;
+          const current = items.find((item) => item.tier === "NOW");
+          if (!current) return;
+          game.textContent = current.name;
+          if (label) label.hidden = false;
+          const playlist = window.GameData.safePlaylist(current.playlist);
+          message.textContent = playlist
+            ? "Пока стрима нет, можно посмотреть записи прохождения."
+            : "Продолжение — на следующих стримах.";
+          setLiveCover(safeLocalCover(current.cover), "Обложка " + current.name);
+          button.hidden = !playlist;
+          if (playlist) {
+            button.textContent = "Смотреть записи →";
+            button.href = playlist;
+          }
+          if (shelfLink) {
+            shelfLink.textContent = "Об игре на полке →";
+            shelfLink.href = "/games/?game=" + encodeURIComponent(current.name);
+          }
+        })
+        .catch(() => {});
   }
   button.target = "_blank";
   button.rel = "noopener noreferrer";
@@ -182,10 +215,16 @@ async function refreshLive() {
       if (meta) meta.textContent = "";
       message.textContent = "Не удалось проверить эфир. Попробуй позже.";
       button.textContent = "Открыть Twitch →";
+      button.hidden = false;
       button.href = "https://www.twitch.tv/kmcaq";
       button.target = "_blank";
       button.rel = "noopener noreferrer";
       card.classList.remove("live-now");
+      card.classList.remove("offline-game");
+      const label = document.getElementById("currentLabel");
+      const shelfLink = document.getElementById("currentShelf");
+      if (label) label.hidden = true;
+      if (shelfLink) shelfLink.hidden = true;
       card.style.borderColor = "";
     }
   }
@@ -204,3 +243,4 @@ function startLive() {
 if (document.readyState === "loading")
   document.addEventListener("DOMContentLoaded", startLive, { once: true });
 else startLive();
+

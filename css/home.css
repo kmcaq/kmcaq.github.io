@@ -125,6 +125,49 @@
   display: flex;
   margin-top: 10px;
 }
+.live-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 10px;
+}
+.live-actions .twitch-btn {
+  margin-top: 0;
+}
+.live-actions [hidden],
+.current-label[hidden] {
+  display: none;
+}
+.current-label {
+  margin-top: 15px;
+  color: #e9c08c;
+  font-size: 13px;
+}
+.current-shelf {
+  padding-block: 10px;
+  color: #f5c895;
+  text-decoration: none;
+  font-size: 13px;
+}
+.current-shelf:hover {
+  text-decoration: underline;
+}
+.offline-game .live-body {
+  grid-template-columns: minmax(0, 1fr) 170px;
+  align-items: center;
+}
+.offline-game .live-body:has(.live-cover[hidden]) {
+  grid-template-columns: 1fr;
+}
+.offline-game .live-cover {
+  width: 170px;
+  height: auto;
+  aspect-ratio: 460 / 215;
+}
+.offline-game .live-meta {
+  display: none;
+}
 .section-title {
   font:
     700 23px/1.2 Georgia,
@@ -376,6 +419,13 @@
     width: 85px;
     height: 112px;
   }
+  .offline-game .live-body {
+    grid-template-columns: minmax(0, 1fr) 130px;
+  }
+  .offline-game .live-cover {
+    width: 130px;
+    height: auto;
+  }
   .live-card h2 {
     font-size: 21px;
   }
@@ -401,3 +451,13 @@
     min-height: 165px;
   }
 }
+@media (max-width: 400px) {
+  .offline-game .live-body {
+    grid-template-columns: 1fr;
+  }
+  .offline-game .live-cover {
+    width: 100%;
+    max-width: 240px;
+  }
+}
+
