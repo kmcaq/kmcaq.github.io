@@ -1,6 +1,51 @@
 (()=>{"use strict";
 const track=document.getElementById("recentGames"),prev=document.getElementById("gamesPrev"),next=document.getElementById("gamesNext");
 if(!track||!prev||!next)return;
+
+ // Mouse dragging supplements native touch scrolling and the arrow buttons.
+let gesture=null,suppressClick=false;
+const finishDrag=()=>{
+ if(!gesture)return;
+ const {id,dragging}=gesture;
+ gesture=null;
+ if(dragging)suppressClick=true;
+ track.classList.remove("is-dragging");
+ if(track.hasPointerCapture(id))track.releasePointerCapture(id);
+};
+track.addEventListener("pointerdown",event=>{
+ if(event.pointerType!=="mouse"||event.button!==0||gesture)return;
+ const bounds=track.getBoundingClientRect();
+ // Leave the native scrollbar available.
+ if(event.clientY>=bounds.top+track.clientTop+track.clientHeight)return;
+ suppressClick=false;
+ gesture={id:event.pointerId,x:event.clientX,left:track.scrollLeft,dragging:false};
+});
+track.addEventListener("pointermove",event=>{
+ if(!gesture||event.pointerId!==gesture.id)return;
+ if(!(event.buttons&1)){finishDrag();return;}
+ const delta=event.clientX-gesture.x;
+ if(!gesture.dragging){
+  if(Math.abs(delta)<6)return;
+  gesture.dragging=true;
+  track.classList.add("is-dragging");
+  track.setPointerCapture(event.pointerId);
+ }
+ event.preventDefault();
+ track.scrollLeft=gesture.left-delta;
+});
+for(const type of ["pointerup","pointercancel","lostpointercapture"]){
+ track.addEventListener(type,event=>{if(gesture&&event.pointerId===gesture.id)finishDrag();});
+}
+window.addEventListener("pointerup",finishDrag);
+window.addEventListener("blur",finishDrag);
+track.addEventListener("dragstart",event=>event.preventDefault());
+track.addEventListener("click",event=>{
+ if(!suppressClick||event.detail===0)return;
+ event.preventDefault();
+ event.stopPropagation();
+ suppressClick=false;
+},true);
+
 const safeCover=(cover)=>{if(typeof cover!=="string")return "/avatar.png";const path=cover.replace(/^\.\.\//,"/");return /^\/covers\/[\w.%-]+\.(png|jpe?g|webp)$/i.test(path)?path:"/avatar.png"};
 const badge=(g)=>g.tier==="NOW"?["ИГРАЮ СЕЙЧАС","now"]:g.status==="Завершено"?["ПРОЙДЕНО","done"]:["ИГРА","plan"];
 fetch("/data/games.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()}).then(games=>{
