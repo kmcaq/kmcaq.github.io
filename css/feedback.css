@@ -1,17 +1,10 @@
-.page-feedback .site-main {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-block: 24px;
-}
 .feedback-page {
-  width: min(800px, 100%);
+  width: 100%;
 }
 .feedback-header {
-  margin-bottom: 26px;
+  margin-bottom: 30px;
 }
 .feedback-header h1 {
-  font-size: clamp(32px, 3vw, 44px);
   margin-bottom: 12px;
 }
 .feedback-header p {
@@ -139,9 +132,6 @@
   color: #ffb4b4;
 }
 @media (max-width: 600px) {
-  .page-feedback .site-main {
-    padding-block: 18px;
-  }
   .feedback-form {
     padding: 20px;
   }
