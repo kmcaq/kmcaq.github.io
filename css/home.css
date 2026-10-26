@@ -1,7 +1,5 @@
 /* Homepage: a quiet introduction, one live card and the latest shelf additions. */
 .page-home {
-  --site-width: 1380px;
-  --site-gutter: 20px;
   font-size: 16px;
 }
 .page-home .site-background {
@@ -11,8 +9,6 @@
 .page-home .site-overlay {
   background: linear-gradient(90deg, #1d1512db, #211811c9);
 }
-/* Keep the header aligned with the shared, bounded site layout. */
-.page-home .site-navbar { min-height: 60px; }
 .page-home .site-main {
   padding-block: 24px;
   display: grid;
@@ -231,10 +227,7 @@
   .page-home .site-main { gap: 28px; align-content: start; }
 }
 @media (max-width: 600px) {
-  .page-home { --site-gutter: 20px; }
-  .page-home .site-navbar { padding: 12px var(--site-gutter); gap: 12px; }
-  .page-home .site-navbar .social { gap: 12px; }
-  .page-home .site-navbar .menu { justify-content: space-between; gap: 12px; font-size: 11px; }
+  .page-home .site-main, .page-home .site-footer { padding-inline: 20px; }
   .hero-person { grid-template-columns: 125px minmax(0, 1fr); gap: 20px; align-items: start; }
   .hero-avatar { height: 180px; border-radius: 14px; }
   .hero-intro h1 { font-size: 27px; }
@@ -260,5 +253,4 @@
   .hero-bio { font-size: 13px; }
   .live-body, .offline-game .live-body { grid-template-columns: 1fr; }
   .live-cover { max-width: 180px; max-height: 140px; }
-  .page-home .site-navbar .menu { gap: 8px 12px; }
 }
