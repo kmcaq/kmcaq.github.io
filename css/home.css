@@ -2,13 +2,6 @@
 .page-home {
   font-size: 16px;
 }
-.page-home .site-background {
-  inset: 0;
-  filter: saturate(0.7);
-}
-.page-home .site-overlay {
-  background: linear-gradient(90deg, #1d1512db, #211811c9);
-}
 .page-home .site-main {
   padding-block: 24px;
   display: grid;
@@ -76,11 +69,6 @@
 .hero-side { min-width: 0; }
 .live-card {
   padding: 24px;
-  border: 1px solid #b98a5738;
-  border-radius: 16px;
-  background: #33251d;
-  box-shadow: 0 10px 30px #1009061a;
-  backdrop-filter: none;
 }
 .live-body {
   display: grid;
@@ -143,7 +131,7 @@
 .current-label { color: #e9c08c; font-size: 13px; margin-top: 18px; }
 .current-label:not([hidden]) + h2 { margin-top: 8px; }
 .live-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-top: 18px; }
-.live-actions .twitch-btn { padding: 11px 16px; font-size: 14px; background: #ecc38e; }
+.live-actions .twitch-btn { padding: 11px 16px; font-size: 14px; background: var(--accent); }
 .live-actions .twitch-btn:hover { background: #f3ce9e; }
 .current-shelf { font-size: 14px; color: #ecc38e; text-decoration: none; padding-block: 10px; }
 .current-shelf:hover { text-decoration: underline; }
@@ -192,7 +180,6 @@
 .game-badge.plan { background: #b2c9d0; color: #152a32; }
 .game-badge.now { background: #bd3152; color: #fff; }
 .game-loading { color: #d0bda9; min-height: 140px; }
-.page-home .site-footer { display: flex; justify-content: space-between; gap: 20px; width: 100%; max-width: var(--site-width); margin-inline: auto; padding: 14px var(--site-gutter); color: #ad9580; border-color: #e8bd8712; }
 @media (min-width: 1280px) and (min-height: 720px) {
   .page-home { height: 100dvh; }
   .page-home .site-main { min-height: 0; }
@@ -227,7 +214,6 @@
   .page-home .site-main { gap: 28px; align-content: start; }
 }
 @media (max-width: 600px) {
-  .page-home .site-main, .page-home .site-footer { padding-inline: 20px; }
   .hero-person { grid-template-columns: 125px minmax(0, 1fr); gap: 20px; align-items: start; }
   .hero-avatar { height: 180px; border-radius: 14px; }
   .hero-intro h1 { font-size: 27px; }
@@ -244,7 +230,6 @@
   .game-controls button { width: 44px; height: 44px; }
   .games-track { grid-auto-columns: 76%; }
   .game-caption strong { font-size: 15px; }
-  .page-home .site-footer { font-size: 11px; }
 }
 @media (max-width: 380px) {
   .hero-person { grid-template-columns: 95px minmax(0, 1fr); gap: 15px; }

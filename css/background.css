@@ -1,2 +1,2 @@
-/* Compatibility for old cached pages. Active pages load site.css directly. */
-@import url("/css/site.css?v=20261025-audit-1");
+/* Compatibility entry point for older pages; use the shared theme. */
+@import url("/css/site.css?v=20261026-theme-4");

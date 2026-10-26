@@ -1,15 +1,15 @@
 /* Shared theme, page bounds and navigation. */
 :root {
   --bg: #1b100b;
-  --card: linear-gradient(
-    120deg,
-    rgba(35, 21, 15, 0.95),
-    rgba(47, 29, 20, 0.93)
-  );
-  --border: rgba(235, 178, 116, 0.32);
-  --text: #fff0df;
-  --muted: #d7bba2;
-  --accent: #efbf89;
+  --card: #33251d;
+  --surface-muted: #2b211b;
+  --surface-border: #b98a5738;
+  --surface-shadow: 0 10px 30px #1009061a;
+  --radius: 16px;
+  --border: var(--surface-border);
+  --text: #f6e9d8;
+  --muted: #d0bda9;
+  --accent: #ecc38e;
   --live: #ff486e;
   --site-width: 1380px;
   --site-gutter: 20px;
@@ -64,9 +64,9 @@ h3 {
 }
 h1 {
   font:
-    700 clamp(34px, 4vw, 52px)/1.15 Georgia,
+    700 clamp(32px, 3vw, 44px)/1.15 Georgia,
     serif;
-  color: #ffe5c3;
+  color: var(--text);
   margin-bottom: 16px;
 }
 h1 span {
@@ -90,9 +90,8 @@ h1 span {
 .tier-row {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  box-shadow: var(--surface-shadow);
 }
 .btn,
 .twitch-btn,
@@ -117,12 +116,24 @@ h1 span {
   background: #ffe0b9;
 }
 .site-footer {
-  text-align: center;
-  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  width: 100%;
+  max-width: var(--site-width);
+  margin-inline: auto;
+  padding: 14px var(--site-gutter);
+  color: #ad9580;
   font-size: 12px;
-  padding: 8px 16px;
-  border-top: 1px solid rgba(235, 178, 116, 0.2);
+  border-top: 1px solid #e8bd8712;
   flex: none;
+}
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 .site-footer a {
   text-decoration: none;
@@ -132,18 +143,16 @@ h1 span {
 }
 .site-background {
   position: fixed;
-  inset: -35px;
+  inset: 0;
   background: url("/hero-bg.webp") center/cover no-repeat;
-  filter: brightness(0.75) saturate(1.03);
+  filter: saturate(0.7);
   z-index: -2;
   pointer-events: none;
 }
 .site-overlay {
   position: fixed;
   inset: 0;
-  background:
-    linear-gradient(90deg, rgba(23, 12, 7, 0.16), rgba(29, 15, 9, 0.27)),
-    linear-gradient(180deg, rgba(16, 8, 4, 0.08), rgba(22, 11, 6, 0.35));
+  background: linear-gradient(90deg, #1d1512db, #211811c9);
   z-index: -1;
   pointer-events: none;
 }

@@ -1,5 +1,5 @@
 .page-links .site-main {
-  padding-top: 48px;
+  padding-top: 24px;
 }
 .links-header {
   margin-bottom: 30px;
@@ -30,7 +30,7 @@
   border-color: var(--accent);
 }
 .link-featured {
-  background: linear-gradient(120deg, #38251a, #302017);
+  background: var(--card);
   border-color: #b88756;
 }
 .link-icon {
@@ -41,7 +41,7 @@
   height: 46px;
   flex: none;
   border-radius: 12px;
-  background: #483022;
+  background: var(--surface-muted);
   color: var(--accent);
   margin-bottom: 22px;
 }
@@ -54,7 +54,7 @@
 }
 .link h2 {
   font: 700 28px/1.2 Georgia, serif;
-  color: #ffe5c3;
+  color: var(--text);
   margin-bottom: 10px;
 }
 .link p {
@@ -117,7 +117,7 @@
 }
 @media (max-width: 700px) {
   .page-links .site-main {
-    padding-top: 28px;
+    padding-top: 18px;
   }
   .links-header {
     margin-bottom: 24px;
