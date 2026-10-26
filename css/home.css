@@ -165,10 +165,15 @@
 .recent-game img { display: block; width: 100%; height: auto; aspect-ratio: 460 / 215; object-fit: contain; border-radius: 7px; background: #2b211b; -webkit-user-drag: none; }
 .game-caption { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 6px; padding-top: 12px; }
 .game-caption strong { font-size: 14px; line-height: 1.4; color: #eadbc8; min-height: 2.8em; overflow-wrap: anywhere; }
+.game-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 7px; width: 100%; margin-top: auto; }
+.game-stats { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 7px; color: var(--muted); font-size: 12px; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.game-stat { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+.game-stat svg { width: 13px; height: 13px; flex: none; }
 .game-badge {
   display: inline-block;
   padding: 5px 9px;
-  margin-top: auto;
+  flex: none;
+  white-space: nowrap;
   border-radius: 6px;
   background: #c39a71;
   color: #25170e;
@@ -239,3 +244,4 @@
   .live-body, .offline-game .live-body { grid-template-columns: 1fr; }
   .live-cover { max-width: 180px; max-height: 140px; }
 }
+

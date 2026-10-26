@@ -75,6 +75,31 @@
     if (game.status === "Дроп") return ["Дроп", ""];
     return ["Игра", "plan"];
   };
+  const numberFormat = new Intl.NumberFormat("ru-RU");
+  const stat = (value, kind) => {
+    const item = document.createElement("span");
+    item.className = "game-stat";
+    const formatted = numberFormat.format(value);
+    const description = kind === "hours" ? "Часы: " : "Смерти: ";
+    item.setAttribute("aria-label", description + formatted);
+    item.title = description + formatted;
+    const ns = "http://www.w3.org/2000/svg";
+    const icon = document.createElementNS(ns, "svg");
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("fill", "none");
+    icon.setAttribute("stroke", "currentColor");
+    icon.setAttribute("stroke-width", "1.7");
+    icon.setAttribute("stroke-linecap", "round");
+    icon.setAttribute("stroke-linejoin", "round");
+    icon.setAttribute("aria-hidden", "true");
+    const path = document.createElementNS(ns, "path");
+    path.setAttribute("d", kind === "hours"
+      ? "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M12 7v5l3 2"
+      : "M9 18H6v-3a8 8 0 1 1 12 0v3h-3v3H9z M9 10h.01 M15 10h.01 M12 14v1 M12 18v3");
+    icon.append(path);
+    item.append(icon, document.createTextNode(formatted + (kind === "hours" ? " ч" : "")));
+    return item;
+  };
   window.GameData.loadGames()
     .then((games) => {
       track.replaceChildren();
@@ -104,7 +129,19 @@
         const [label, type] = badge(g);
         status.className = "game-badge " + type;
         status.textContent = label;
-        cap.append(name, status);
+        const meta = document.createElement("div");
+        meta.className = "game-meta";
+        meta.append(status);
+        if (g.status !== "Дроп") {
+          const stats = document.createElement("span");
+          stats.className = "game-stats";
+          for (const kind of ["hours", "deaths"]) {
+            if (Number.isFinite(g[kind]) && g[kind] >= 0)
+              stats.append(stat(g[kind], kind));
+          }
+          if (stats.childElementCount) meta.append(stats);
+        }
+        cap.append(name, meta);
         a.append(img, cap);
         track.append(a);
       }
@@ -141,4 +178,5 @@
     }),
   );
 })();
+
 
